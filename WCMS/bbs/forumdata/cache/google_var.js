@@ -1,0 +1,1 @@
+var google_host="122.225.96.176";var google_charset="gbk";var google_hl="";var google_lr="";

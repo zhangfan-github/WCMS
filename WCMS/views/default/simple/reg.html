@@ -1,0 +1,73 @@
+{set:$seo_data=array(); $site_config=new Config('site_config');$site_config=$site_config->getInfo();}	
+{set:$seo_data['title']=isset($site_config['name'])?$site_config['name']:""}
+{set:$seo_data['title']="用户注册_".$seo_data['title']}
+{set:seo::set($seo_data);}
+
+
+
+<div class="mid_986">
+  <div style="position:relative">
+      <div class="f_purple sub_cur_title"> 您当前的位置：<a href="{url:}">首页</a> &gt; <a href="{url:/simple/reg}">注册会员</a></div>
+  </div>
+  <div class="regist_bg1">
+  <img src="{skin:images/txt_regist.png}"/></div>
+  <div class="regist_bg2">
+      <div class="f_purple" style="padding:10px 30px 16px 30px;"><strong>请填写基本信息：</strong></div>
+      <form action="{url:/simple/reg_act}" method="post">
+      <table width="100%" border="0" cellspacing="0" cellpadding="6" class="f_purple">
+        
+        <tbody>
+          <tr>
+            <td width="12%" height="50" align="right">用户名：</td>
+            <td width="29%"><input type="text" name="username" id="username" class="ipt" value="{$this->username}" pattern="^[a-zA-Z]{1}[\w\u0391-\uFFE5]{1,19}$" alt="用户名格式不正确" /></td>
+            <td width="59%" height="50">* (用户名必须是以字母开头的2~20位的英文和数字组成) </td>
+          </tr>
+          <tr>
+            <td height="50" align="right">登录密码：</td>
+            <td><input type="password" name="password" id="password" class="ipt" pattern="^\S{6,32}$" bind='repassword' alt='密码格式不正确' /></td>
+            <td height="50">* (密码为6-32位的英文和数字组成) </td>
+          </tr>
+          <tr>
+            <td height="50" align="right">确认密码：</td>
+            <td><input type="password" name="repassword" id="repassword" class="ipt" pattern="^\S{6,32}$" bind='password' alt='两次输入的密码不一致' /></td>
+            <td height="50">* (请再次填写相同的密码）</td>
+          </tr>
+          <tr>
+            <td height="50" align="right">手机号码：</td>
+            <td><input type="text" name="mobile" id="mobile" class="ipt"/></td>
+            <td height="50">（选填）</td>
+          </tr>
+          <tr>
+            <td height="50" align="right">姓名：</td>
+            <td><input type="text" name="true_name" id="true_name" class="ipt"/></td>
+            <td height="50">（选填）</td>
+          </tr>
+          <tr>
+            <td height="50" align="right">性别：</td>
+            <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="33%"><input type="radio" name="sex" id="radio" value="1" />
+                  男</td>
+                <td width="33%"><input type="radio" name="sex" id="radio2" value="2" checked="checked" />
+                  女</td><td>&nbsp;</td>
+              </tr>
+            </table></td>
+            <td height="50"></td>
+          </tr>
+          <tr>
+            <td height="50" align="right">Email：</td>
+            <td><input type="text" name="email" id="email" class="ipt" pattern="email" alt="Email格式错误"/></td>
+            <td height="50">* （请填写正确的Email格式，便于之后找回密码）</td>
+          </tr>
+          <tr>
+            <td height="50" align="right">&nbsp;</td>
+            <td align="center"><input type="image" src="{skin:images/btn_regist.png}" width="110" height="31" /></td>
+            <td height="50">&nbsp;</td>
+          </tr>
+        </tbody>
+        
+      </table>
+      </form>
+  </div>
+    <div><img src="{skin:images/regist_3.png}" width="986" height="28" /></div>
+</div>

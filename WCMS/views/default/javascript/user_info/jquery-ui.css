@@ -1,0 +1,44 @@
+/*
+ * jQuery UI Tabs 1.8.18
+ *
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Tabs#theming
+ */
+.ui-tabs { position: relative; padding: .2em; zoom: 1; } /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
+.ui-tabs .ui-tabs-nav { margin: 0; padding: .2em .2em 0; }
+.ui-tabs .ui-tabs-nav li { list-style: none; float: left; position: relative; top: 1px; padding: 0; white-space: nowrap;border:1px solid #a1336d;margin-right:3px;}
+.ui-tabs .ui-tabs-nav li a { float: left; padding: .5em 1em; text-decoration: none; }
+.ui-tabs .ui-tabs-nav li a:hover{color:#a1336d;} 
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected { margin-bottom: 0; padding-bottom: 1px; }
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: text; }
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
+.ui-tabs .ui-tabs-panel { display: block;background: none; }
+.ui-tabs .ui-tabs-hide { display: none !important; }
+#fragment-1,#fragment-2,#fragment-3{clear:both;margin-left:3px;}
+
+#tabs table{width:1000px; color:#a1336d;border-right:1px solid #a1336d;border-top:1px solid #a1336d;background-color:#fff; border-collapse:collapse;}
+#tabs table  td{height:25px;border-left:1px solid #a1336d;border-bottom:1px solid #a1336d;border-collapse:0;}
+#tabs table  th{border-left:1px solid #a1336d;border-bottom:1px solid #a1336d;}
+#tabs table  td input{background-color:#fff;width:auto;}
+#save{width:625px;text-align:center;}
+#save input{width:78px;height:32px;background:url(button.png) no-repeat;}
+/* Interaction states
+----------------------------------*/
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {background-color:#ebc3ce;}
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #a1336d/*{fcDefault}*/; text-decoration: none; }
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {}
+.ui-state-hover a, .ui-state-hover a:hover { color: #fff/*{fcHover}*/; text-decoration: none; }
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {background-color:#fff;border-bottom:1px solid #a1336d;}
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #a1336d/*{fcActive}*/; text-decoration: none; }
+.ui-widget :active { outline: none; }
+
+#usual1{width:80px;float:left;}
+#usual1 ul{margin-top:0px;background-color:#fff;padding-left:0px;*margin-left:0px;}
+#usual1 ul li a{color:#a1336d;text-decoration:none;}
+#usual1 ul li a:hover{color:#000;text-decoration:none;}
+#usual1 ul li{width:80px;list-style:none;border-left:1px solid #a1336d;border-right:1px solid #a1336d;border-bottom:1px solid #a1336d;text-align:center;}
+.tab{width:520px;float:left;}
+#fenye{display:block;text-align:right;}

@@ -1,0 +1,48 @@
+<!--图片列表  -->
+<div class="middle_left">
+	<div class="middle_list">
+		<ul>
+			<a href="{url:/site/column/id/36}"><li>友情链接</li></a>
+		</ul>
+	</div>
+</div>
+
+<div class="middle_right">
+<div class="middle_top"><span>当前位置:</span>友情链接</div>
+<div class="content">
+<div class="j_side">
+<div class="j_content">
+            <div class="j_vio">
+				
+			{foreach:items=$this->pic_Row}
+					<div class="j_float">
+						<table width="155" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+							
+							   
+							    <td><a href="{$item['linkurl']}" target="_blank">
+							    <img src="{url:}{$item['photo']}" width="140" height="80" style="float:left;" /></a></td>
+						
+							
+							</tr>
+						</table>
+					</div>
+			{/foreach}
+			
+			</div>
+				
+</div> 
+</div>
+          {foreach:items=$this->txt_Row}
+				    <div style="margin-right:15px; margin-top:20px; margin-left:28px;">
+						<table width="155" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td>
+								<div class="j_text"><a href="{$item['linkurl']}" >{$item['name']}</a></div>
+								</td>
+							</tr>
+						</table>
+					</div>
+			{/foreach}		
+</div>
+</div>

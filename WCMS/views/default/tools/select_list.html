@@ -1,0 +1,74 @@
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>广纳贤才管理</span><span>></span><span>选项列表</span></div>
+	<div class="operating">
+		<a href="javascript:void(0)" onclick="event_link('{url:/tools/select_edit}');"><button class="operating_btn" type="button"><span class="addition">添加选项</span></button></a>
+	</div>
+	<div class="field">
+		<table class="list_table">
+			<col width="450px" />
+			<col width="100px" />
+			<col />
+			<thead>
+				<tr>
+					<th>选项名称</th>
+					<th>选项类型</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+<div class="content">
+	<table id="list_table" class="list_table">
+		<col width="450px" />
+		<col width="100px" />
+		<col />
+		<tbody>
+			{query: name=select order=path}
+			<tr id="{$item['id']}" parent={$item['parent_id']}>
+				<td><img name="switch" style="margin-left:{echo:(substr_count($item['path'],',')-2)*2}0px" class="operator" src="{skin:images/admin/close.gif}" alt="关闭" />{$item['name']}</td>
+				{if:$item['parent_id']==0}
+				<td>主选项</td>
+				{/if}
+				{if:$item['parent_id']!=0}
+				<td>附属选项</td>
+				{/if}
+				<td>
+					<a href='{url:/tools/select_edit/id/}{$item['id']}'><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="编辑" title="编辑" /></a>
+					<a href='javascript:void(0)' onclick="delModel({link:'{url:/tools/select_del/id/}{$item['id']}'});"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" title="删除" /></a>
+				</td>
+			</tr>
+			{/query}
+		</tbody>
+	</table>
+</div>
+<script language="javascript">
+$("img[name='switch']").each(function(i){
+	$(this).toggle(function(){
+		jqshow($(this).parent().parent().attr('id'), 'hide');
+		$(this).attr("src", "{skin:images/admin/open.gif}");
+	},function(){
+		jqshow($(this).parent().parent().attr('id'), 'show');
+		$(this).attr("src", "{skin:images/admin/close.gif}");
+	});
+});
+
+function jqshow(id,isshow)
+{
+	var obj = $("#list_table tr[parent='"+id+"']");
+	if (obj.length>0)
+	{
+		obj.each(function(i) {
+			jqshow($(this).attr('id'), isshow);
+		});
+		if (isshow=='hide')
+		{
+			obj.hide();
+		}
+		else
+		{
+			obj.show();
+		}
+	}
+}
+</script>

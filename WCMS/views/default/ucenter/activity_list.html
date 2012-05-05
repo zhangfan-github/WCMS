@@ -1,0 +1,96 @@
+
+
+
+<div class="mid_986">
+    <div style="position:relative">
+      <div class="f_purple sub_cur_title"> 您当前的位置：<a href="{url:/}">首页</a> &gt; <a href="{url:/ucenter}">会员中心</a> &gt; <a href="{url:/ucenter/activity_list}">免费体验</a> </div>
+      <div class="sub_huan">
+   <img src="{skin:images/huan.png}" width="106" height="92" />
+   </div>
+  </div>
+  
+  <div class="subpage_bor">
+        <!-- 左边栏开始 -->
+        <div class="subpage_left">
+            <div><img src="{skin:images/baike_l_bg1.png}" /></div>
+            <div class="subpage_left_bg">
+                <div class="f_purple left_title f_size16B">- 会员中心 -</div>
+            <ul class="left_menu">
+                <li><a href="{url:/ucenter/info}">- 健康档案 -</a></li>
+				<li><a href="{url:/ucenter/warm_advice}">- 温馨提示 -</a></li> 
+                <li><a href="{url:/ucenter/webmail_list}">- 站内邮件 -</a></li>
+                <li><a href="{url:/ucenter/online_qa}">- 站内咨询 -</a></li>
+                <li><a href="{url:/ucenter/activity_list}">- 免费体验 -</a></li>
+                <li><a href="{url:/ucenter/service_list}">- 在线预订 -</a></li>
+				<li><a href="{url:/ucenter/password}">- 修改密码 -</a></li>
+            </ul>
+            <div class="das_line left_line"></div>
+            <div class="hezuo_div">
+                <div class="hezuo_div_top"></div>
+                <div class="hezuo_div_mid">
+            <div class="left_hezuo_ti f_purple f_size16B">- 合作机构 -</div>
+                <ul class="left_hezuo">
+                    {query:name=operator_links limit=4 Order=order }
+                    <li><a href="{$item['linkurl']}"><img src="{url:}{$item['photo']}" style="width:153px;height:44px;"/></a></li>
+                    {/query}
+                    </ul>
+                    
+             <div class="hezuo_more"><a class="purple" href="{url:/site/column/id/79}">【more】</a></div>    
+                
+                </div>
+            <div class="hezuo_div_bot"></div>
+            </div>
+            </div>
+            <div><img src="{skin:images/baike_l_bg3.png}"/></div>
+        </div>
+        <!-- 左边栏结束 -->
+        <div class="subpage_right">
+            <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+            <div class="subpage_right_bg">
+                
+                <div class="sub_div">
+        <div class="clear_b">
+                        <div class="float_l">
+                          <div class="sub_right_ti">免费体验</div>
+                        </div>
+                        <div class="float_r solid_line"></div>
+                
+                </div>
+                <div class="h_24"></div>
+                <table width="100%" border="1" cellspacing="0" cellpadding="6" class="f_purple email_list">
+                <tr>
+                    <th width="60%" align="left">
+                        <b>名称</b>
+                    </th>
+                    <td width='20%'>
+                    <b>类型</b>
+                    </td>
+                    <td>
+                        <b>状态</b>
+                    </td>
+                </tr>
+                {set:$page = IReq::get('page')==null?1:IReq::get('page');}
+                {set:$user_id = $this->user['user_id']}
+                {query:name=activity_reg where=user_id eq $user_id pagesize=10 page=$page}
+                
+                <tr>
+                    <th align="left">
+                    {if:!empty($item['activity_id'])}<a href="{url:/site/column/id/76/huodong_id/}{$item['activity_id']}">{elseif:!empty($item['services_id'])}<a href="{url:/site/column/id/83/serv_id/}{$item['services_id']}">{else:}<a href="{url:/site/column/id/86/servpack_id/}{$item['service_package_id']}">{/if}
+                    {$item['activity_name']}</a>
+                    </th>
+                    <td>
+                    {if:!empty($item['activity_id'])}活动{elseif:!empty($item['services_id'])}服务{else:}套餐{/if}
+                    </td>
+                    <td>
+                    {if:$item['state']==0}报名中{elseif:$item['state']==1}确认参加{elseif:$item['state']==2}确认不参加{else:}空{/if}
+                    </td>
+                </tr>
+                {/query}
+                </table>
+                {$query->front_getPageBar()}                               
+              </div>
+            </div>
+            <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+    </div>
+    </div>
+</div>

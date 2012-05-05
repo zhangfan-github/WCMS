@@ -1,0 +1,32 @@
+ <div class="subpage_right">
+	<div><img src="{skin:images/baike_r_bg1.png}" /></div>
+	<div class="subpage_right_bg">
+		
+	  <div class="sub_div">
+	<div class="clear_b">
+				<div class="float_l"><div class="sub_right_ti">{$this->column['name']}</div></div>
+
+				<div class="float_r solid_line"></div>
+		
+	 </div>
+	 <div class="h_24"></div>
+	<div class="baike_news_ul">
+	{foreach:items=$this->servicecatRow item=$val}
+		<div class="project">
+		
+			<div class="project_ti">{$val['name']}</div>
+			<ul class="article">
+			{set:$i = $val['id']}
+			{query:name=service where=parent_id eq $i sort=sort asc}
+				<li><a href="{url:/site/column/id}{$this->column['id']}/serv_id/{$item['id']}" target="_blank">{$item['name']}</a></li>
+			{/query}
+			</ul>
+		</div>
+	{/foreach}
+	</div>
+	<div class="das_line right_line"></div>
+	{$this->query->front_getPageBar()}
+		</div>
+	</div>
+	<div><img src="{skin:images/baike_r_bg3.png}" /></div>
+</div>

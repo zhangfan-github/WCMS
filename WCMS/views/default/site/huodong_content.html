@@ -1,0 +1,66 @@
+<div class="subpage_right">
+            <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+            <div class="subpage_right_bg">
+                
+                <div class="sub_div">
+				<div class="clear_b">
+                        <div class="float_l"><div class="sub_right_ti">{$this->column['name']}</div>
+                        </div>
+                        <div class="float_r solid_line"></div>
+                
+                </div>
+                 <div class="h_10"></div>
+                 <div style="position:relative">
+                 	<div class="btn_applay">
+                 	{if:$this->huodongRow['huodong_status']=='0'}
+                 	 <a href="{url:/site/free_reg/id/}{$this->column['id']}/huodong_id/{$this->huodongRow['id']}" target="_blank">
+                 	<img src="{skin:images/btn_applay.png}"/>
+                 	</a>
+                 	{/if}
+                 	</div>
+                 </div>
+                 <p class="news_info_ti">{$this->huodongRow['huodong']}
+                 	<span class="news_info_ti2" ><font style="color:red">
+                	 {if:$this->huodongRow['huodong_status']=='0'}
+                	 	火热报名中！
+                	 {else:}
+                	 	报名结束！
+                	 {/if}</font>
+                	 </span></p>
+				<div class="news_info_main">
+                 	<table width="100%" border="0" cellspacing="0" cellpadding="2">
+                 <!--     
+                      <tr>
+                        <td width="96" align="right" valign="top">活动发布时间：</td>
+                        <td valign="top">{$this->huodongRow['publish_time']}</td>
+                      </tr>
+                      -->
+                      <tr>
+                        <td align="left" valign="top" width="150">报名截止时间：</td>
+                        <td valign="top">{$this->huodongRow['end_time']} </td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">活动规模：</td>
+                        <td valign="top">{$this->huodongRow['huodong_num']}人</td>
+                      </tr>
+                       
+                      <tr>
+                        <td align="left" valign="top">举办时间：</td>
+                        <td valign="top">{$this->huodongRow['run_time']}</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">举办地点：</td>
+                        <td valign="top">{$this->huodongRow['operational_area']}</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">活动主题：</td>
+                        <td valign="top">{$this->huodongRow['topic']}</td>
+                      </tr>
+                    </table>
+				</div>
+                 <p style="color:#A1336D;"><strong>活动详情：</strong><br/>
+                 <div  style="color:#A1336D;">{$this->huodongRow['description']}</div>
+</div>
+            </div>
+            <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+        </div>

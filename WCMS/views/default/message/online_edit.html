@@ -1,0 +1,58 @@
+<div class="headbar">
+	<div class="position"><span>信息</span><span>></span><span>预定报名信息</span><span>></span><span>编辑报名信息</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/message/online_edit_act}' method='post' name='message'>
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<input type='hidden' name='id' value="{$this->showdata['id']}" />
+				<tr>
+					<th>申请活动：</th>
+					<td>	
+						<label name="activity_name" >{$this->showdata['activity_name']}</label>
+					</td>
+				</tr>
+				<tr>
+					<th>姓名：</th>
+					<td><label name="user_name" >{$this->showdata['name']}</label></td>
+				</tr>
+				<tr>
+					<th>孕周：</th>
+					<td><label name="yun_zhou" >{$this->showdata['yun_zhou']}周</label></td>
+				</tr>
+				<tr>
+					<th>邮箱：</th>
+					<td><label name="email" >{$this->showdata['email']}</label></td>
+				</tr>
+				<tr>
+					<th>联系电话：</th>
+					<td><label name="phone" >{$this->showdata['phone']}</label></td>
+				</tr>
+				<tr>
+					<th>状态：</th>
+					<td>
+					{if:$this->showdata['state']=='1'}
+						<label class='attr'><input type='radio' name='style' value='0' />报名中</label>
+						<label class='attr'><input type='radio' name='style' value='1' checked=checked />确认参加</label>
+						<label class='attr'><input type='radio' name='style' value='2' />确认不参加</label>
+					{elseif:$this->showdata['state']=='2'}
+						<label class='attr'><input type='radio' name='style' value='0' />报名中</label>
+						<label class='attr'><input type='radio' name='style' value='1'  />确认参加</label>
+						<label class='attr'><input type='radio' name='style' value='2' checked=checked/>确认不参加</label>
+					{else:}
+						<label class='attr'><input type='radio' name='style' value='0' checked=checked />报名中</label>
+						<label class='attr'><input type='radio' name='style' value='1'  />确认参加</label>
+						<label class='attr'><input type='radio' name='style' value='2' />确认不参加</label>
+					{/if}
+					</td>
+				</tr>
+				<tr>
+					<th></th><td><button class='submit' type='submit'><span>确 定</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+

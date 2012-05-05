@@ -1,0 +1,53 @@
+<script>
+function on_sub()
+{
+	var words= document.getElementById('textfield').value;
+	if(words!='请输入您想搜索的内容')
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+}
+</script>
+<div class="subpage_right">
+	<div><img src="{skin:images/baike_r_bg1.png}" /></div>
+	<div class="subpage_right_bg">
+		
+		<div class="sub_div">
+			<div class="clear_b">
+				<div class="float_l"><div class="sub_right_ti">{$this->column['name']}</div>
+				</div>
+				<div class="float_r solid_line"></div>
+				
+			</div>
+			<div class="baike_search_div">
+				<form  id='search' method= 'post' action= '{url:/site/new_search/id/}{$this->column['id']}' onsubmit="return on_sub();">
+					<div class="float_l baike_search_bg">
+					  <input  type="text" id="textfield" name='textfield' class="baike_search_txtfield" onBlur="if(!value){value=defaultValue;this.style.color='#999'}" onclick="if(value==defaultValue){value='';this.style.color='#000'}" value="请输入您想搜索的内容"/>
+					</div>
+					<div class="float_r"><input type="image" src="{skin:images/baike_search_btn.png}" width="72" height="34" /></div>
+				</form>
+			</div>
+			<ul class="baike_news_ul">
+					{foreach:items=$this->artSearchRow}
+						<li>
+						<a href="{url:/site/column/id/}{$this->column['id']}/news_id/{$item['id']}" target="_blank">
+							{$item['title']}
+						</a>
+						<span class="date">
+						{echo: substr($item['create_time'],0,10)}
+						</span>
+						</li>
+					 {/foreach}
+			</ul>
+			<div class="das_line right_line"></div>
+				{$this->query->front_getPageBar()}
+
+		</div>
+	</div>
+	<div><img src="{skin:images/baike_r_bg3.png}" /></div>
+</div>

@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* CSS Document */
+.bottom{width:950px; height:47px; margin-left:auto; margin-right:auto; text-align:center;background-color:#303030; clear:both;pacity: 0.85;filter:alpha(opacity=85);-moz-opacity:0.85;}
+.bottom{font-size:12px; color:#FFF; text-align:center;padding-top:3px; margin-top:3px;}
+*+html .bottom{font-size:12px; color:#FFF; text-align:center;padding-top:15px;height:35px; padding-left:30px;}
+.bottom ul{margin-left:110px; list-style:none;}
+.bottom ul li{float:left; margin-left:20px;}
+
+
+.middle_list a{text-decoration:none;}
+.bottom iframe{width:950px; height:50px;}
+
+.bottom ul{margin-left:40px;}
+.bottom ul li{float:left; margin-left:10px;}
+.bottom a{color:#fece00; text-decoration:none;}
+.bottom a:hover{color:#Fff; text-decoration:underline; }
+.bottom span{margin-right:30px;}

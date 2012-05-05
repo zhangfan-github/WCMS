@@ -1,0 +1,65 @@
+<div class="middle_right">
+	<div class="middle_top"><span>当前位置:</span>
+	{set:$i=0}
+	{foreach:items=$this->tree item=$val}
+		{query:name= column where=id eq $val }
+		{if:$i==1}
+			<span>--></span><a href="{url:/site/column/id/}{$item['id']}"><span>{$item['name']}</span></a>
+		{else:}{set:$i=1}
+			<a href="{url:/site/column/id/}{$item['id']}"><span>{$item['name']}</span></a>
+		{/if}
+		{/query}
+	{/foreach}
+	</div>
+	<div class="content">
+		<div class="rencait">
+			<table width="600" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td colspan="4" bgcolor="#99FFCC"><strong>招聘岗位：{$this->showdata['position']}</strong></td>
+				</tr>
+				<tr>
+					<td width="80">职位类型：</td>
+					<td width="268">{$this->position_type}</td>
+					<td width="102">学历要求：</td>
+					<td width="248">{$this->education}</td>
+				</tr>
+				<tr>
+					<td>招聘人数：</td>
+					<td>{$this->showdata['position_num']}人</td>
+					<td>招聘部门：</td>
+					<td>{$this->department}</td>
+				</tr>
+				<tr>
+					<td>性别要求：</td>
+					<td>{$this->showdata_sex}</td>
+					<td>年龄要求：</td>
+					<td>{$this->showdata['need_age']}</td>
+				</tr>
+				<tr>
+					<td>工作经验：</td>
+					<td>{$this->showdata['work_experience']}</td>
+					<td>工作地区：</td>
+					<td>{$this->showdata['operational_area']}</td>
+				</tr>
+				<tr>
+					<td>截止时间：</td>
+					<td>{$this->showdata['end_time']}</td>
+					<td>发布时间：</td>
+					<td>{$this->showdata['publish_time']}</td>
+				</tr>
+				<tr>
+					<td>详细说明：</td>
+					<td colspan="3" align="left">
+						{$this->showdata['description']}
+					</td>
+				</tr>
+				<tr>
+					<td height="50" colspan="4"><a href="{url:/site/column/id/}{$this->column['id']}/pose_id/{$this->showdata['id']}"><img
+						src="{skin:image/botton_png_014.gif}" width="100" height="31" /></a></td>
+				</tr>
+			</table>
+		
+		</div>
+	
+	</div>
+</div>

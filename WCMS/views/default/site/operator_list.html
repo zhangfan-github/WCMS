@@ -1,0 +1,29 @@
+<div class="subpage_right">
+  <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+	<div class="subpage_right_bg">
+	<div class="sub_div">
+	  <div class="clear_b">
+		<div class="float_l">
+		  <div class="sub_right_ti">{$this->column['name']}</div>
+		</div>
+		<div class="float_r solid_line"></div>
+	  </div>
+	  <div class="h_24"></div>
+	  <ul class="se-list">
+		{foreach:items=$this->showdata}
+		 <li>
+			<div class="list_img"><a href="{$item['linkurl']}" target="_blank"><img src="{url:}{$item['photo']}" alt="" width="153" height="44" /></a></div>
+			<div class="list_txt" style="width:360px">
+				<div class="f_size14"><a class="pink" href="{$item['linkurl']}" target="_blank">{$item['name']}</a></div>
+				<div class="f_purple">{$item['introduce']}</div>
+			</div>
+		  </li>
+		 {/foreach}
+	  </ul>
+	  <div class="clear_b"></div>
+		{$this->query->front_getPageBar()}
+	</div>
+
+  </div>
+  <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+</div>

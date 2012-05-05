@@ -1,0 +1,226 @@
+
+<!--  <link rel="stylesheet" href="{skin:css/pic_css.css}" type="text/css" />
+<script language=JavaScript>
+var imgUrl=new Array();
+var imgLink=new Array();
+var imgtext=new Array();
+var adNum=1;
+
+var pic_count=0;
+{foreach:items=$this->contentRow }
+pic_count = {$key}+1;
+imgUrl[pic_count]="{url:}{$item['path']}";
+imgtext[pic_count]="{$item['describe']}";
+imgLink[pic_count]="{url:}{$item['path']}";
+{/foreach}
+
+var imgPre=new Array();
+var count=0;
+for (i=1;i<=pic_count;i++) {
+	if( (imgUrl[i]!="") && (imgLink[i]!="") ) {
+		count++;
+	} else {
+		break;
+	}
+}
+function playTran(){
+	if (document.all)
+		imgInit.filters.revealTrans.play();
+}
+
+var key=0;
+window.onload = function nextAd(){
+	/*if(adNum<count)adNum++ ;
+	else adNum=1;
+	
+	if( key==0 ){
+		key=1;
+	} else if (document.all){
+		imgInit.filters.revealTrans.Transition=10;
+		imgInit.filters.revealTrans.apply();
+                   playTran();
+
+	}*/
+	document.images.imgInit.src=imgUrl[1];
+    focustext.innerHTML="<a href="+imgLink[1]+"  target=_blank>"+imgtext[1]+"</a>";
+    setTimeout("nextAd()", 3000); //控制时间
+}
+
+function nextAd2(){
+	if(adNum<count)adNum++ ;
+	else adNum=1;
+	
+	if( key==0 ){
+		key=1;
+	} else if (document.all){
+		imgInit.filters.revealTrans.Transition=10;
+		imgInit.filters.revealTrans.apply();
+                   playTran();
+
+	}
+	document.images.imgInit.src=imgUrl[adNum];
+        focustext.innerHTML="<a href="+imgLink[adNum]+"   target=_blank>"+imgtext[adNum]+"</a>";		
+}
+function prondAd(){
+	if(adNum>1)adNum-- ;
+	else adNum=count;
+	
+	if( key==0 ){
+		key=1;
+	} else if (document.all){
+		imgInit.filters.revealTrans.Transition=10;
+		imgInit.filters.revealTrans.apply();
+                   playTran();
+
+	}
+	document.images.imgInit.src=imgUrl[adNum];
+        focustext.innerHTML="<a href="+imgLink[adNum]+"   target=_blank>"+imgtext[adNum]+"</a>";
+		
+}
+function goUrl(){
+window.open(imgLink[adNum],'_blank');
+}
+</script>-->
+<link rel="stylesheet" href="{skin:css/slide_style.css}" type="text/css"  charset="utf-8">
+
+<div class="subpage_right">
+    <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+    
+	<div class="subpage_right_bg">
+		<div class="sub_div">
+		
+		  <div class="clear_b">
+			<div class="float_l">
+			  <div class="sub_right_ti">{$this->column['name']}</div>
+			</div>
+			<div class="float_r solid_line"></div>
+		  </div>
+		  
+		  <div class="h_24"></div>
+		  
+			
+<!--  <div class="table">
+
+		<div class="table_1_1">
+		
+			<div class="table_1_1_pic">
+			<a href="javascript:goUrl()">
+			<img style="FILTER: revealTrans(duration=1,transition=5);border-color:black;color:#000000" src="javascript:nextAd2();" width="600px" height="400px" border="0"  name="imgInit" />
+			</a>
+			</div>
+			
+			<div class="table_1_1_pic"><div class="table_1_1_title"><img src="{skin:image/title.gif}">&nbsp;<span id="focustext"></span></div>
+				<div class="table_1_1_page">
+				<img src="{skin:image/news_p.jpg}" alt="上一条" width="6" height="17" align="absbottom" />&nbsp;
+				<a href="javascript:prondAd()">PREV</a> | 
+				<a href="javascript:nextAd2()">NEXT</a>&nbsp;
+				<img src="{skin:image/news_n.jpg}" alt="下一篇" width="6" height="17" align="absbottom" />
+				</div>
+			</div>
+		</div>
+		
+		
+		<div id="wrapper">
+
+			<img src="images/movingboxes.png" alt="moving boxes" />
+	    
+	        <div id="slider">    
+	
+	            <img class="scrollButtons left" src="images/leftarrow.png"/>
+	
+				<div style="overflow: hidden;" class="scroll">
+		
+					<div class="scrollContainer">
+						{foreach:items=$this->contentRow }
+						{set:$count = $key+1;}
+		                <div class="panel" id="panel_{$count}">
+							<div class="inside">
+								<img src="{url:}{$item['path']}" alt="picture" />
+								<h2>News Heading</h2>
+								<p>A very shot exerpt goes here... <a href="http://flickr.com/photos/justbcuz/112479862/">more link</a></p>
+							</div>
+						</div>
+						{/foreach}
+	                </div>
+	
+					<div id="left-shadow"></div>
+					<div id="right-shadow"></div>
+	
+	            </div>
+	
+				<img class="scrollButtons right" src="images/rightarrow.png" />
+	
+	        </div>
+   
+		</div>-->
+    						
+    						
+    						
+    						
+    						
+    						
+    						
+    						
+	    	<ul id="slideshow">
+		    	{foreach:items=$this->contentRow }
+		    	{set:$urlname=explode(".",$item['path'])}
+				<li>
+					<h3>{$item['upload_time']}</h3>
+					<span>{url:}{$urlname[0]}_500_300.{$urlname[1]}</span>
+					<p>{$item['describe']} </p>
+					<a href="{url:}{$item['path']}" target="_blank"><img src="{url:}{$urlname[0]}_126_75.{$urlname[1]}" alt="Orange Fish" /></a>
+				</li>
+				{/foreach}
+			</ul>
+			
+			
+			<div id="wrapper">
+				<div id="fullsize">
+					<div id="imgprev" class="imgnav" title="Previous Image"></div>
+					<div id="imglink"></div>
+					<div id="imgnext" class="imgnav" title="Next Image"></div>
+					<div id="image"></div>
+					<div id="information">
+						<h3></h3>
+						<p></p>
+					</div>
+				</div>
+				<div id="thumbnails">
+					<div id="slideleft" title="Slide Left"></div>
+					<div id="slidearea">
+						<div id="slider"></div>
+					</div>
+					<div id="slideright" title="Slide Right"></div>
+				</div>
+			</div>
+	
+	
+			<script type="text/javascript" src="{theme:javascript/compressed.js}"></script>
+			<script type="text/javascript">
+				$('slideshow').style.display='none';
+				$('wrapper').style.display='block';
+				var slideshow=new TINY.slideshow("slideshow");
+				window.onload=function(){
+					slideshow.auto=true;
+					slideshow.speed=5;
+					slideshow.link="linkhover";
+					slideshow.info="information";
+					slideshow.thumbs="slider";
+					slideshow.left="slideleft";
+					slideshow.right="slideright";
+					slideshow.scrollSpeed=4;
+					slideshow.spacing=5;
+					slideshow.active="#fff";
+					slideshow.init("slideshow","image","imgprev","imgnext","imglink");
+				}
+			</script>
+							
+			<a href="{url:/site/column/id/}{$this->column['id']}" ><p style="color:#A1336D;text-align:right;">返回相册列表</p></a>				 
+			</div>
+
+			
+		  <div class="clear_b"></div>
+		  
+		</div>
+    <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+</div>

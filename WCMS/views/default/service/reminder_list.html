@@ -1,0 +1,33 @@
+<div class="headbar">
+	<div class="position"><span>服务</span><span>></span><span>温馨提示管理</span><span>></span><span>温馨提示列表</span></div>
+	<div class="field">
+		<table class="list_table">
+			<col width="80%" />
+			<col />
+			<thead>
+				<tr>
+					<th>名称</th>
+					<th>查看</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+<div class="content">
+		<table class="list_table">
+			<col width="80%" />
+			<col />
+			<tbody>
+				{foreach:items = $reminder }
+				<tr>
+					<td>{$item['title']}</td>
+					<td>
+						<a href="{url:/service/reminder_edit/id/}{$item['id']}">
+						<img class="operator" src="{skin:images/admin/icon_check.gif}" alt="编辑" title="编辑" /></a>
+					</td>
+				</tr>
+				{/foreach}
+			</tbody>
+		</table>
+</div>
+{$this->query->getPageBar()}

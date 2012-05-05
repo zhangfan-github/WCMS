@@ -1,0 +1,73 @@
+{js:my97date}
+<div class="headbar">
+	<div class="position"><span>会员</span><span>></span><span>咨询管理</span><span>></span><span>评论筛选</span></div>
+	<div class="operating">	
+		<div class="search f_r">
+			<form name="serachuser" action="{url:/comment/comment_list/}" method="get">
+			<select class="normal" name="search">
+				<option value="u.username" {if:(isset($search) && $search=='u.username')}selected{/if}>评论人</option>
+				<option value="goods.name" {if:(isset($search) && $search=='goods.name')}selected{/if}>评论商品</option>
+			</select>
+			<input class="small" name="keywords" type="text" value="{$keywords}" /><button class="btn" type="submit"><span class="sch">搜 索</span></button>
+			</form>
+		</div>
+		<a href="javascript:void(0)" onclick="selectAll('check[]')"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
+		<a href="javascript:void(0)" onclick="delModel({form:'comment_list',msg:'确定要删除选中的记录吗？'})"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
+	</div>
+	<form name="filter_form" method="get" action="{url:/comment/comment_filter/}">
+	<div class="searchbar">
+		评论人：<input type="text" name="username" style="width:100px;" value="{$filter['username']}" />
+		评论商品：<input type="text" name="goodsname" value="{$filter['goodsname']}" />
+		开始时间：<input type="text" name="beginTime" onfocus="WdatePicker()" value="{$filter['beginTime']}" style="width:80px;" />
+		截止时间<input type="text" name="endTime" onfocus="WdatePicker()" value="{$filter['endTime']}" style="width:80px;" />
+		<button class="btn"><span class="sel">筛 选</span></button>
+	</div>
+	</form>
+	<div class="field">
+		<table class="list_table">
+			<col width="40px" />
+			<col width="150px" />
+			<col width="200px" />
+			<col width="160px" />
+			<col />
+			<thead>
+				<tr role="head">
+					<th class="t_c">选择</th>
+					<th sort="true">评论人</th>
+					<th sort="true" datatype="date">评论商品</th>
+					<th sort="true" datatype="date">评论时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>	
+<form action="comment_del" method="post" name="comment_list" onsubmit="return checkboxCheck('check[]','尚未选中任何记录！')">
+<div class="content">
+	<input type="hidden" name="move_group" value="" />
+	<table id="list_table" class="list_table">
+		<col width="40px" />
+		<col width="150px" />
+		<col width="200px" />
+		<col width="160px" />
+		<col />
+		<tbody>
+			{foreach:items=$items item=$item}
+			<tr>
+				<td class="t_c"><input name="check[]" type="checkbox" value="{$item['id']}" /></td>
+				<td><a href="{url:/member/member_edit/uid/}{$item['userid']}">{$item['username']}</a></td>
+				<td><a href="{url:/goods/goods_edit/gid/}{$item['goods_id']}">{$item['goods_name']}</a></td>
+				<td>{$item['time']}</td>
+				<td><a href="{url:/comment/comment_edit/cid/}{$item['id']}"><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="修改" /></a>
+					<a href="javascript:void(0)" onclick="delModel({link:'{url:/comment/comment_del/check/}{$item['id']}'})"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" /></a>
+				</td>
+			</tr>
+			{/foreach}
+		</tbody>
+	</table>
+</div>
+{$pageBar}
+</form>
+<script language="javascript">
+
+</script>

@@ -1,0 +1,53 @@
+<!--后台“博士后工作站”列表 zf -->
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>博士后工作站</span><span>></span><span>内容列表</span></div>
+	<div class="operating">
+		
+		<a href="javascript:void(0)" onclick="event_link('{url:/tools/bsh_edit}')"><button class="operating_btn" type="button"><span class="addition">添加内容</span></button></a>
+		<a href="javascript:void(0)" onclick="selectAll('id[]');"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
+		<a href="javascript:void(0)" onclick="delModel();"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
+	</div>
+	<div class="field">
+		<table class="list_table">
+		    <col width="40px" />
+			<col width="500px" />
+			<col width="200px" />
+			<col />
+			<thead>
+				<tr>
+					<th class="t_c">选择</th>
+					<th >标题</th>
+					<th >时间</th>
+					<th >编辑&nbsp;&nbsp;&nbsp;查看&nbsp;&nbsp;&nbsp;删除</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+<div class="content">
+	<form action="{url:/tools/bsh_del}" method="post" name="topic_info">
+		<table class="list_table">
+			<col width="40px" />
+			<col width="500px" />
+			<col width="200px" />
+			<col />
+			<tbody>
+			    {set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+			    {query: name=bsh order=sort asc page=$page pagesize=20}
+				<tr>
+					<td class="t_c"><input type="checkbox" name="id[]" value="{$item['id']}" /></td>					
+					<td><a href='{url:/site/column/id/25/content_id/$item[id]}' title='查看' target='_blank'>
+					{$item['title']}{if:$item['file']!=''}(附件){/if}</a></td>
+					<td>{$item['time']}</td>
+					<td>
+						<a href='{url:/tools/bsh_edit/id/}{$item['id']}'><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="编辑" title="编辑" /></a>								
+					    <a href='{url:/site/column/id/25/content_id/$item[id]}' target='_blank'><img class="operator" src="{skin:images/admin/icon_check.gif}" alt="查看" title="查看" /></a>
+						<a href='javascript:void(0)' onclick="delModel({link:'{url:/tools/bsh_del/id/}{$item['id']}'});"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" title="删除" /></a>
+					</td>
+				</tr>
+				{/query}
+			</tbody>
+		</table>
+	</form>
+</div>
+{$query->getPageBar()}

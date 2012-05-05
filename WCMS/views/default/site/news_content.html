@@ -1,0 +1,22 @@
+<div class="subpage_right">
+	<div><img src="{skin:images/baike_r_bg1.png}" /></div>
+	<div class="subpage_right_bg">
+		
+		<div class="sub_div">
+		<!--
+		<div class="clear_b">
+				<div class="float_l"><div class="sub_right_ti"></div>
+				</div>
+				<div class="float_r solid_line"></div>
+		
+		</div>
+		-->
+		 <div class="h_10"></div>
+		 <p class="f_purple news_info_ti">{$this->articleRow['title']}</p>
+		 <div style="text-align: center;color: #A1336D;" >{$this->articleRow['create_time']} </div>
+		  <div style="border-bottom:1px solid gray;">{if:!empty($this->articleRow['keywords'])}关键词:{$this->articleRow['keywords']}{/if}</div>
+		 <div style="color: #A1336D;font-size: 12px;">{$this->articleRow['content']}</div>
+	  </div>
+	</div>
+	<div><img src="{skin:images/baike_r_bg3.png}" /></div>
+</div>

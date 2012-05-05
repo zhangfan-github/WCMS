@@ -1,0 +1,50 @@
+<div class="headbar">
+	<div class="position"><span>系统</span><span>></span><span>合作机构链接管理</span><span>></span><span>{if:isset($id)}编辑{else:}添加{/if}合作机构链接</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/tools/operator_link_edit_act}' method='post' enctype='multipart/form-data' name='link'>
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<input type="hidden" name="id" value="" />
+				<tr>
+					<th>链接名称：</th>
+					<td><input type='text' name='name' class='normal' value='' pattern="required" alt="请填写机构链接名称" /><label>*链接名称（必填）</label></td>
+				</tr>
+				<tr>
+					<th>链接地址：</th>
+					<td><input type='text' name='linkurl' class='normal' value='' pattern="url" alt="请填写机构链接的链接地址" /><label>*链接地址（必填）</label></td>
+				</tr>
+				<tr>
+					<th>图片：</th><td><input type='file' name='attach' class='normal' /><label>机构链接的logo图片（可选）</label></td>
+				</tr>
+				{if:($photo!='')}
+				<tr><th></th><td><img class="photo" src='{url:}{$photo}' /></td></tr>
+				{/if}
+				<tr>
+				<th>介绍</th>
+				<td>
+					<input type='text' name='introduce' class='normal' style="width:400px;" pattern="required"   alt="请填写机构链接的简单介绍" />
+				</td>
+				</tr>
+				<tr>
+					<th>排序：</th><td><input type='text' class='small' name='order' value='' pattern="^\d+$" alt="排序必须为数字" /></td>
+				</tr>
+				<tr>
+					<td></td><td><button class='submit' type='submit'><span>确 定</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<script type='text/javascript'>
+	var formObj = new Form('link');
+	formObj.init({
+		'id':'{$id}',
+		'name':'{$name}',
+		'linkurl':'{$linkurl}',
+		'order':'{echo:$order?$order:99}',
+		'introduce': '{$introduce}'
+	});
+</script>

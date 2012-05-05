@@ -1,0 +1,27 @@
+<div class="middle_right">
+<div class="middle_top"><span>当前位置:</span>
+{query:name=column where= id eq $this->column_id}
+<a href="{url:/site/column/id/$item[parent_id]}">学术交流</a>--><a href="{url:/site/column/id/$item[id]}">{$item['name']}</a>-->详细内容                                
+</div>
+{/query}
+	<div class="content" >
+		<div >
+		<p >{$this->bsh_Row['title']}</p>
+        <div style="border-bottom:1px solid gray;">{$this->bsh_Row['time']} </div>
+		</div>
+		<div class="news_content">
+		<table width="680" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+		    	<td>
+		    	{$this->bsh_Row['content']}
+		      </td>
+		 	</tr>
+		 	<tr></tr>
+			{if:($this->bsh_Row['file']!='')}
+				{set:$file_id = substr($this->bsh_Row['file'],0,strpos($this->bsh_Row['file'],'.'));$file_id = substr(strrchr($file_id,'/'),1);}
+				<tr><td style="font-size:10;"> 附件:<a id="{$file_id}" href="{url:/site/bsh_download/id/}{$this->bsh_Row['id']}" >{$this->bsh_Row['file_name']}</a></td></tr>
+			{/if}
+		</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,28 @@
+<div class="subpage_right">
+	<div><img src="{skin:images/baike_r_bg1.png}" /></div>
+    <div class="subpage_right_bg">
+        <div class="sub_div">
+			<div class="clear_b">
+                <div class="float_l"><div class="sub_right_ti">{$this->column['name']}</div>
+                </div>
+                <div class="float_r solid_line"></div>          
+            </div>
+            <div class="h_10"></div>
+			<table>
+            <p class="news_info_ti f_pink">{$this->showdata['name']} </p>
+            <p class="f_purple"><span class="f_pink">服务定义：</span>{if:empty($this->showdata['definition'])}无{else:}{$this->showdata['definition']}{/if}</p>
+        	<p class="f_purple"><span class="f_pink">服务介绍：</span>{if:empty($this->showdata['describe'])}无{else:}{$this->showdata['describe']}{/if}</p>
+			</br>
+			<p><img src="{url:}{$this->showdata['picture']}"  style="margin-left:100px;width:400px"></p>
+			<p class="f_purple"><span class="f_pink">服务流程：</span>{if:empty($this->showdata['process'])}无{else:}{$this->showdata['process']}{/if}</p>
+			<p class="f_purple"><span class="f_pink">服务价格：</span>{$this->showdata['price']}/月</p>
+			<p class="f_purple"><span class="f_pink">付费方式：</span>到服务地点缴费</p>
+			<p class="f_purple"><span class="f_pink">服务时间：</span>详情见课表</p>
+			<p class="f_purple"><span class="f_pink">服务地点：</span>{if:empty($this->showdata['place'])}无{else:}{$this->showdata['place']}{/if}</p>
+			<div class="service_info_btn">
+				<a href="#"><img src="{skin:images/btn_booking.png}" alt="" /></a><a href="service_project_trial.html" target="_blank"><img src="{skin:images/btn_trial.png}" alt="" /></a>
+            </div>
+		</div>
+	</div>
+    <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+ </div>

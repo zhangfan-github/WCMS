@@ -1,0 +1,140 @@
+
+<div class="mid_986">
+    <div style="position:relative">
+      <div class="f_purple sub_cur_title"> 您当前的位置：<a href="{url:/}">首页</a> &gt; <a href="{url:/pcenter}">专家中心</a> &gt; <a href="{url:/pcenter/info}">个人信息</a> </div>
+      <div class="sub_huan">
+   <img src="{skin:images/huan.png}" width="106" height="92" />
+   </div>
+  </div>
+  
+  <div class="subpage_bor">
+        <!-- 左边栏开始 -->
+        <div class="subpage_left">
+            <div><img src="{skin:images/baike_l_bg1.png}" /></div>
+            <div class="subpage_left_bg">
+                <div class="f_purple left_title f_size16B">- 专家中心 -</div>
+            <ul class="left_menu">
+                <li><a href="{url:/pcenter/info}">- 个人信息 -</a></li>
+                <li><a href="{url:/pcenter/advice_for_vip}">- 健康指南 -</a></li>
+                <li><a href="{url:/pcenter/online_qa}">- 站内咨询 -</a></li>
+                <li><a href="{url:/pcenter/password}">- 修改密码 -</a></li>
+                
+                <li><a href="{url:/pcenter/schedule}">- 值班时间 -</a></li>
+                <li><a href="/bbs">- 会员社区 -</a></li>
+            </ul>
+            <div class="das_line left_line"></div>
+            <div class="hezuo_div">
+                <div class="hezuo_div_top"></div>
+                <div class="hezuo_div_mid">
+            <div class="left_hezuo_ti f_purple f_size16B">- 合作机构 -</div>
+                <ul class="left_hezuo">
+                    {query:name=operator_links limit=4 Order=order }
+                    <li><a href="{$item['linkurl']}"><img src="{url:}{$item['photo']}" style="width:153px;height:44px;"/></a></li>
+                    {/query}
+                    </ul>
+                    
+             <div class="hezuo_more"><a class="purple" href="{url:/site/column/id/79}">【more】</a></div>    
+                
+                </div>
+            <div class="hezuo_div_bot"></div>
+            </div>
+            </div>
+            <div><img src="{skin:images/baike_l_bg3.png}"/></div>
+        </div>
+        <!-- 左边栏结束 -->
+        
+        
+        <div class="subpage_right">
+            <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+            <div class="subpage_right_bg">
+                
+                <div class="sub_div">
+        <div class="clear_b">
+                        <div class="float_l"><div class="sub_right_ti">个人信息</div>
+                        </div>
+                        <div class="float_r solid_line"></div>
+                
+                </div>
+                <div class="h_24"></div>
+                
+                <table  width="100%" cellpadding="0" cellspacing="0">
+                    <col width="300px" />
+                    <col />
+                    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                    <tr>
+                    <td align="right"><a class="ico" href="javascript:void(0);"><img src="{url:}{$this->userRow['head_ico']}" id="user_ico_img" onerror="this.src='{skin:images/front/user_ico.gif}'" width="96" height="96" alt="个人头像" /></a></td>
+                    <td>
+                    <table>
+                        <tr>
+                            <td align="left" valign="bottom"">&nbsp;&nbsp;&nbsp;&nbsp;<span>登录ID：</span><span>{$this->userRow['login_id']}</</span></td>
+     
+                        </tr>
+                        <tr>
+                             <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;<span>邮&nbsp;&nbsp;&nbsp;&nbsp;箱：</span><span>{$this->userRow['email']}</span></td>
+                        </tr>
+                    </table>
+                    </td>
+                    
+                    </tr>
+                    <tr>
+                        <td>&nbsp;
+                        </td>
+                        <td>
+                        &nbsp;
+                        </td>
+                    </tr>
+                    
+                </table>
+                <table width="100%" cellpadding="0" cellspacing="0" class="email_list f_purple">
+                    <col width="30%" />
+                    <col />
+                    <tr>
+                        <th>
+                        专家组：
+                        </th>
+                        <td>
+                            {set:$group_id = $this->userRow['group']}
+                            {query:name=professional_group where=id eq $group_id limit=1}<label>{$item['name']}</label>{/query}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                        姓名：
+                        </th>
+                        <td>
+                            <label>{$this->userRow['name']}</label>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <th>
+                        职称：
+                        </th>
+                        <td>
+                            <label>{$this->userRow['position']}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                        服务地点：
+                        </th>
+                        <td>
+                            <label>{$this->userRow['work_place']}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                        介绍：
+                        </th>
+                        <td>
+                        <div>
+                            {$this->userRow['introduce']}
+                        </div>
+                        </td>
+                    </tr>
+                </table>
+                    </div>
+    </div>
+       <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+    </div>
+</div>

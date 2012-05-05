@@ -1,0 +1,151 @@
+<script> 
+$("document").ready(function(){ 
+	
+	var select = '';  //保存字段
+	var select_name = '';//保存注释
+	var have_bz = 0;//是否有备注列
+	$("input[name='column[]']:checkbox").each(function(){
+		//去除多余的checkbox
+		 if($(this).attr("alt")=='')
+			$(this).remove();
+		//选择要导出的列
+		 $(this).click(function(){ 
+			    //动态显示
+			    var id = 's'+$(this).attr("id");
+			    var value1 = $(this).val();//字段
+			    var value2 = $(this).attr("alt");//注释
+	            if($(this).attr("checked"))
+	            	{
+	            	   select = select + $(this).val() + ',';
+	            	   select_name = select_name + $(this).attr("alt") + ',';
+	            	   
+	            	   $("#select").val(select);
+	            	   $("#select_name").val(select_name);
+	            	   $("#select_col").append("<span id="+id+" style=\"border:1px solid black;\"><input name=\"c_name[]\"type=\"text\" style=\"border:#999 1px solid;text-align:center;\" value=\""+$(this).attr("alt")+"\"></span>");
+	            	}
+	            else
+	            	{
+	            	  $("#"+id).remove();
+	            	  var arr_select = select.split(",");
+	            	  var arr_select_name = select_name.split(",");
+	            	   
+            		  var arr1 =jQuery.grep(arr_select, function(val,key){
+	            		  return (val != value1);
+	            		});
+            		  var arr2 =jQuery.grep(arr_select_name, function(val,key){
+	            		  return (val != value2);
+	            		});
+            		  
+	            	  select = arr1.join(','); 
+	            	  select_name = arr2.join(',');
+	            	  
+	            	  $("#select").val(select);
+	            	  $("#select_name").val(select_name);
+	            	}
+		    })   
+	})
+	$("#have_bz").click(function(){
+		if($(this).attr("checked"))
+    	{
+		  have_bz = 1;
+    	  $("#select_col").append("<span  style=\"border:1px solid black;\"><input id=\"bz\" type=\"text\" style=\"border:#999 1px solid;text-align:center;\" value=\"备注\"></span>");
+    	}
+    else
+    	{
+    	  have_bz = 0;
+    	  $("#bz").remove();
+    	}
+	})
+})   
+</script>
+<div class="headbar">
+	<div class="position"><span>会员</span><span>></span><span>VIP用户统计</span></div>
+	<form action='{url:/member/print_page}' method='post'>
+	<input id="select" name="select" type="hidden" value=""/>
+	<input id="select_name" name="select_name" type="hidden" value=""/>
+		<div class="operating">
+			<div  class="search f_l">
+				{js:my97date}
+				   日期筛选 <input type="text" name='start_time' class="Wdate" id="date_start" value="" pattern='date' alt='' onFocus="WdatePicker()" onblur="FireEvent(this,'onchange')" />至<input type="text" name='end_time' pattern='date' class="Wdate" id="date_end" onFocus="WdatePicker()" onblur="FireEvent(this,'onchange')" />
+				 VIP帐号筛选 <input type="text" name='start_id'  id="id_start" pattern='^\d{8}' alt=''  style="border:#999 1px solid;" />至<input type="text" name='end_id' pattern='^\d{8}'  id="id_end"  style="border:#999 1px solid;" />			
+			</div>
+		</div>
+		<div class="content_box" >
+			<h3>请选择导出的列名：</h3>	
+			<div class='cont' style="height:180px;">
+			{for:$upto = (count($this->member_data)) $step = 5}
+			{set:$name1=explode("(",$this->member_data[$i]['COLUMN_COMMENT']);}
+			{set:$name2=explode("(",$this->member_data[$i+1]['COLUMN_COMMENT']);}
+			{set:$name3=explode("(",$this->member_data[$i+2]['COLUMN_COMMENT']);}
+			{set:$name4=explode("(",$this->member_data[$i+3]['COLUMN_COMMENT']);}
+			{set:$name5=explode("(",$this->member_data[$i+4]['COLUMN_COMMENT']);}
+			<div style="width:150px;float:left;">
+			<p><input id="{echo: "c".(string)(intval($i));}"   type="checkbox" name="column[]" value="{$this->member_data[$i]['COLUMN_NAME']}"   alt="{$name1[0]}"/>{$name1[0]}</p>	
+			<p><input id="{echo: "c".(string)(intval($i)+1);}" type="checkbox" name="column[]" value="{$this->member_data[$i+1]['COLUMN_NAME']}" alt="{$name2[0]}"/>{$name2[0]}</p>
+			<p><input id="{echo: "c".(string)(intval($i)+2);}" type="checkbox" name="column[]" value="{$this->member_data[$i+2]['COLUMN_NAME']}" alt="{$name3[0]}"/>{$name3[0]}</p>
+			<p><input id="{echo: "c".(string)(intval($i)+3);}" type="checkbox" name="column[]" value="{$this->member_data[$i+3]['COLUMN_NAME']}" alt="{$name4[0]}"/>{$name4[0]}</p>
+			<p><input id="{echo: "c".(string)(intval($i)+4);}" type="checkbox" name="column[]" value="{$this->member_data[$i+4]['COLUMN_NAME']}" alt="{$name5[0]}"/>{$name5[0]}</p>
+			</div>
+			{/for}
+			
+			</div>
+		</div>
+		<div class="content_box" >
+		
+			<h3>已选择的列(列名可编辑)：<input id="have_bz" type="checkbox"  alt="备注"/>选择备注列</h3>	
+			
+			<div class='cont' style="height:180px;width:1050px;">
+			<div id="select_col" style="border-collapse:collapse;height:180px;width:1050px;">
+				
+			</div>
+			
+			</div>
+		</div>
+		<span style="align:center;"><button class="submit" type="submit" onclick="return check()" ><span>预览表格</span></button></span>
+	</form>
+ <script language="javascript">
+function check()
+{
+	var choose = $('#select').val();
+	var id_start = $('#id_start').val();
+	var id_end = $('#id_end').val();
+	var date_start = $('#date_start').val();
+	var date_end = $('#date_end').val();
+	
+	var c_name = "";
+	
+	if(choose=='')
+	{
+			alert("请选择列名!");
+			return false;
+	}
+	//记录编辑后的列名
+	$("input[name='c_name[]']:text").each(function(){
+    	c_name = c_name+$(this).val()+',';
+    })
+    if($("#bz").length)//添加备注列
+    	c_name = c_name+$("#bz").val()+',';
+    $('#select_name').val(c_name);
+	//筛选条件
+	if((id_start!=''&& id_end!='')||(date_start!=''&& date_end!=''))
+	{
+		if(id_start =="" || id_end == "")
+		{
+			$("#id_start").remove();
+			$("#id_end").remove();
+		}
+		if(date_start == "" || date_end == "")
+		{
+			$("#date_start").remove();
+			$("#date_end").remove();
+		}
+
+		return true;
+	}
+	else{
+		alert("请正确填写筛选条件!");
+		return false;
+	}	
+}
+</script>
+</div>

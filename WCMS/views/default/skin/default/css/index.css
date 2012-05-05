@@ -1,0 +1,51 @@
+@charset "utf-8";
+/* CSS Document */
+
+body div ul li img{margin:0px;padding:0px;}
+ul li{list-style:none;}
+main{position:relative;}
+.backimage{
+    width:100%;
+	margin:0px;padding:0px;
+	text-align:center;
+	/*background-image:url(adv/PC001.JPG);*/
+		   }
+.js_bottom{width:100%; position:absolute;z-index:-1;}
+.js_bottom img{width:100%;}
+.sidetop{width:950px;height:121px;margin:0 auto;}
+.header{width:100%; height:71px; margin-left:auto; margin-right:auto; text-align:center; background-color:#CFF; background-image:url(../image/jili_head.gif); position:relative; font-size:12px;}
+#last{border:none;}
+.header_link{position:absolute; right:10px; top:20px;}
+.header_link td{border-right:1px solid #fff}
+.header_link a{color:#2a2a2a; text-decoration:none;}
+.header_link a:hover{color:#fff; text-decoration:none;}
+.header_tel{position:absolute;right:10px;top:45px;color:green;font-size:12px;}
+.navigation{width:794px; height:50px;float:left; text-align:center; background-color:#CFF; background-image:url(../image/nav2.jpg);position:relative;}
+.navigation1{width:156px;height:50px;float:right;background-image:url(../image/nav1.jpg);position:relative;}
+.navigation_list{ width:900px; position:absolute;left:-25px;top:2px; font-size:14px;}
+.navigation_list a{text-decoration:none;color:#eee;}
+.navigation_list a:hover{color:#fece00; text-decoration:underline;}
+.navigation_list ul { font-size:13px;}
+.navigation_list ul li{display:block;float:left; width:102px; margin-left:7px;color:#1383ca; font-weight:bold; letter-spacing:0.1em; margin-top:3px;}
+* +html .navigation_list ul li{display:block;float:left; width:102px; margin-left:7px; margin-top:15px;color:#1383ca; font-weight:bold; letter-spacing:0.1em; }
+* html .navigation_list ul li{display:block;float:left; width:102px; margin-left:7px; margin-top:18px;color:#1383ca; font-weight:bold; letter-spacing:0.1em; }
+.middle{width:950px;  margin-left:auto; margin-right:auto; margin-top:5px;margin-bottom:20px; text-align:center; opacity: 0.95;filter:alpha(opacity=95);-moz-opacity:0.95; }
+.middle_left{width:205px; float:left;}
+.middle_list{ position:relative;}
+.middle_list ul{ position:absolute; left:15px; top:-15px; padding:0px; }
+*+ html .middle_list ul{ position:absolute; left:-20px; top:0px; padding:0px; }
+*html .middle_list ul{ position:absolute; left:-130px; top:0px; padding:0px; }
+.middle_list ul li{ display:block; width:163px; height:27px; padding-top:11px;margin-bottom:10px; background-image:url(../image/jili_left.gif); font-size:13px; font-weight:bold; color:#FFF;}
+.middle_list ul li:hover{ background-image:url(../image/jili_left2.gif); font-size:13px; font-weight:bold; color:#efab00; cursor:pointer;}
+.middle_right{width:745px; background-color:#fff; border-top:#fece00 solid 10px; float:right;}
+.middle_top{width:100%;height:17px;margin-top:6px;text-align:left;font-size:12px; text-indent:15px;background:url(../image/21.gif) no-repeat;}
+.middle_top a{color:#2A2A2A;}
+.middle_top a:link{text-decoration:none;color:#2A2A2A;}
+.middle_top a:hover{text-decoration:none;color:#FBC800;}
+.middle_top a:active{text-decoration:none;color:#FBC800;}
+.content{ min-height:350px;}
+
+
+.table_pages{font-size:12px;}
+.middle_list a{text-decoration:none;}
+

@@ -1,0 +1,55 @@
+{js:kindeditor}
+{set:$items=$this->refer;}
+<div class="headbar">
+	<div class="position"><span>会员</span><span>></span><span>咨询管理</span><span>></span><span>回复咨询</span></div>
+	<div class="operating">
+		<a href="javascript:void(0)" onclick="reclaim()"><button class="operating_btn" type="button"><span class="delete">删除</span></button></a>
+		<a href="javascript:void(0)" onclick="history.go(-1)"><button class="operating_btn" type="button"><span class="remove">返回</span></button></a>
+	</div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/comment/refer_reply/}" method="post" name="refer_edit">
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>咨询人：</th><td>{if:isset($items['user_name'])}<a href="{url:/member/member_edit/uid/}{$items['user_id']}">{$items['user_name']}</a>{else:}非会员顾客{/if}
+					<input type="hidden" value="{$items['id']}" name="refer_id" />
+					<input type="hidden" value="{$items['id']}" name="check[]" /></td>
+				</tr>
+				<tr>
+					<th>咨询时间：</th><td>{$items['time']}</td>
+				</tr>
+				<tr>
+					<th>咨询内容：</th><td>{$items['question']}</td>
+				</tr>
+				<tr>
+					<th valign="top">回复：</th><td><textarea name="content" rows="" cols="">{$items['answer']}</textarea></td>
+				</tr>
+				<tr>
+					<th></th><td><button class="submit" type="submit"><span>回 复</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+function reclaim()
+{
+	art.dialog({
+		id: 'reclaim',
+		lock: true,
+		title: '删除评论',
+		content: "确定要删除此条评论信息吗？",
+		yesFn: function(){
+			$("form[name='refer_edit']").attr('action','{url:/comment/refer_del}');
+			$("form[name='refer_edit']").submit();
+			return false;
+		},
+		noFn: true
+	});
+}
+//-->
+</SCRIPT>

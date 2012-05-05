@@ -1,0 +1,57 @@
+{js:kindeditor}
+{set:$id=IReq::get('id');}
+<?php
+$COLUMN_TYPE_CODE='102'; //栏目类型为页面的代码
+?>
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>页面管理</span><span>></span><span>{if:isset($id)}编辑{else:}添加{/if}页面</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		{if:$id!==null}
+		<form action='{url:/tools/page_edit_act/id/$id}' method='post' name='article'>
+		{else:}
+		<form action='{url:/tools/page_edit_act}' method='post' name='article'>
+		{/if}
+
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				{if:$id!==null}
+				<input type='hidden' name='id' value="{$id}" />
+				{/if}
+				<tr>
+					<th>页面名称：</th>
+					<td>
+						{echo:Column::showSpecColumn($COLUMN_TYPE_CODE,'category_id',$id,array('请选择页面'=>null))}
+						<label>*选择页面（必填）</label>
+					</td>
+				</tr>
+				<tr>
+					<th>页面标题：</th>
+					<td><input type='text' name='name' class='normal' value='{echo:Column::showColumnName($id)}' pattern='required' alt='页面标题不能为空' /></td>
+				</tr>
+				<tr>
+					<th valign="top">页面内容：</th><td><textarea name='content' style='width:600px;height:300px' pattern='required' alt='内容不能为空'>{$content}</textarea></td>
+				</tr>
+				<tr>
+					<th>KEYWORDS(SEO)：</th><td><input type='text' class='normal' name='keywords' value='{$keywords}' /></td>
+				</tr>
+				<tr>
+					<th>DESCRIPTION(SEO)：</th><td><input type='text' class='normal' name='description' value='{$description}' /></td>
+				</tr>
+				<tr>
+					<th></th><td><button class='submit' type='submit'><span>确 定</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+	//装载编辑器
+	KE.show({
+		id : 'content',
+		imageUploadJson:'{url:/block/upload_img_from_editor}'
+	});
+</script>

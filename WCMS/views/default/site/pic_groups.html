@@ -1,0 +1,33 @@
+<div class="subpage_right">
+    <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+    
+	<div class="subpage_right_bg">
+		<div class="sub_div">
+		  <div class="clear_b">
+			<div class="float_l">
+			  <div class="sub_right_ti">{$this->column['name']}</div>
+			</div>
+			<div class="float_r solid_line"></div>
+		  </div>
+		  <div class="h_24"></div>
+		  
+			<div id="photos">
+				<div class="photoList">
+					<ul>
+						{foreach:items=$this->contentRow }
+						<li>
+						<p class="phImg"><a href="{url:/site/column/id/}{$this->column['id']}/pg_id/{$item['id']}"><img src="{if:empty($item['front_img'])}{skin:/images/front/service_ico.jpg}{else:}{url:}{$item['front_img']}{/if}" width="90px" height="90px"></a></p>
+						<p class="phName">{$item['name']}</p>
+						<p class="phNumber">共{$item['count']}张</p>
+						</li>
+						{/foreach}
+					</ul>
+				</div>
+			</div>
+			
+		  <div class="clear_b"></div>
+		  {$this->query->front_getPageBar()}
+		</div>
+    </div>
+    <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+</div>

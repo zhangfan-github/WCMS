@@ -1,0 +1,35 @@
+<div class="middle_right">
+	<div class="middle_top"><span>当前位置:</span>
+	{set:$i=0}
+	{foreach:items=$this->tree item=$val}
+		{query:name= column where=id eq $val }
+		{if:$i==1}
+			<span>--></span><a href="{url:/site/column/id/}{$item['id']}"><span>{$item['name']}</span></a>
+		{else:}{set:$i=1}
+			<a href="{url:/site/column/id/}{$item['id']}"><span>{$item['name']}</span></a>
+		{/if}
+		{/query}
+	{/foreach}
+	</div>
+	
+	<div class="content">
+		<div class="rencait">
+			<table width="650" border="0" cellspacing="0" cellpadding="0">
+				<tr style="color: #FFF; font-weight: bold;" bgcolor="#FF9900">
+					<td width="431">职位</td>
+					<td width="108">工作地点</td>
+					<td width="120">截止日期</td>
+					<td width="41">&nbsp;</td>
+				</tr>
+				{query:name=position pagesize=12}
+				<tr>
+					<td><a href="{url:/site/column/id}{$this->column['id']}/poss_id/{$item['id']}" target="_blank">{$item['position']}</a></td>
+					<td>{$item['operational_area']}</td>
+					<td>{$item['end_time']}</td>
+					<td><a href="{url:/site/column/id}{$this->column['id']}/pose_id/{$item['id']}" target="_blank">申请</a></td>
+				</tr>
+				{/query}
+			</table>
+		</div>
+	</div>
+</div>

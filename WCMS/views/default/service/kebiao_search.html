@@ -1,0 +1,58 @@
+<div class="headbar">
+    <div class="position"><span>服务</span><span>></span><span>服务课表管理</span><span>></span><span>课表搜索</span></div>
+    <div class="operating">
+        <div style="float:left; padding-left:15px; padding-top:5px;">请输入服务名称或关键字：<input class='small' style="width:150px;" type="text" name="title" value="{$this->title}" id="title"/>&nbsp;&nbsp;<input class='submit1' type="button" value="搜索" onclick="search('{url:/service/kebiao_search/}');"/></div>
+        
+    </div>
+    <div class="field">
+        <table class="list_table">
+            <thead>
+                <tr>
+                    <th width="200">服务名称</th>
+                    <th width="100">开始日期</th>
+                    <th width="100">开始时间</th>
+                    <th width="100">结束日期</th>
+                    <th width="100">结束时间</th>
+ 
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div class="content">
+        <table class="list_table">
+            
+            <tbody>
+            {foreach:items=$this->searchData}
+                <tr>
+                    <td width="200">
+                    {$item['sname']}
+                    </td>
+                    <td width="100">
+                    {$item['start_date']}
+                    </td>
+                    <td width="100">
+                    {$item['start_time']}
+                    </td>
+                    <td width="100">
+                    {$item['end_date']}
+                    </td>
+                    <td width="100">
+                    {$item['end_time']}
+                    </td>
+                </tr>
+            {/foreach}
+            </tbody>
+        </table>
+    
+</div>
+{$this->query->getPageBar()}
+<script>
+//截取中文字符串 
+function SubCN4($str,$len)
+{ 
+ if($str=='' || strlen($str)<=$len) return $str;
+ if(ord(substr($str,$len-1,1))>0xa0) $len++;
+ return substr($str,0,$len);
+}
+</script>

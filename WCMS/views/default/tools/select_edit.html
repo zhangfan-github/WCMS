@@ -1,0 +1,37 @@
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>广纳贤才管理</span><span>></span><span>{if:isset($this->catRow['id'])}编辑{else:}添加{/if}选项</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/tools/select_edit_act}' method='post' name='cat'>
+			<input type='hidden' name='id' value='{$this->catRow['id']}' />
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>选项所属：</th>
+					<td>
+						<select name='select'>
+							<option value='0'>顶级选项</option>
+							{query: name=select where=parent_id eq 0}
+							<option value='{$item[id]}' {if:$item['id']==$this->catRow['parent_id']}selected='selected'{/if}>{$item['name']}</option>
+							{/query}
+						</select>
+						<label>*所属（必填）</label>
+					</td>
+				</tr>
+				<tr>
+					<th>名称：</th>
+					<td>
+						<input type='text' class='middle' name='name' value='{$this->catRow['name']}' pattern='required' alt='名称不能为空' />
+						<label>*栏目名称（必填）</label>
+					</td>
+				</tr>
+				<tr>
+					<th></th><td><button class='submit' type='submit'><span>确 定</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+

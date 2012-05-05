@@ -1,0 +1,36 @@
+﻿<div class="subpage_right">
+    <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+	<div class="subpage_right_bg">
+	<div class="sub_div">
+	  <div class="clear_b">
+		<div class="float_l">
+		  <div class="sub_right_ti">{$this->column['name']}</div>
+		</div>
+		<div class="float_r solid_line"></div>
+	  </div>
+	  <div class="h_24"></div>
+	  
+		{foreach:items=$this->productRow }
+		<ul class="se-list">
+             <li>
+                <div class="list_img">
+				<a href="{url:/site/column/id}{$this->column['id']}/pro_id/{$item['id']}"><img src="{url:}{$item['image']}" alt="" width="70" height="70" /></a>
+				</div>
+                <div class="list_txt">
+                    <div class="f_size14"><a class="pink" href="#">{$item['name']}</a></div>
+                    <div class="f_purple">宝贝简介：{echo:iconv_substr($item['describe'],0,30,"utf8")}</div>
+                    <div class="f_red">价格：{$item['price']}元</div>
+                </div>
+			  </li>
+		</ul>
+		{/foreach}
+		
+	  <div class="clear_b"></div>
+	  {$this->query->front_getPageBar()}
+	</div>
+    </div>
+    <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+</div>
+
+
+

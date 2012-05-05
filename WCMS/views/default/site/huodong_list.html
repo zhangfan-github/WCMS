@@ -1,0 +1,23 @@
+<div class="subpage_right">
+	<div><img src="{skin:images/baike_r_bg1.png}" /></div>
+	<div class="subpage_right_bg">
+		
+		<div class="sub_div">
+		<div class="clear_b">
+				<div class="float_l"><div class="sub_right_ti">{$this->column['name']}</div></div>
+
+				<div class="float_r solid_line"></div>
+		
+		</div>
+		 
+		<ul class="baike_news_ul" style="margin-top:20px;">
+				{foreach:items=$this->artSearchRow}
+				<li><a href="{url:/site/column/id/}{$this->column['id']}/huodong_id/{$item['id']}" target="_blank" style="width:400px">{$item['huodong']}</a><span class="date" style="width:180px">报名截止时间：{echo: substr($item['end_time'],0,10)}</span></li>
+				 {/foreach}
+		</ul>
+		 <div class="das_line right_line"></div>
+		 {$this->query->front_getPageBar()}
+		</div>
+	</div>
+	<div><img src="{skin:images/baike_r_bg3.png}" /></div>
+</div>

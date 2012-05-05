@@ -1,0 +1,476 @@
+<div class="mid_p3">
+    <div class="s3_1">
+        <div class="s3_lable"><img src="{skin:images/l_fengcai.png}" width="100" height="31"/></div>
+        <div class="s3_block">
+	        <div class="c_1">
+	          <div class="c_2">
+	                    <div class="c_h1">
+	                    	<img src="{skin:images/1px.gif}" />
+	                    </div> 
+	          </div>
+	        </div>
+			<!--首页滚动图片-->
+            <div class="c_v1">
+                <div class="c_v2">
+                    <div class="s3_bg"  style="position:relative; margin:-6px; padding:8px; height:238px; background-color:#FFFFFF">
+                        <div id="slider" class="s-frame">
+                          <div id="s_lnks" class="s-list">
+						  {query:name=article where=img neq '' and category_id in (8,78,75,77) order=create_time desc limit=5}
+                              <div class="s-item">
+                                <a href="{url:/site/column/id/}{$item['category_id']}/news_id/{$item['id']}" ><img src="{url:}{$item['img']}" width="281" height="190" alt="" /></a>
+                                <div class="slider_txt"><a href="{url:/site/column/id/}{$item['category_id']}/news_id/{$item['id']}" class="purple">【{$item['title']}】</a></div>
+                              </div>
+						  {/query}
+                          </div>
+                        </div>
+                        <div class="s_btn_height">
+                            <div id="s_btms" class="s-buttons"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<!--end-->
+            <div class="c_3">
+                <div class="c_4">
+                    <div class="c_h2">
+                    	<img src="{skin:images/1px.gif}" />
+                    </div> 
+                </div>
+            </div>
+        </div>
+   </div>
+        
+	<script type="text/javascript">
+        Scale.New(_("s_lnks"), _("s_btms"), 218);
+    </script> 
+        
+        
+    <div class="s3_1">
+        <div class="s3_lable">
+   		    <img id="news_ti" src="{skin:images/l_news_1.png}" width="239" height="31" usemap="#newMap" hidefocus="true"/>
+            <map name="newMap" id="newMap" style="margin:0; padding:0">
+                <area shape="poly" coords="11,7,81,7,76,31,7,31" onmouseover="showDiv('news_',1,3)" href="javascript:void(0);" />
+                <area shape="poly" coords="87,7,157,7,152,31,82,31" onmouseover="showDiv('news_',2,3)" href="javascript:void(0);" />
+                <area shape="poly" coords="163,8,234,8,228,31,158,31" onmouseover="showDiv('news_',3,3)" href="javascript:void(0);" />
+            </map>
+         </div> 
+      
+         <div class="s3_block">
+            <div class="c_1">
+                <div class="c_2">
+                    <div class="c_h1">
+                    	<img src="{skin:images/1px.gif}" />
+                    </div> 
+                </div>
+            </div>
+            <!--内页具体内容的链接-->
+            <div class="c_v1">
+              <div class="c_v2">
+			      <!--服务项目-->
+                  <div id="news_1">
+                    <div class="s3_bg" style="height:208px;">
+                    	<div style="padding:12px 22px;">
+                            <ul class="idx_list">
+                            {query: name=service order=sort asc limit=3} 
+                            {if:strlen($item['name'])>30}
+                             {set:$name= iconv_substr($item['name'],0,10,'utf-8')."...";}
+                             {else:$name = $item['name'];}
+                            {/if} 
+                                <li>【<a href="{url:/site/column/id/83}">单项服务</a>】<a href="{url:/site/column/id/83/serv_id/}{$item['id']}" target="_blank">{$name}</a></li>
+                            {/query}
+                            {query: name=service_package order=sort asc limit=4} 
+                            {if:strlen($item['name'])>30}
+                             {set:$name= iconv_substr($item['name'],0,10,'utf-8')."...";}
+                             {else:$name = $item['name'];}
+                            {/if} 
+                                <li>【<a href="{url:/site/column/id/86}}">服务套餐</a>】<a href="{url:/site/column/id/86/servpack_id/}{$item['id']}" target="_blank">{$name}</a></li>
+                            {/query} 
+                            </ul>
+                        </div>
+                    </div> 
+                    <div class="link_gongyi_div">
+                        <a href="{url:/site/column/id/8}"><img src="{skin:images/btn_gongyi.png}" /></a>
+                        <a href="{url:/site/column/id/24}"><img src="{skin:images/btn_shalong.png}" /></a>
+                    </div>
+                  </div>
+				<!--活动公告-->
+                  <div id="news_2" style="display:none">
+                    <div class="s3_bg" style="height:208px;">
+                    	<div style="padding:12px 22px;">
+                            <ul class="idx_list">
+                             {query: name=article where=category_id in (75,77,8) and top eq 1 order=sort asc,create_time desc limit=7}
+								 {if:strlen($item['title'])>30}
+								 {set:$title= iconv_substr($item['title'],0,10,'utf-8')."...";}
+								 {else:$title = $item['title'];}
+								 {/if} 
+								 
+								 {if:$item['category_id']==8 }
+									<li>【<a href="{url:/site/column/id/8}">公益讲堂</a>】<a href="{url:/site/column/id/}{$item['category_id']}/news_id/{$item['id']}" target="_blank">{$title}</a></li>
+								 {else:}
+									<li>【<a href="{url:/site/column/id/24}">技艺沙龙</a>】<a href="{url:/site/column/id/}{$item['category_id']}/news_id/{$item['id']}" target="_blank">{$title}</a></li>
+								 {/if}
+                            {/query}
+                            </ul>
+                        </div>
+                    </div> 
+                    <div class="link_gongyi_div">
+                        <a href="{url:/site/column/id/8}"><img src="{skin:images/btn_gongyi.png}" /></a>
+                        <a href="{url:/site/column/id/24}"><img src="{skin:images/btn_shalong.png}" /></a>
+                    </div>
+                  </div>
+                  <!--公司动态-->
+                  <div id="news_3" style="display:none">
+                    <div class="s3_bg" style="height:208px;">
+                    	<div style="padding:12px 22px;">
+                            <ul class="idx_list">
+                            {query: name=article where=category_id eq 78 and top eq 1 order=sort asc,create_time desc limit=7}
+                             {if:strlen($item['title'])>30}
+                             {set:$title= iconv_substr($item['title'],0,10,'utf-8')."...";}
+                             {else:$title = $item['title'];}
+                             {/if} 
+                                <li>【<a href="{url:/site/column/id/}{$item['category_id']}">公司动态</a>】<a href="{url:/site/column/id/}{$item['category_id']}/news_id/{$item['id']}"  target="_blank">{$title}</a></li>
+                             {/query}  
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="link_gongyi_div">
+                        <a href="{url:/site/column/id/8}"><img src="{skin:images/btn_gongyi.png}" /></a>
+                        <a href="{url:/site/column/id/24}"><img src="{skin:images/btn_shalong.png}" /></a>
+                    </div> 
+                  </div>
+                    
+                </div>
+            </div>
+            <div class="c_3">
+                <div class="c_4">
+                    <div class="c_h2">
+                    	<img src="{skin:images/1px.gif}" />
+                    </div> 
+                </div>
+            </div>
+      </div>
+    </div>
+    <!---课程表-->
+    <div class="s3_1">
+      <div class="s3_lable s3_class_lable"><center><img src="{skin:images/l_class.png}" width="195" height="38"/></center></div>
+      <div class="s3_block">
+            <div class="c_1">
+                <div class="c_2">
+                    <div class="c_h1">
+                    	<img src="{skin:images/1px.gif}" />
+                    </div> 
+                </div>
+            </div>
+            <div class="c_v1">
+                <div class="c_v2">
+                  <div class="s3_bg">
+                      <div class="s3_class_div">
+					    <!--今日课程-->
+                            <div class="float_l s3_class_day">
+                                <div class="float_l s3_class_day_ti">
+                                <img src="{skin:images/txt_class1.png}" width="19" height="77" /></div>
+                                <ul class="float_l idx_class_list f_pink">
+                                {set:$today = strval(date("Y-m-d"));}
+                                {query: name=schedule  where=start_date eq '$today' order=start_time asc limit=3}
+                                {if:strlen($item['sname'])>15}
+	                            {set:$sname= iconv_substr($item['sname'],0,6,'utf-8');}
+	                            {else:$sname = $item['sname'];}
+	                            {/if} 
+	                             <li><div>{echo:substr($item['start_time'],0,5);}-{echo:substr($item['end_time'],0,5);}</div><div><a class="pink" href="{url:/site/column/id/83/serv_id/}{$item['sid']}" target="_blank">{$sname}</a></div></li>
+	                            {/query}  
+                                    
+                                </ul>
+                            </div>
+                        <!--明日课程-->    
+                            <div class="float_r s3_class_day">
+                                <ul class="float_r idx_class_list f_purple">
+                                {set:$tomorrow = date("Y-m-d",strtotime("+1day",strtotime($today)));}
+                                {query: name=schedule  where=start_date eq '$tomorrow' order=start_time asc limit=3}
+                                {if:strlen($item['sname'])>15}
+	                            {set:$sname= iconv_substr($item['sname'],0,6,'utf-8');}
+	                            {else:$sname = $item['sname'];}
+	                            {/if} 
+	                            <li><div>{echo:substr($item['start_time'],0,5);}-{echo:substr($item['end_time'],0,5);}</div><div><a class="purple" href="{url:/site/column/id/83/serv_id/}{$item['sid']}" target="_blank">{$sname}</a></div></li>
+	                            {/query} 
+                                </ul>
+                                <div class="float_l s3_class_day_ti" style="border-right-color: #c07c96;">
+                                    <img src="{skin:images/txt_class2.png}" width="19" height="77" /></div>
+                           </div>
+
+                        </div>
+                        <!-- 课程表 -->
+                        <div class="link_class_div"><a href="{url:/simple/schedule}"><img src="{skin:images/btn_class.png}" width="174" height="24" /></a></div>
+                  </div> 
+                </div>
+            </div>
+            <div class="c_3">
+                <div class="c_4">
+                    <div class="c_h2">
+                    	<img src="{skin:images/1px.gif}" />
+                    </div> 
+                </div>
+            </div>
+      </div>
+    </div>
+        
+</div>
+    <div class="h_6"></div>
+    <div class="mid_p3">
+        <div class="s2_1">
+          <div class="s3_lable"><img id="prod_ti" src="{skin:images/l_prod_2.png}" width="202" height="35" border="0" usemap="#prodMap" hidefocus="true"/>
+            <map name="prodMap" id="prodMap">
+              <area shape="poly" coords="99,5,94,32,6,32,10,5" href="#" onmouseover="showDiv('prod_',1,2)"/>
+              <area shape="poly" coords="108,5,196,5,191,32,103,32" href="#" onmouseover="showDiv('prod_',2,2)"/>
+            </map>
+          </div>
+          <div class="s3_block">
+                <div class="c_1">
+                    <div class="c_2">
+                        <div class="c_h1">
+                            <img src="{skin:images/1px.gif}" />
+                        </div> 
+                    </div>
+                </div>
+                <div class="c_v1">
+                  <div class="c_v2">
+                        <div class="s3_bg" style="height:472px;">
+							<!--商品-->
+                        	<div id="prod_1" style="display:none;">
+                            	<div class="idx_prod_more"><a class="pink" href="{url:/site/column/id/72}">【更多宝贝】</a></div>
+                            	<ul class="idx_prod">
+                            		{query: name=goods  where=state eq 1 order=sort asc limit=8}
+                                	<li><a class="pink" href="{url:/site/column/id/72}/pro_id/{$item['id']}" target="_blank"><img src="{url:}{$item['image']}" width="92" height="92" alt=""/>{$item['name']}</a><div class="idx_price f_red">价格： {$item['price']} 元<div></li>
+	                            	{/query} 
+                                </ul>
+                            </div>
+                            <!--孕育百科-->
+                            <div id="prod_2">
+                                <div class="clear_b">
+                                  <div class="float_l idx_baike_sdiv">
+                                  {set:$i = 0;}
+                                  {query: name=column  where=parent_id eq 17 order=sort asc limit=4}
+                                  {set:$_name[$i] = strval($item['name']);$_id[$i] = $item['id'];$i += 1;}
+                                  {/query}
+                                  
+                                    <div class="baike_sdiv_lab" style="">{$_name[0]}</div>
+                                        <div class="baike_sdiv_content">
+                                        {query: name=article  where=category_id eq $_id[0] and img neq '' order=sort asc limit=1}
+                                	    {set:$intr=iconv_substr(strip_tags($item['content']),0,24,'utf-8')."..."; }
+                                          <div class="float_l baike_sdiv_img">
+                                                <img src="{url:}{$item['img']}" width="74" height="68"/>
+                                          </div>
+                                          <div class="float_l baike_sdiv_txt">
+                                                <a class="pink" href="{url:/site/column/id/}{$_id[0]}/news_id/{$item['id']}" target="_blank">【{$item['title']}】<br/>
+                                                {$intr}</a>
+                                          </div>
+                                         {/query}
+                                            <div class="clear_b">
+                                              <ul class="idx_list2">
+                                              {query: name=article  where=category_id eq $_id[0] order=sort desc limit=2}
+                                                <li><a href="{url:/site/column/id/}{$_id[0]}/news_id/{$item['id']}" target="_blank">【{$item['title']}】</a></li>
+                                              {/query}
+                                                </ul>
+                                          </div>
+                                           <div class="baike_sdiv_more">
+                                                <a class="pink" href="{url:/site/column/id/}{$_id[0]}" target="_blank">【more】</a>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="float_l idx_baike_sdiv">
+                                      <div class="baike_sdiv_lab2">{$_name[1]}</div>
+                                        <div class="baike_sdiv_content">
+                                        {query: name=article  where=category_id eq $_id[1] and img neq '' order=sort asc limit=1}
+                                	    {set:$intr=iconv_substr(strip_tags($item['content']),0,24,'utf-8')."..."; }
+                                          <div class="float_l baike_sdiv_img">
+                                                <img src="{url:}{$item['img']}" width="74" height="68"/>
+                                          </div>
+                                            <div class="float_l baike_sdiv_txt">
+                                                <a class="pink" href="{url:/site/column/id/}{$_id[1]}/news_id/{$item['id']}" target="_blank">【{$item['title']}】<br/>
+                                                   {$intr}</a>
+                                          </div>
+                                          {/query}
+                                            <div class="clear_b">
+                                              <ul class="idx_list2">
+                                              {query: name=article  where=category_id eq $_id[1] order=sort desc limit=2}
+                                                <li><a href="{url:/site/column/id/}{$_id[1]}/news_id/{$item['id']}" target="_blank">【{$item['title']}】</a></li>
+                                              {/query}
+                                                </ul>
+                                            </div>
+                                            <div class="baike_sdiv_more">
+                                                <a class="pink" href="{url:/site/column/id/}{$_id[1]}" target="_blank">【more】</a>
+                                          </div>
+                                        </div>
+                                    </div>
+    
+                                </div>
+                                <div class="h_24">&nbsp;</div>
+                                <div class="clear_b">
+                                    <div class="float_l idx_baike_sdiv">
+                                        <div class="baike_sdiv_lab">{$_name[2]}</div>
+                                        <div class="baike_sdiv_content">
+                                         {query: name=article  where=category_id eq $_id[2] and img neq '' order=sort asc limit=1}
+                                	     {set:$intr=iconv_substr(strip_tags($item['content']),0,24,'utf-8')."..."; }
+                                            <div class="float_l baike_sdiv_img">
+                                                <img src="{url:}{$item['img']}" width="74" height="68"/>
+                                            </div>
+                                            <div class="float_l baike_sdiv_txt">
+                                                <a class="pink" href="{url:/site/column/id/}{$_id[2]}/news_id/{$item['id']}" target="_blank">【{$item['title']}】<br/>
+                                                    {$intr}</a>
+                                            </div>
+                                            {/query}
+                                            <div class="clear_b">
+                                                <ul class="idx_list2">
+                                              {query: name=article  where=category_id eq $_id[2] order=sort desc limit=2}
+                                                <li><a href="{url:/site/column/id/}{$_id[2]}/news_id/{$item['id']}" target="_blank">【{$item['title']}】</a></li>
+                                              {/query}
+                                                </ul>
+                                            </div>
+                                            <div class="baike_sdiv_more">
+                                                <a class="pink" href="{url:/site/column/id/}{$_id[2]}"  target="_blank">【more】</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="float_l idx_baike_sdiv">
+                                        <div class="baike_sdiv_lab2">{$_name[3]}</div>
+                                        <div class="baike_sdiv_content">
+                                        {query: name=article  where=category_id eq $_id[3] and img neq '' order=sort asc limit=1}
+                                	     {set:$intr=iconv_substr(strip_tags($item['content']),0,24,'utf-8')."..."; }
+                                            <div class="float_l baike_sdiv_img">
+                                                <img src="{url:}{$item['img']}" width="74" height="68"/>
+                                            </div>
+                                            <div class="float_l baike_sdiv_txt">
+                                                <a class="pink" href="{url:/site/column/id/}{$_id[3]}/news_id/{$item['id']}" target="_blank">【{$item['title']}】<br/>
+                                                    {$intr}</a>
+                                            </div>
+                                            {/query}
+                                            <div class="clear_b">
+                                                <ul class="idx_list2">
+                                              {query: name=article  where=category_id eq $_id[3] order=sort desc limit=2}
+                                                <li><a href="{url:/site/column/id/}{$_id[3]}/news_id/{$item['id']}" target="_blank">【{$item['title']}】</a></li>
+                                              {/query}
+                                                </ul>
+                                            </div>
+                                            <div class="baike_sdiv_more">
+                                                <a class="pink" href="{url:/site/column/id/}{$_id[3]}"  target="_blank">【more】</a>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                          </div>
+                       </div> 
+                    </div>
+                </div>
+                
+                <div class="c_3">
+                    <div class="c_4">
+                        <div class="c_h2">
+                            <img src="{skin:images/1px.gif}" />
+                        </div> 
+                    </div>
+                </div>
+          </div>
+      </div> 
+      
+      
+      
+       <div class="s3_1">
+        	<div style="height:28px;">&nbsp;</div>
+            <div class="s3_block">
+            <div class="c_1">
+                <div class="c_2">
+                    <div class="c_h1">
+                    	<img src="{skin:images/1px.gif}" />
+                    </div> 
+                </div>
+            </div>
+			<!--微博-->
+            <div class="c_v1">
+              <div class="c_v2">
+                <div class="s3_bg">
+                    	<div class="video_div">
+                          	{$site_config['weibo_code']}
+                         </div>
+                </div> 
+              </div>
+            </div>
+			
+            <div class="c_3">
+                <div class="c_4">
+                    <div class="c_h2">
+                    	<img src="{skin:images/1px.gif}" />
+                    </div> 
+                </div>
+            </div>
+            </div>
+      
+      
+            <div class="h_10"></div>
+            <div class="s3_block">
+				<div class="c_1">
+					<div class="c_2">
+						<div class="c_h1">
+							<img src="{skin:images/1px.gif}" />
+						</div> 
+					</div>
+				</div>
+				<!--视频-->
+				<div class="c_v1">
+				  <div class="c_v2">
+						<div class="weibe_lab" style="background-color:#FDF1F1">
+							<div class="float_l" style="color:#c75f62;">禧妈视频</div>
+							<div class="float_r"><a class="pink" href="{url:/site/column/id/73}">【more】</a></div>
+						</div>
+				  
+						<div class="s3_bg">
+						
+						
+							<div class="video_div" style="margin-top:6px; height:196px;">
+							{if:$this->flag == 1}
+								<embed src="{$this->data[0]['path']}" type='application/x-shockwave-flash' width='296' height='195' allowscriptaccess='never' allownetworking='internal' />
+							{/if}
+							
+							{if:$this->flag== 0}
+							<div style="width:550px;height:400px;margin:0 auto;">
+								<div id="mediaplayer">JW Player goes here</div>
+								<script type="text/javascript">
+									jwplayer("mediaplayer").setup({
+									flashplayer: "{theme:javascript/player.swf}",
+									file: "{$this->url}",
+									provider: "http",
+									 width:'296' ,
+									 height:'195',
+								});
+							</script>
+							</div>
+							{/if}
+								<!--<div style="width:296px; height:202px; margin:0 auto;">
+									<div id="mediaplayer">JW Player goes here</div>
+									<script type="text/javascript">
+										jwplayer("mediaplayer").setup({
+										flashplayer: "/manage/views/default/javascript/player.swf",
+										file: "/videos/jlxm.swf",
+										provider: "http",
+										width:'296' ,
+										height:'202',
+									});
+									</script>
+								</div>  -->                      
+							
+							
+							
+							</div>
+						</div> 
+					</div>
+				</div>
+				
+				<div class="c_3">
+					<div class="c_4">
+						<div class="c_h2">
+							<img src="{skin:images/1px.gif}" />
+						</div> 
+					</div>
+				</div>
+			</div>
+	</div>

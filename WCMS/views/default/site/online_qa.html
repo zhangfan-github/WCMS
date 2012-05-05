@@ -1,0 +1,192 @@
+{set:$user = $this->user;}
+<script>
+function check_id(pid)
+{
+	var use_id = document.getElementById("u_id").value;
+	if(use_id == '')
+		window.location.href="{url:/simple/login?callback=/index.php/ucenter/online_qa/pid}/"+pid;
+	else
+		window.location.href="{url:/ucenter/online_qa/pid/}"+pid;
+}
+</script>
+<div class="subpage_right">
+<input id="u_id" type="hidden" value="{$user['user_id']}" />
+    <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+    <div class="subpage_right_bg">
+        
+        <div class="sub_div">
+        <div class="clear_b">
+                <div class="float_l"><div class="sub_right_ti">{$this->column['name']}</div>
+                </div>
+                <div class="float_r solid_line"></div>
+        </div>
+         <div class="h_24"></div>
+                 <div style="color: #A1336D;font-size: 12px;">
+                 <!-- Content Top -->
+                 <ul class="specialist">
+					
+                {if:empty($this->pro_workdata)}
+                <div style="zoom:1; overflow:hidden;">
+                     <div class="speci_li_r">
+                                                         今天没有安排专家
+                     </div>
+                </div>
+                {else:}
+				{foreach:items=$this->pro_workdata}
+				{set:$p_id = $item['pro_id'];}
+				
+				{query:name=professional where=id eq $p_id item=$p_item}
+				<li style="background-color:#fdeded">
+                <div style="zoom:1; overflow:hidden;">
+				
+                          <div class="speci_li_l">
+                                <div class="speci_pic"><img src="{url:}{$p_item['head_ico']}" alt="" width="108" height="140" /></div>
+                          </div>
+                          
+                            <div class="speci_li_r">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="f_pink">
+								<tr>
+									<th colspan="2" align="right">今日值班专家</th>
+								</tr>
+                                  <tr>
+                                    <td width="80" valign="top"><strong>专家姓名：</strong></td>
+                                    <td valign="top">{$p_item['name']}</td>
+                                  </tr>
+                                  <tr>
+                                    <td valign="top"><strong>技术职称：</strong></td>
+                                    <td valign="top">{$p_item['position']}</td>
+                                  </tr>
+                                  
+                                  <tr>
+                                    <td valign="top"><strong>服务地点：</strong></td>
+                                    <td valign="top">{$p_item['work_place']} </td>
+                                  </tr>
+                                  <tr>
+                                    <td height="40" colspan="2" valign="bottom"><button class="consulting1"  onclick="check_id({$p_item['id']})" style="margin-left:30px;border:0px;">站内咨询</button></td>
+                                  </tr>
+                                </table>
+                          </div>
+                </div>
+				<div  class="f_purple" style="margin:0px 20px">
+				<p><strong>基本介绍：</strong></p>
+				{set:$intr=iconv_substr(strip_tags($p_item['introduce']),0,100,'utf-8')."..."; }
+				<p >{$intr}<a href="{url:/site/column/id}/87/prof_id/{$p_item['id']}" class="f_pink">[详细]</a></p>
+				</div>
+				</li>
+				{/query}
+				{/foreach}
+				{/if}
+				</ul>
+				</div>
+				<div style="color: #A1336D;font-size: 12px;">
+				<table width="100%" cellspacing="0" border="1" cellpadding="6" class="asking_list">
+					<tr>
+						<th>
+						<b>专业</b>
+						</th>
+						<th>
+						<b>专家姓名</b>
+						</th>
+						<th>
+						<b>周一</b>
+						</th>
+						<th>
+						<b>周二</b>
+						</th>
+						<th>
+						<b>周三</b>
+						</th>
+						<th>
+						<b>周四</b>
+						</th>
+						<th>
+						<b>周五</b>
+						</th>
+						<th>
+						<b>周六</b>
+						</th>
+						<th>
+						<b>周日</b>
+						</th>
+					</tr>
+						{if:!empty($this->showdata)}
+							{set:$k=0;$flag=1;}
+							{foreach:items=$this->showdata key=$i item=$temp}
+								{if:$temp['group_name']!= $old_groupname}			
+									
+									{if:$flag==0}
+									{if:$day <= 7}
+										{for:from=$day upto=7}
+										<td>&nbsp</td>
+										{/for}
+									{/if}
+									</tr>
+									{/if}		
+									<tr>
+									
+									{set:$day=1;$flag =0}
+									<th rowspan="{$this->count_num[$k]}">
+									{set:$k=$k+1;}
+									{$temp['group_name']}
+									</th>
+									<td>
+										<a href="{url:/site/column/id/87/prof_id/}{$temp['id']}" class="f_purple">{$temp['name']}</a>
+									</td>
+									
+									{for:from=$day upto=($temp['time']-1) }
+										<td>&nbsp</td>
+									{/for}
+									<td>
+										当班
+									</td>
+									{set:$day=$temp['time']+1;$old_groupname=$temp['group_name'];$old_name = $temp['name'];}									
+								{else:}
+									{if:$temp['name'] == $old_name}
+										{for:from=$day upto=($temp['time']-1)}
+											<td>&nbsp</td>
+										{/for}
+										<td>
+											当班
+										</td>
+										{set:$day=$temp['time']+1;}
+									{else:}
+										{if:$day <= 7}
+											{for:from=$day upto=7}
+											<td>&nbsp</td>
+											{/for}
+										{/if}
+										</tr>
+										
+										{set:$day =1;}
+										<tr>
+										<td>
+											<a href="{url:/site/column/id/87/prof_id/}{$temp['id']}" class="f_purple">{$temp['name']}</a>
+									</td>
+									{for:from=$day upto=($temp['time']-1)}
+										<td>&nbsp</td>
+									{/for}
+									<td>
+										当班
+									</td>
+									{set:$day=$temp['time']+1;$old_name = $temp['name'];}	
+									{/if}
+								{/if}
+	
+							{/foreach}
+								{if:$day <= 7}
+									{for:from=$day upto=7}
+									<td>&nbsp</td>
+									{/for}
+								{/if}
+							</tr>
+						{/if}
+				</table>
+                 </div>
+				 <p style="text-align:right;">
+				 <a href="{url:/site/column/id/34/date}{$this->date['s']}" class="f_purple">上一周</a>
+				  <a href="{url:/site/column/id/34/date}{$this->date['e']}" class="f_purple">下一周</a>
+				  </p>
+         </div>
+    </div>
+    <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+</div>

@@ -1,0 +1,54 @@
+  {set:$user = $this->user;}
+  <script>
+function check_id()
+{
+	var use_id = document.getElementById("u_id").value;
+	if(use_id == '')
+		window.location.href="{url:/simple/login?callback=/index.php/ucenter/online_qa/pid}/{$this->pro_data['id']}";
+	else
+		window.location.href="{url:/ucenter/online_qa/pid/}{$this->pro_data['id']}";
+}
+</script>
+  <div class="subpage_right">
+  <input id="u_id" type="hidden" value="{$user['user_id']}" />
+      <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+      <div class="subpage_right_bg">
+          
+      <div class="sub_div">
+	<div class="clear_b">
+                  <div class="float_l"><div class="sub_right_ti">专家介绍</div>
+                  </div>
+                  <div class="float_r solid_line"></div>
+          
+          </div>
+           <div class="h_10"></div>
+           <table border="0" cellspacing="0" cellpadding="0" >
+             <tr>
+               <td valign="top"><img src="{url:}{$this->pro_data['head_ico']}" width="175px" /></td>
+               <td width="10">&nbsp;</td>
+               <td valign="top">
+		<table  width="300px" border="0" cellspacing="0" cellpadding="2" >
+                 <tr>
+                   <td width="25%" align="right" valign="top" class="f_pink">专家姓名：</td>
+                   <td width="75%" valign="top" class="f_purple" >{$this->pro_data['name']}</td>
+                 </tr>
+                 <tr>
+                   <td align="right" valign="top" class="f_pink">技术职称：</td>
+                   <td valign="top" class="f_purple" >{$this->pro_data['position']}</td>
+                 </tr>
+                 <tr>
+                   <td align="right" valign="top" class="f_pink">服务地点：</td>
+                   <td valign="top" class="f_purple" >{$this->pro_data['work_place']}</span></td>
+                 </tr>
+                 <tr>
+                   <td height="40" colspan="2" valign="bottom"><button class="consulting1"  onclick="check_id({$item['id']})" style="margin-left:30px;border:0px;">站内咨询</button></td>
+                 </tr>
+               </table>
+			</td>
+             </tr>
+           </table>
+           <div class="f_purple">{$this->pro_data['introduce']}</div>
+	</div>
+      </div>
+      <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+  </div>

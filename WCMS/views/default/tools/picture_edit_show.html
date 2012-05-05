@@ -1,0 +1,200 @@
+{set:$siteConfigObj = new Config("site_config");$site_config   = $siteConfigObj->getInfo();}
+{js:kindeditor}
+<script type='text/javascript' src="{theme:javascript/swfupload.js}"></script>
+<script type='text/javascript' src="{theme:javascript/swfupload.queue.js}"></script>
+<script type="text/javascript" src="{theme:javascript/fileprogress.js}"></script>
+<script type="text/javascript" src="{theme:javascript/handlers.js}"></script>
+<script type="text/javascript" src="{theme:javascript/event.js}"></script>
+
+<script type="text/javascript">
+	var swfu;
+	window.onload = function () {
+		swfu = new SWFUpload({
+			// Backend Settings
+			upload_url: "{url:/block/img_upload}",
+			post_params: {"PHPSESSID": "NONE"},
+
+			file_size_limit : "2 MB",	// 2MB
+			file_types : "*.jpg;*.jpge;*.png;*.gif",
+			file_types_description : "JPG Images",
+			file_upload_limit : "0",
+			file_queue_error_handler : fileQueueError,
+			file_dialog_complete_handler : fileDialogComplete,
+			upload_progress_handler : uploadProgress,
+			upload_error_handler : uploadError,
+			upload_success_handler : uploadSuccess,
+			upload_complete_handler : uploadComplete,
+
+			// Button Settings
+			button_placeholder_id : "upload",
+			button_width: 50,
+			button_height: 21,
+			button_text : '浏览...',
+			button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+			button_cursor: SWFUpload.CURSOR.HAND,
+
+			// Flash Settings
+			flash_url : "{theme:javascript/swfupload.swf}",
+
+			custom_settings : {
+				upload_target : "show"
+			},
+			// Debug Settings
+			debug: false
+		});
+	};
+	
+	function show_link(img)
+	{
+		art.dialog.open('{url:/block/goods_photo_link/?img=}'+img, {
+			id:'goods_photo_link',
+			width:'700px',
+			height:'160px',
+			lock: true,
+		    title: '图片链接'
+		});
+	}
+	
+	
+	function del_img(id)
+	{
+		//删除数组元素.
+		Array.prototype.remove=function(dx)
+		{
+		    if(isNaN(dx)||dx>this.length){return false;}
+		    for(var i=0,n=0;i<this.length;i++)
+		    {
+		        if(this[i]!=this[dx])
+		        {
+		            this[n++]=this[i]
+		        }
+		    }
+		    this.length-=1
+		}
+		//在数组中获取指定值的元素索引
+		Array.prototype.getIndexByValue= function(value)
+		{
+		    var index = -1;
+		    for (var i = 0; i < this.length; i++)
+		    {
+		        if (this[i] == value)
+		        {
+		            index = i;
+		            break;
+		        }
+		    }
+		    return index;
+		}
+		var photo_name = $('#photo_name').val();
+		photo_name = photo_name.substring(0,photo_name.length-1);
+		var arr = photo_name.split(',');
+		var key = 0;
+		for(var i=0;i<arr.length;i++){
+			if(arr[i].indexOf(id)>0){
+				key = i;
+			}
+		}
+		arr.remove(key);
+		if(arr.length>0)
+		{
+			//如果没有全部删除则不为空
+			$('#photo_name').val(arr.join(',')+',')
+			$("#a"+id).remove();
+			if(focus_photo.indexOf(id)>0)
+			{
+				var photo_ar = arr.join(',');
+				if(photo_ar!='')
+				{
+					arr = photo_ar.split(',');
+					var head = arr[0].substring(0,arr[0].indexOf('.'));
+					var footer = arr[0].substring(arr[0].indexOf('.'));
+
+				}
+			}
+		}else{
+			//如果图片全部删除则值为空
+			$('#photo_name').val("");
+			/*$('#focus_photo').val("");*/
+			$("#a"+id).remove();
+		}
+	}
+</script>
+
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>图片管理</span><span>></span><span>单页图片编辑</span><span></span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/tools/picture_edit}' method='post' name='picture'>
+			<table class="form_table">
+			<col width="150px" />
+				<tr>
+					<th>栏目：</th>
+					<td>{$this->contentRow1['name']}</td>
+				</tr>
+				<tr>
+					<th valign="top">导读：</th>
+					<td>
+						<textarea style='width:600px;height:150px' name='description' pattern='required' alt='导读不能为空'>
+						{$this->contentRow['introduce']}
+						</textarea>
+					</td>
+				</tr>
+				<tr>
+					<input type="hidden" name="photo_name" id="photo_name" value="{$this->pic_name}"/>
+					<input type='hidden' name='id' value="" />
+					<th>图片：</th>
+					<td>
+					<input class="middle" name="" type="text" />
+					<div class="upload_btn">
+						<span id="upload"></span>
+					</div>
+					</td>		
+				</tr>
+				<tr>
+					<td></td>
+					<td id="show"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td id="show_list">
+					{if:!empty($this->pic_contentRow)}
+						{foreach:items=$this->pic_contentRow}
+						{set:$url_id = substr($item['path'],0,strpos($item['path'],'.'));$url_id = substr(strrchr($url_id,'/'),1);}
+						{set:$urlname=explode(".",$item['path'])}
+							<span id="a{$url_id}" class="pic">
+								<img name="img_name" class="current" style="margin: 5px; opacity: 1;" src="{echo:IUrl::creatUrl().$urlname[0].'_'.$site_config['show_thumb_width'].'_'.$site_config['show_thumb_height'].'.'.$urlname[1]}" onclick="focus_img('{$item['path']}',this)">
+								<br>
+								<input type="text" value="{$item['describe']}" name="intr[]" style="width:150px;" />
+								<br>
+								<a href="javascript:;" style="padding-right:1em" onclick="show_link('{$url}')">链接</a>
+								<a id="{$url_id}" href="javascript:;" onclick="del_img(this.id)">删除</a>
+							</span>
+						{/foreach}
+					{/if}
+					</td>
+				</tr>
+				<tr>
+					<th></th><td><button class='submit' type='submit'><span>确 定</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+		
+<script type ="text/javascript">
+
+//装载编辑器
+KE.show({
+	id : 'description',
+	imageUploadJson:'{url:/block/upload_img_from_editor}'
+});
+
+var FromObj = new Form('picture');
+FromObj.init
+({
+	'id':'{$this->contentRow1['id']}'
+});
+</script>
+		
+		

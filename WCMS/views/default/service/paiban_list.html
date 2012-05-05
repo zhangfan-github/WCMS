@@ -1,0 +1,89 @@
+<link rel='stylesheet' type='text/css' href='{theme:javascript/fullcalendar/fullcalendar.css}' />
+<link rel='stylesheet' type='text/css' href='{theme:javascript/fullcalendar/fullcalendar.print.css}' media='print' />
+<script type='text/javascript' src='{theme:javascript/jquery/jquery-1.5.2.min.js}'></script>
+<script type='text/javascript' src='{theme:javascript/jquery/jquery-ui-1.8.11.custom.min.js}'></script>
+<script type='text/javascript' src='{theme:javascript/fullcalendar/fullcalendar.js}'></script>
+<script type='text/javascript'>
+	
+	var js_id = new Array();
+    var js_orderName = new Array();
+    var js_orderTime = new Array();
+    var len = {$this->len};
+
+    $(document).ready(function() {
+    	
+    	//初始化数据
+    	{for:from=0 upto=$this->len -1}
+		js_id[{$i}] = "{$this->orderRow[$i]['id']}";
+    	js_orderName[{$i}] = "{$this->orderRow[$i]['name']}";
+    	js_orderTime[{$i}] = "{$this->orderRow[$i]['time']}";
+    	{/for}
+        //获取时间
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+        
+        //渲染日历表格
+        $('#calendar').fullCalendar({
+            editable: true,
+            allDay:true,
+            events: function(start, end, callback){
+            	var events = [];
+            	for(var n = 0; n < len; n++)
+            		{
+	            		events.push({
+							id : js_id[n],
+	                        title:js_orderName[n],
+	                        start:js_orderTime[n]
+	                    }
+	            		
+	                            );
+            		}
+            	callback(events);
+            	
+            },
+            
+            dayClick: function(date, allDay, jsEvent, view) {
+            	
+            	var year = date.getFullYear();
+            	var month = date.getMonth() + 1;
+            	var day = date.getDate();
+            	if(month<10){
+            		 month = "0" + month;
+            		}
+            		if(day<10){
+            		 day = "0" + day;
+            		}
+            	var formatedDate = year+"-"+month+"-"+day; 
+                
+            	event_link('{url:/service/paiban_edit/}'+'/date/'+formatedDate);
+
+            },
+			
+			eventClick: function(calEvent, jsEvent, view){
+				var id = calEvent.id;
+				event_link('{url:/service/paiban_edit/}'+'/id/'+id);
+			}
+        });
+        
+    });
+    
+
+</script>
+<style type='text/css'>
+    #calendar {
+        width: 900px;
+        margin: 10px auto;
+        }
+
+</style>
+<div class="headbar">
+    <div class="position"><span>服务</span><span>></span><span>专家咨询排班管理</span><span>></span><span>专家排班列表</span></div>
+    <div class="operating">
+        <div style="float:left; padding-left:15px; padding-top:5px;">请输入专家姓名：<input class='small' style="width:150px;" type="text" name="title" value="{$this->title}" id="title"/>&nbsp;&nbsp;<input class='submit1' type="button" value="搜索" onclick="search('{url:/service/paiban_search/}');"/></div>
+    </div>
+</div>
+<div class="content_box">
+<div id='calendar'></div>
+</div>

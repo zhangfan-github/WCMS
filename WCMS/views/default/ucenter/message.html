@@ -1,0 +1,115 @@
+
+
+
+<div class="mid_986">
+    <div style="position:relative">
+      <div class="f_purple sub_cur_title"> 您当前的位置：<a href="{url:/}">首页</a> &gt; <a href="{url:/ucenter}">会员中心</a> &gt; <a href="{url:/ucenter/message}">站内邮件</a> </div>
+      <div class="sub_huan">
+   <img src="{skin:images/huan.png}" width="106" height="92" />
+   </div>
+  </div>
+  
+  <div class="subpage_bor">
+        <!-- 左边栏开始 -->
+        <div class="subpage_left">
+            <div><img src="{skin:images/baike_l_bg1.png}" /></div>
+            <div class="subpage_left_bg">
+                <div class="f_purple left_title f_size16B">- 会员中心 -</div>
+            <ul class="left_menu">
+                <li><a href="{url:/ucenter/info}">- 健康档案 -</a></li>
+				<li><a href="{url:/ucenter/warm_advice}">- 温馨提示 -</a></li> 
+                <li><a href="{url:/ucenter/webmail_list}">- 站内邮件 -</a></li>
+                <li><a href="{url:/ucenter/online_qa}">- 站内咨询 -</a></li>
+                <li><a href="{url:/ucenter/activity_list}">- 免费体验 -</a></li>
+                <li><a href="{url:/ucenter/service_list}">- 在线预订 -</a></li>
+				<li><a href="{url:/ucenter/password}">- 修改密码 -</a></li>
+            </ul>
+            <div class="das_line left_line"></div>
+            <div class="hezuo_div">
+                <div class="hezuo_div_top"></div>
+                <div class="hezuo_div_mid">
+            <div class="left_hezuo_ti f_purple f_size16B">- 合作机构 -</div>
+                <ul class="left_hezuo">
+                    {query:name=operator_links limit=4 Order=order }
+                    <li><a href="{$item['linkurl']}"><img src="{url:}{$item['photo']}" style="width:153px;height:44px;"/></a></li>
+                    {/query}
+                    </ul>
+                    
+             <div class="hezuo_more"><a class="purple" href="{url:/site/column/id/79}">【more】</a></div>    
+                
+                </div>
+            <div class="hezuo_div_bot"></div>
+            </div>
+            </div>
+            <div><img src="{skin:images/baike_l_bg3.png}"/></div>
+        </div>
+        <!-- 左边栏结束 -->
+        <div class="subpage_right">
+            <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+            <div class="subpage_right_bg">
+                
+                <div class="sub_div">
+        <div class="clear_b">
+                        <div class="float_l">
+                          <div class="sub_right_ti">站内邮件</div>
+                        </div>
+                        <div class="float_r solid_line"></div>
+                
+                </div>
+                <div class="h_24"></div>
+                
+                <!-- Message Box Top -->
+                  <table class="f_purple email_list" width="100%" cellpadding="0" cellspacing="0" border="1">
+        <col />
+        <col width="160px" />
+        <col width="120px" />
+        <col width="120px" />
+        <thead><tr><th>标题</th><th>发送时间</th><th>状态</th><th>操作</th></tr></thead>
+        <tbody>
+        {set:$msg =  new Mess($user['user_id']); $ids = $msg->get_mess_ids();$ids = substr($ids,-1,1)==','?substr($ids,0,-1):$ids}
+        {set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+        {if:$ids === null || $ids == ''}{set:$ids=0}{/if}
+            {query:name=message where=id in($ids) page=$page order=id desc}
+                <tr>
+                    <th><label class="blue">{$item['title']}</label></th>
+                    <td align="center">{$item['time']}</td>
+                    <td align="center" id="msg_id_{$item['id']}">{if:$msg->is_read($item['id'])}已读{else:}未读{/if}</td>
+                    <td class="blue" align="center">
+                        <a class='blue' href="{url:/ucenter/message_del/id/$item[id]}">删除</a>
+                        <a class="blue" href="javascript:void(0)" onclick="show_msg(this,'{$item['content']}',{$item['id']})">查看</a>
+                    </td>
+                </tr>
+            {/query}
+            <tr id='show_msg' class="show" style="display:none">
+                <td colspan="4"><i class="close f_r" onclick='$(this).parent().parent().css("display","none")'></i><b class="orange">详细内容：</b><p class="gray indent mt_10" id='content'></p></td>
+            </tr>
+        </tbody>
+        <tfoot><tr><td colspan="4" class="t_l">{$query->front_getPageBar()}</td></tr></tfoot>
+    </table>
+                <!-- Message Box End -->
+                
+                                               
+              </div>
+            </div>
+            <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+    </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+function show_msg(obj,content,id)
+{
+    $('#show_msg').css('display','').insertAfter($(obj).parent().parent());
+
+    $('#show_msg #content').text(content);
+    $.get("{url:/ucenter/message_read}",{id:id},function(data){
+    if(data == 1)
+    {
+        $("#msg_id_"+id).parent().addClass('bold');
+        $("#msg_id_"+id).html('已读');
+    }
+    });
+}
+</script>

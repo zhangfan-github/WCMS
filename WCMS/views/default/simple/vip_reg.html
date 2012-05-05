@@ -1,0 +1,87 @@
+{set:$seo_data=array(); $site_config=new Config('site_config');$site_config=$site_config->getInfo();}	
+{set:$seo_data['title']=isset($site_config['name'])?$site_config['name']:""}
+{set:$seo_data['title']="VIP用户注册_".$seo_data['title']}
+{set:seo::set($seo_data);}
+
+
+
+<div class="mid_986">
+  <div style="position:relative">
+      <div class="f_purple sub_cur_title"> 您当前的位置：<a href="{url:}">首页</a> &gt; <a href="{url:/simple/vip_reg}">VIP客户注册</a></div>
+  </div>
+  <div class="regist_bg1">
+  <img src="{skin:images/txt_regist.png}"/>
+  </div>
+  
+	  <div class="regist_bg2">
+
+	      <table width="100%" border="0" cellspacing="0" cellpadding="6" class="f_purple">
+	        
+	        <tbody>
+	          <tr>
+	            <td width="12%" height="50" align="right">VIP ID：</td>
+	            <td width="29%"><input type="text" name="vip_id" id="vip_id" class="ipt"  /></td>
+	            <td width="59%" height="50">（VIP ID为客服给予的8位ID号） </td>
+	          </tr>
+	          <tr>
+	            <td height="50" align="right">注册手机号码：</td>
+	            <td><input type="text" name="mobile" id="mobile" class="ipt"/></td>
+	            <td height="50">（此号码为本人、配偶或指定联系人的手机号码之一）</td>
+	          </tr>
+	          <tr>
+	            <td height="50" align="right">&nbsp;</td>
+	            <td align="center"><input  type="image" src="{skin:images/btn_regist.png}" width="110" height="31" onclick="check()"/></td>
+	            <td height="50">&nbsp;</td>
+	          </tr>
+	        </tbody>
+	        
+	      </table>
+
+	  </div>
+	  
+  <div>
+  <img src="{skin:images/regist_3.png}" width="986" height="28" />
+  </div>
+</div>
+<script type='text/javascript' language="javascript">
+function check()
+{
+	var vip_id = $("#vip_id").val()
+	var mobile = $("#mobile").val()
+	if(vip_id == '' || mobile == '')
+	{
+		alert("请填写完整注册信息！");
+	}
+	else{
+		var reg1 = /^\d{8}$/;
+		var reg2 = /^1[3584]\d{9}$/;
+	    rs1 =  reg1.test(vip_id);
+	    rs2 =  reg2.test(mobile);
+	    if(!rs1)
+	    	alert("VIP ID格式错误");
+	    else if(!rs2)
+	    	alert("手机号码格式错误！");
+	    else{
+	    	$.ajaxSetup({
+				  async: false // 使用同步方式执行AJAX
+				});
+	    	$.post('{url:/simple/vip_reg_act}',{vip_id:vip_id,mobile:mobile},
+	    			function(result){
+	    		if(result==0)
+	    			realAlert("8位自然数构成的ID是VIP会员专用号码，您目前不是禧妈拉伢网的VIP会员，欢迎您更改用户名后继续注册！");
+	    		else if(result == 1)//新用户
+	    			{
+		    			realAlert("您是禧妈拉伢网站的尊贵会员！\n请填写个人登录信息完成激活！");
+		    			window.location.href="{url:/simple/reg_for_vip/vip_id/}"+vip_id;
+	    			}
+	    		else if(result == 2)//老用户升级
+	    			{
+	    				realAlert("您是禧妈拉伢网站的尊贵会员，激活成功！请登录。");
+		    			window.location.href="{url:/simple/login}";
+	    			}
+	    		else alert(result);
+	    	});
+	    }
+	}
+}
+</script>

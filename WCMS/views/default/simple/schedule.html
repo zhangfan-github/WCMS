@@ -1,0 +1,73 @@
+<link rel='stylesheet' type='text/css' href='{theme:javascript/fullcalendar/fullcalendar.front.css}' />
+<link rel='stylesheet' type='text/css' href='{theme:javascript/fullcalendar/fullcalendar.print.css}' media='print' />
+<script type='text/javascript' src='{theme:javascript/jquery/jquery-ui-1.8.11.custom.min.js}'></script>
+<script type='text/javascript' src='{theme:javascript/fullcalendar/fullcalendar.js}'></script>
+<script type='text/javascript'>
+
+    var sname = new Array();
+    var start_time = new Array();
+    var end_time = new Array();
+    var len = {$this->len};
+    var urls = new Array();
+
+    $(document).ready(function() {
+        
+        //初始化数据
+        {for:from=0 upto=$this->len -1}
+        sname[{$i}] = "({$this->scheduleRow[$i][start_time]}~{$this->scheduleRow[$i][end_time]}){$this->scheduleRow[$i]['sname']}";
+        start_time[{$i}] = "{$this->scheduleRow[$i]['start_date']}"+" "+"{$this->scheduleRow[$i]['start_time']}";
+        end_time[{$i}] = "{$this->scheduleRow[$i]['end_date']}"+" "+"{$this->scheduleRow[$i]['end_time']}";
+        urls[{$i}] = "{url:/site/column/id/83/serv_id/}{$this->scheduleRow[$i]['sid']}";
+        {/for}
+        
+        //渲染日历表格
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'today',
+                center: 'title',
+                right: 'prev,next'
+            },
+            editable: false,
+            allDayDefault: false,
+            events: function(start, end, callback){
+                var events = [];
+                
+                for(var n = 0; n < len; n++)
+                    {
+                        events.push({
+                            title: sname[n],
+                            start: start_time[n],
+                            end: end_time[n],
+                            url: urls[n]
+                        }
+                        
+                                );
+                    }
+                callback(events);
+                
+            }
+            
+        });
+        
+    });
+    
+
+</script>
+<style type='text/css'>
+    #calendar {
+        width: 900px;
+        margin: 10px auto;
+        }
+
+</style>
+<div class="mid_986">
+    <div style="position:relative">
+      <div class="f_purple sub_cur_title"> 您当前的位置：<a href="{url:/}">首页</a> &gt; <a href="{url:/site/column/id/11}">禧妈服务</a> &gt; <a href="{url:/simple/schedule}">每周服务课表</a></div>
+  </div>
+  <div class="regist_bg1"><img src="{skin:images/txt_class.png}"/></div>
+  <div class="regist_bg2"><center><div id='calendar'></div></center>
+  
+</div>
+    <div><img src="{skin:images/regist_3.png}" width="986" height="28" /></div>
+</div>
+<div class="h_24"></div>

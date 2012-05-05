@@ -1,0 +1,1 @@
+<?php exit;?>a:3:{s:5:"step1";a:3:{s:4:"size";s:1:"0";s:4:"safe";s:1:"0";s:4:"func";s:1:"0";}s:5:"step2";a:3:{s:6:"bbname";s:18:"吉利碰撞实验室论坛";s:8:"sitename";s:14:"吉利碰撞实验室";s:7:"siteurl";s:22:"http://www.zastlab.com";}s:5:"step3";a:2:{s:5:"cates";a:0:{}s:6:"forums";a:0:{}}}

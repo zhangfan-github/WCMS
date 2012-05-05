@@ -1,0 +1,64 @@
+<div class="headbar">
+	<div class="position"><span>系统</span><span>></span><span>栏目管理</span><span>></span><span>{if:isset($this->catRow['id'])}编辑{else:}添加{/if}栏目</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/system/column_edit_act}' method='post' name='cat'>
+			<input type='hidden' name='id' value='' />
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>上级栏目：</th>
+					<td>
+						{echo:Column::showColumn('parent_id',$this->catRow['parent_id'],array('顶级栏目'=>0))}
+						<label>*所属栏目（必填）</label>
+					</td>
+				</tr>
+				<tr>
+					<th>名称：</th>
+					<td>
+						<input type='text' class='middle' name='name' value='' pattern='required' alt='名称不能为空' />
+						<label>*栏目名称（必填）</label>
+					</td>
+				</tr>
+				<tr>
+					<th>栏目位置：</th>
+					<td>
+						<label class='attr'><input type='radio' name='issys' value='0' />导航栏</label>
+						<label class='attr'><input type='radio' name='issys' value='1' />页脚栏</label>
+						<label class='attr'><input type='radio' name='issys' value='2' checked=checked />无</label>
+					</td>
+				</tr>
+				<tr>
+					<th>栏目类型：</th>
+					<td>
+						{echo:Column::showColumnType('column_type_id', $this->catRow['type'])}
+			<label>*所属类型（必填）</label>
+					</td>
+				</tr>
+				<tr>
+					<th>排序：</th>
+					<td>
+						<input type='text' class='small' name='sort' value='' pattern='^\d+$' alt='请填写一个数字' />
+					</td>
+				</tr>
+				<tr>
+					<th></th><td><button class='submit' type='submit'><span>确 定</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+	var FromObj = new Form('cat');
+	FromObj.init
+	({
+		'parent_id':'{$this->catRow['parent_id']}',
+		'id':'{$this->catRow['id']}',
+		'name':'{$this->catRow['name']}',
+		'issys':'{$this->catRow['issys']}',
+		'sort':'{echo:$this->catRow['sort']?$this->catRow['sort']:99}'
+	});
+</script>

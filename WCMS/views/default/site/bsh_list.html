@@ -1,0 +1,31 @@
+<div class="middle_right">
+	<div class="middle_top"><span>当前位置:</span>
+	{set:$pid = $this->pid;}
+	{query:name=column where= id eq $pid}
+	<a href="{url:/site/column/id/}{$item['id']}">{$item['name']}</a>-->{$this->column['name']}</div>
+	{/query}
+	<div class="content">
+		 <div class="neirong">
+			<div class="juti">
+				<div class="news_side">
+					<div class="d_list">
+						<table width="660" height="" border="0" align="center" cellpadding="0" cellspacing="0">
+						{foreach:items=$this->bsh_Row}
+						<tr>
+						<td width="1"></td>
+						<td width="20"><img src="{skin:image/mini_icons_031.gif}" /></td>
+						<td width="520"><a href="{url:/site/column/id/}{$this->column['id']}/content_id/{$item['id']}" >{$item['title']}
+						{if:($item['file']!='')}(附件){/if}</a>
+						</td>
+						<td>{echo: substr($item['time'],0,10)}</td>
+					   </tr>
+					   {/foreach}
+						</table>
+					{$this->query->getPageBar()}
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>

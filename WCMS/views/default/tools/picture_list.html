@@ -1,0 +1,38 @@
+<div class="headbar">
+	<div class="position"><span>内容</span><span>></span><span>图片管理</span><span>></span><span>单页图片列表</span></div>
+	<div class="field">
+		<table class="list_table">
+			<col width="110px" />
+			<thead>
+				<tr>
+					<th>栏目</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+<div class="content">
+	<form action="{url:/tools/content_del}" method="post" name="picture">
+		<table class="list_table">
+			<col width="100px" />
+			<tbody>
+				{foreach:items=$this->list}
+				<tr>
+					<td>{$item['name']}</a></td>
+					<td>
+						<a href='{url:/tools/picture_edit/id/$item[id]}'><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="编辑" title="编辑" /></a>
+					</td>
+				</tr>
+				{/foreach}
+			</tbody>
+		</table>
+	</form>
+</div>
+{$this->query->getPageBar()}
+<script language="javascript">
+function content_del(id)
+{
+	$.get("{url:/tools/content_del}",{'id':id},function(c){if(c=='success'){location.reload();}else{alert(c);};});
+}
+</script>

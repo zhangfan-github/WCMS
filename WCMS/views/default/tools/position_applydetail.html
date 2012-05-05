@@ -1,0 +1,85 @@
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>广纳贤才管理</span><span>></span><span>申请列表查看</span></div>
+</div>
+<script type="text/javascript">
+$(function(){
+	var state = {echo:$this->positionApplyRow['STATE']};
+	if(state){
+		$("#checked").attr("checked",true);
+	}else{
+		$("#unchecked").attr("checked",true);
+	}
+})
+</script>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/tools/position_applydetail_act}' method='post' name='position'>
+		<input type="hidden" value="{$this->positionApplyRow['ID']}" name="id">
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>申请人姓名：</th>
+					<td>{$this->positionApplyRow['NAME']}</td>
+				</tr>
+				<tr>
+					<th>申请岗位：</th>
+					<td>{$this->position}{if:$this->positionApplyRow['OTHER_POSITION']!=null},{$this->positionApplyRow['OTHER_POSITION']}{/if}</td>
+				</tr>
+				<tr>
+					<th>性别：</th>
+					<td>
+						{if:$this->positionApplyRow['GENDER']==0}女{else:}男{/if}
+					</td>
+				</tr>
+				<tr>
+					<th>电话：</th>
+					<td>{$this->positionApplyRow['PHONENO']}
+					</td>
+				</tr>
+				<tr>
+					<th>手机：</th>
+					<td>{$this->positionApplyRow['TELEPHONE']}
+					</td>
+				</tr>
+				<tr>
+					<th>邮箱：</th>
+					<td>{$this->positionApplyRow['EMAIL']}</td>
+				</tr>
+				<tr>
+					<th>简历：</th>
+					<td>{if:!empty($this->positionApplyRow['POSITION_FILE'])}<a href="{echo:IUrl::creatUrl().$this->positionApplyRow['POSITION_FILE']}">下载查看</a>
+					    {else:}未上传个人简历文件
+					{/if}</td>
+				</tr>
+				<tr>
+					<th>个人备注：</th>
+					<td>{$this->positionApplyRow['REMARK']}</td>
+				</tr>
+				<tr>
+					<th>申请时间：</th>
+					<td>
+						{$this->positionApplyRow['APPLY_TIME']}
+					</td>
+				</tr>
+				<tr>
+					<th>处理状态：</th>
+					<td>
+					<input type="radio" id="unchecked" name="state"  value="0" checked="checked"><lable for="checked">未处理</lable>
+					&nbsp;&nbsp;                                                                             
+					<input type="radio" id="checked" name="state" value="1" ><lable for="unchecked">已处理</lable>
+					</td>
+				</tr>
+				<tr>
+					<th>处理备注：</th>
+					<td>
+					<textarea rows="3" cols="20" name="note" id="note">{$this->positionApplyRow['NOTE']}</textarea>
+					</td>
+				</tr>
+				<tr>
+					<th></th><td><button class='submit' type='submit'><span>确定</span></button>&nbsp;&nbsp;<button class='submit' type='button' onclick="location='../../position_apply_list'"><span>返回</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,69 @@
+<div class="headbar">
+	<div class="position"><span>内容</span><span>></span><span>图片管理</span></div>
+	<div class="field">
+		<table class="list_table">
+			<col width="110px" />
+			<thead>
+				<tr>
+					<th>栏目</th>
+
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+<div class="content">
+	<form action="{url:/tools/content_del}" method="post" name="picture">
+		<table class="list_table">
+			<col width="200px" />
+			<col/>
+			<tbody>
+				{foreach:items=$this->list}
+				<tr>
+					<td>{$item['name']}</a></td>
+					<td>
+						<a href='{url:/tools/add_pic_group/id/$item[id]}'><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="添加相册" />添加相册</a>
+					</td>
+				</tr>
+				{set:$column_id = $item[id];}
+				{query:name=pic_group where=column_id eq $column_id order=sort asc}
+				<tr>
+					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$item['name']}</td>
+					<td>
+						<a href='{url:/tools/picgroup_edit/id/$item[id]}'><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="编辑相册" />编辑</a>
+						 <a href='javascript:void(0)' onclick="del_ImgGroup({link:'{url:/tools/del_img_group/id/}{$item['id']}'});"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" title="删除" />删除</a>
+					</td>
+				</tr>
+				{/query}
+				{/foreach}
+			</tbody>
+		</table>
+	</form>
+</div>
+{$this->query->getPageBar()}
+<script language="javascript">
+function content_del(id)
+{
+	$.get("{url:/tools/content_del}",{'id':id},function(c){if(c=='success'){location.reload();}else{alert(c);};});
+}
+function del_ImgGroup(conf)
+{
+var yesFn = null; //执行操作
+var msg = '确定要删除么？该相册中的所有图片都将被删除！';//提示信息
+if(conf)
+{
+if(conf.form)
+var yesFn = 'formSubmit("'+conf.form+'")';
+else if(conf.link)
+var yesFn = 'window.location.href="'+conf.link+'"';
+if(conf.msg)
+var msg = conf.msg;
+}
+if(yesFn==null && document.forms.length >= 1)
+var yesFn = 'document.forms[0].submit();';
+if(yesFn!=null)
+window.confirm(msg,yesFn);
+else
+alert('删除操作缺少参数');
+} 
+</script>

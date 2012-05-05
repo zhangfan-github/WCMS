@@ -1,0 +1,68 @@
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>广纳贤才管理</span><span>></span><span>申请列表</span></div>
+	<div class="operating">
+		<a href="javascript:void(0)" onclick="selectAll('id[]');"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
+		<a href="javascript:void(0)" onclick="delModel();"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
+	</div>
+	<div class="field">
+		<table class="list_table">
+			<col width="40px" align="left"/>
+			<col width="100px" align="left"/>
+			<col width="150px" align="left"/>
+			<col width="50px" align="left"/>
+			<col width="120px" align="left"/>
+			<col width="120px" align="left"/>
+			<col width="100px" align="left"/>
+			<col width="50px" align="left"/>
+			<col width="120px" align="left"/>
+			<thead>
+				<tr>
+					<th class="t_c">选择</th>
+					<th>申请人姓名</th>
+					<th>申请岗位</th>
+					<th>性别</th>
+					<th>手机</th>
+					<th>邮箱</th>
+					<th>申请时间</th>
+					<th>处理状态</th>
+					<th>查看&nbsp;&nbsp;&nbsp;删除</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+<div class="content">
+	<form action="{url:/tools/position_applydel}" method="get" name="position">
+		<table class="list_table">
+			<col width="40px" align="left"/>
+			<col width="100px" align="left"/>
+			<col width="150px" align="left"/>
+			<col width="50px" align="left"/>
+			<col width="120px" align="left"/>
+			<col width="120px" align="left"/>
+			<col width="100px" align="left"/>
+			<col width="50px" align="left"/>
+			<col width="120px" align="left"/>
+			<tbody>
+				{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+				{query: name=position_apply as psa,position as ps fields=ps.position as ps_position,psa.* where=psa.POSITION_ID eq ps.id order=STATE asc,APPLY_TIME desc page=$page pagesize=20}
+				<tr>
+					<td class="t_c"><input type="checkbox" name="id[]" value="{$item['ID']}" /></td>
+					<td><a href='{url:/tools/position_applydetail/id/$item[ID]}' title='查看'>{echo:$item['NAME'];}</a></td>
+					<td>{$item['ps_position']}{if:$item['OTHER_POSITION']!=null},{$item['OTHER_POSITION']}{/if}</td>
+					<td>{if:$item['GENDER']==0}女{else:}男{/if}</td>
+					<td>{$item['TELEPHONE']}</td>
+					<td>{$item['EMAIL']}</td>
+					<td>{$item['APPLY_TIME']}</td>
+					<td>{if:($item['STATE'])}是{else:}否{/if}</td>
+					<td>
+						<a href='{url:/tools/position_applydetail/id/$item[ID]}'><img class="operator" src="{skin:images/admin/icon_check.gif}" alt="查看" title="查看" /></a>
+						<a href='javascript:void(0)' onclick="delModel({link:'{url:/tools/position_applydel/id/}{$item['ID']}'});"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" title="删除" /></a>
+					</td>
+				</tr>
+				{/query}
+			</tbody>
+		</table>
+	</form>
+</div>
+{$query->getPageBar()}

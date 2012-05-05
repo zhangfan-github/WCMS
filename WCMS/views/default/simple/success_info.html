@@ -1,0 +1,18 @@
+<div class="wrapper clearfix">
+	<div class="wrap_box">
+		<div class="box clearfix">
+			<table class="form_table prompt_3 f_l">
+				<col width="250px" />
+				<col />
+				<tr>
+					<th valign="top"><img src="{skin:images/front/right.gif}" width="48" height="51" alt="" /></th>
+					<td>
+						<p><strong>恭喜，操作成功！</strong></p>
+						<p>您的登录用户名为<span class="orange bold">{echo:ISafe::get('username')}</span></p>
+						<p>您现在可以去：<a class="blue" href="{url:}">网站首页</a>或者<a class="blue" href="{url:/ucenter/info}">用户中心</a>{set:$callback=IReq::get('callback')}<a class="blue" href="{url:$callback}">注册前页面</a></p>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

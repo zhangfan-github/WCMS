@@ -1,0 +1,50 @@
+<!-- 2011-12-06 Author:Qiulin -->
+<div class="headbar">
+<div class="position"><span>系统</span><span>></span><span>访问控制</span><span>></span><span>IP管理</span></div>
+</div>
+<div class="content_box">
+<div class="content form_content">
+<form action="{url:/system/ip_access_act}" method="post" name='ip_access'>
+ <table class="form_table" cellpadding="0" cellspacing="0">
+	<col width="150px" />
+	<col />
+	<tr>
+		<td>说明</td>
+		<td>IP设置</td>
+	</tr>
+	<tr>
+		<td>只有当管理员处于本列表中的 IP
+		地址时才可以访问网站系统设置，列表以外的地址访问将无法访问，但仍可访问前端用户界面，请务必慎重使用本功能。留空为所有 IP均可访问系统设置。</td>
+		<td>
+			<table id="ip_list" cellspacing="0" cellpadding="0" class="border_table" width='80%'>
+				<thead><tr><th>序号</th><th>起始ip</th><th>终止ip</th><th>操作</th></tr></thead>
+				<tbody>
+				{set:$i=1;}
+				{if:isset($this->ipRow['id'])}
+					{set:$id = $this->ipRow['id'];}
+				{query: name=ipaccess order=id asc} 
+				{set:$ip_id = $item['id']}
+				<tr>
+				<td>{$i}{set:$i++;}</td>
+				<td><input class='normal' type='text' name="start_ip_{$item['id']}" value="{$item['start_ip']}" /></td>
+				<td><input class='normal' type='text' name="end_ip_{$item['id']}" value="{$item['end_ip']}" /></td>
+				<td>
+				<!-- <a href='{url:/system/ip_access_act/id/}{$ip_id}'><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="编辑" title="编辑" /></a> --><a href='javascript:void(0)' onclick="delModel({link:'{url:/system/ip_access_del/id/}{$ip_id}'});"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" title="删除" /></a></td>
+				</tr>
+				{/query}
+				{/if}
+				<tr>
+				<tr><td><span> </span></td>
+				<td><input type='text' class='normal' name='input_start_ip' value='' /></td>
+				<td><input type='text' class='normal' name='input_end_ip' value='' /></td>
+				<td><button class="submit" type='submit'><span>添加</span></button></td>
+				</tr>
+				</tbody>
+			</table>
+			
+		</td>
+	</tr>
+</table> 
+</form>
+</div>
+</div>

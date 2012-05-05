@@ -1,0 +1,209 @@
+{js:kindeditor}
+{js:jquery}
+<script type='text/javascript' src="{theme:javascript/swfupload.js}"></script>
+<script type='text/javascript' src="{theme:javascript/swfupload.queue.js}"></script>
+<script type="text/javascript" src="{theme:javascript/fileprogress.js}"></script>
+<script type="text/javascript" src="{theme:javascript/handlers.js}"></script>
+<script type="text/javascript" src="{theme:javascript/event.js}"></script>
+<script type="text/javascript">
+	var swfu;
+	window.onload = function () {
+		swfu = new SWFUpload({
+			// Backend Settings
+			upload_url: "{url:/block/img_upload}",
+			post_params: {"PHPSESSID": "NONE"},
+
+			file_size_limit : "2 MB",	// 2MB
+			file_types : "*.jpg;*.jpge;*.png;*.gif",
+			file_types_description : "JPG Images",
+			file_upload_limit : "0",
+			file_queue_error_handler : fileQueueError,
+			file_dialog_complete_handler : fileDialogComplete,
+			upload_progress_handler : uploadProgress,
+			upload_error_handler : uploadError,
+			upload_success_handler : uploadSuccess,
+			upload_complete_handler : uploadComplete,
+
+			// Button Settings
+			button_placeholder_id : "upload",
+			button_width: 50,
+			button_height: 21,
+			button_text : '浏览...',
+			button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+			button_cursor: SWFUpload.CURSOR.HAND,
+
+			// Flash Settings
+			flash_url : "{theme:javascript/swfupload.swf}",
+
+			custom_settings : {
+				upload_target : "show"
+			},
+			// Debug Settings
+			debug: false
+		});
+	};
+	function show_link(img)
+	{
+		art.dialog.open('{url:/block/goods_photo_link/?img=}'+img, {
+			id:'goods_photo_link',
+			width:'700px',
+			height:'160px',
+			lock: true,
+		    title: '图片链接'
+		});
+	}
+	function del_img(id)
+	{
+		//删除数组元素.
+		Array.prototype.remove=function(dx)
+		{
+		    if(isNaN(dx)||dx>this.length){return false;}
+		    for(var i=0,n=0;i<this.length;i++)
+		    {
+		        if(this[i]!=this[dx])
+		        {
+		            this[n++]=this[i]
+		        }
+		    }
+		    this.length-=1
+		}
+		//在数组中获取指定值的元素索引
+		Array.prototype.getIndexByValue= function(value)
+		{
+		    var index = -1;
+		    for (var i = 0; i < this.length; i++)
+		    {
+		        if (this[i] == value)
+		        {
+		            index = i;
+		            break;
+		        }
+		    }
+		    return index;
+		}
+		var photo_name = $('#photo_name').val();
+		photo_name = photo_name.substring(0,photo_name.length-1);
+		var arr = photo_name.split(',');
+		var key = 0;
+		for(var i=0;i<arr.length;i++){
+			if(arr[i].indexOf(id)>0){
+				key = i;
+			}
+		}
+		arr.remove(key);
+		if(arr.length>0)
+		{
+			//如果没有全部删除则不为空
+			$('#photo_name').val(arr.join(',')+',')
+			$("#a"+id).remove();
+			var focus_photo = $('#focus_photo').val();
+			if(focus_photo.indexOf(id)>0)
+			{
+				var photo_ar = arr.join(',');
+				if(photo_ar!='')
+				{
+					arr = photo_ar.split(',');
+					var head = arr[0].substring(0,arr[0].indexOf('.'));
+					var footer = arr[0].substring(arr[0].indexOf('.'));
+					var oldhead = focus_photo.substring(focus_photo.indexOf('_'),focus_photo.indexOf('.'));
+					$('#focus_photo').val(head+oldhead+footer);
+					$('img').each(function(){
+						var src = $(this).attr("src");
+						if(src.indexOf(head+oldhead+footer)>0)
+						{
+							$(this).addClass('current');
+							return;
+						}
+					});
+				}
+			}
+		}else{
+			//如果图片全部删除则值为空
+			$('#photo_name').val("");
+			$("#a"+id).remove();
+		}
+	}
+</script>
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>专题管理</span><span>></span><span>{if:isset($this->articleRow['id'])}编辑{else:}添加{/if}图片信息</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/tools/special_topic_image_edit_act}' method='post' name='special_topic_info'>
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<input type='hidden' name='id' value="" />
+				<tr>
+					<th>专题分类：</th>
+					<td>
+					  {echo:Special_Topic::showTopicCat('Topcat_name',$this->articleRow['topic_cat_id'],array('请选择分类'=>null))}
+					  <label>*选择信息所属专题分类（必填）</label>
+					</td>
+				</tr>
+				<tr>
+					<th>标题：</th>
+					<td><input type='text' name='title' class='normal'  value='' pattern='required' alt='标题不能为空' /></td>
+				</tr>
+				<tr>
+					<th valign="top">简介：</th><td><textarea name='content' style='width:600px;height:300px' >{$this->articleRow['introduce']}</textarea></td>
+				</tr>
+				<tr>
+				    <input type="hidden" name="photo_name" id="photo_name" value=""/>
+					<th>上传图片：</th>
+					<td><input class="middle" name="" type="text" /><div class="upload_btn"><span id="upload"></span></div></td>		
+				</tr>
+				<tr>
+					<td></td>
+					<td id="show"></td>
+					<td><lable id="msg" style="color:red;"></lable></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td id="show_list">
+					{if:isset($this->articleRow['id'])}
+					{set:$config = new Config("site_config");$site_config = $config->getInfo();}
+					{foreach:items=$this->Image_group}
+						{set:$url_id = substr($item['path'],0,strpos($item['path'],'.'));$url_id = substr(strrchr($url_id,'/'),1);}
+						{set:$urlname=explode(".",$item['path'])}
+							<span id="a{$url_id}" class="pic">
+								<img name="img_name" style="margin: 5px; opacity: 1;" src="{echo:IUrl::creatUrl().$urlname[0].'_'.$site_config['show_thumb_width'].'_'.$site_config['show_thumb_height'].'.'.$urlname[1]}">
+								<br>
+							    <input type="text" value="{$item['describe']}" name="intr[]" style="width:150px;" />
+								<br>
+								<a href="javascript:;" style="padding-right:1em" onclick="show_link('{$url}')">链接</a>
+								<a href="javascript:;" id="{$url_id}" onclick="del_img(this.id);">删除</a>
+							</span>
+					{/foreach}
+					{/if}
+					</td>
+				</tr>
+				<tr>
+					<th>排序：</th><td><input type='text' class='small' name='sort' value='' /></td>
+				</tr>
+				<tr>
+					<th></th><td><button class='submit' type='submit'><span>确 定</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+	var FromObj = new Form('special_topic_info');
+	FromObj.init
+	({
+		'photo_name':'{$this->Images}',
+		'id':'{$this->articleRow['id']}',
+		'Topcat_name':'{$this->articleRow['topic_cat_id']}',
+		'sort':'{echo:$this->articleRow['sort']?$this->articleRow['sort']:99}',
+		'title':'<?php echo isset($this->articleRow['title'])?$this->articleRow['title']:"";?>',
+	});
+	//装载编辑器
+	KE.show({
+		id : 'content',
+		imageUploadJson:'{url:/block/upload_img_from_editor}',
+		fileManagerJson:'../../php/file_manager_json.php',
+		allowFileManager : true
+	});
+</script>

@@ -1,0 +1,217 @@
+﻿<div class="pop_win clearfix" style="width:600px">
+	<table class="spec" width="100%" cellspacing="0" cellpadding="0" border="0" style="display:none">
+		<tr>
+			<td>
+				<h3>请选择用户<button type="button" class="btn f_r"><span class="sel">筛 选</span></button></h3>
+				<div class="cont">
+					<ul id="specs">
+						{query: name= spec }
+							<li>
+								<label><input type="radio" autocomplete="off" name = "spec" value="{$item['id']},{$item['name']},{$item['note']}"  onclick="selSpec(this,{$item['id']})" /> {$item['name']} [{$item['note']}]</label>
+							</li>
+						{/query}
+					</ul>
+				</div>
+				<p class="pages_bar">
+					<a href="">首页</a><a class="current_page" href="">1</a><a href="">尾页</a><span>当前第1页/共1页</span>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="t_c">
+				<button type="button" class="submit" onclick="insertSpec()"><span>添 加</span></button>
+				<button type="button" class="submit" onclick="javascript:art.dialog({id:'user_list'}).close();"><span>关 闭</span></button>
+			</td>
+		</tr>
+	</table>
+	<table class="spec" width="100%" cellspacing="0" cellpadding="0" border="0">
+		<tr>
+				<td>
+					<h3>添加筛选条件: <select class="middle" name=""><option value=""></option></select><button type="button" class="btn f_r"><span class="del">删除所有筛选条件</span></button></h3>
+					<div class="cont">
+					<table class="form_table">
+						<col width="106px" />
+						<col width="120px" />
+						<col width="120px" />
+						<col />
+						<tr>
+							<th>会员等级：</th>
+							<td>
+								<select class="middle" name=""><option value=""></option></select>
+							</td>
+							<td>
+								<input class="small" type="text" />
+							</td>
+							<td>
+								<a href="javascript:"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" /></a>
+							</td>
+						</tr>
+						<tr>
+							<th>用户名：</th>
+							<td>
+								<select class="middle" name=""><option value=""></option></select>
+							</td>
+							<td>
+								<input class="small" type="text" />
+							</td>
+							<td>
+								<a href="javascript:"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" /></a>
+							</td>
+						</tr>
+						<tr>
+							<th>地名：</th>
+							<td>
+								<select class="middle" name=""><option value=""></option></select>
+							</td>
+							<td>
+								<input class="small" type="text" />
+							</td>
+							<td>
+								<a href="javascript:"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" /></a>
+							</td>
+						</tr>
+						<tr>
+							<th>会员等级：</th>
+							<td>
+								<select class="middle" name=""><option value=""></option></select>
+							</td>
+							<td>
+								<input class="small" type="text" />
+							</td>
+							<td>
+								<a href="javascript:"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" /></a>
+							</td>
+						</tr>
+					</table>	
+					</div>
+				</td>
+			</tr>
+		<tr>
+			<td class="t_c">
+				<button type="button" class="submit" onclick=""><span>筛选并返回列表</span></button>
+			</td>
+		</tr>
+	</table>
+</div>
+<script>
+	//选择规格属性
+	function selSpec(curr_spec,id)
+	{
+		//设置当前选中规格的样式
+		$('ul>li').removeClass('current');
+		$(curr_spec).parent().parent().addClass('current');
+		//Ajax获取规格的详细信息
+		$.ajax({
+			   type: "POST",
+			   url: "{url:/block/spec_value_list}",
+			   data: "id="+id,
+			   dataType: "json",
+			   success: function(data){
+			     if(data)
+			     {
+				     //循环写出规格值
+			    	 var html = "";
+				     for(i=0;i<data['value'].length;i++)
+				     {
+					     if(data['type']=='1')
+				    	 	html += "<li style=\"cursor: default;\"><span>"+data['value'][i]+"</span></li> ";
+					     else
+					    	html += "<li style=\"cursor: default;\"><span><img src='"+data['value'][i]+"' /></span></li> ";
+				     }
+				     $(".cont p").html(data['note']);
+				     $(".goods_spec_box").html(html);
+			     }
+			   }
+		});
+	}
+	//插入选中规格值
+	function insertSpec()
+	{
+		//获取选中规格值
+		var spec = $("input[name='spec']:checked").val().split(",");
+		var html = "";
+		var is_exists = false;
+		if(spec)
+		{
+			//判断该规格之前是否被插入
+			var spec_list = $("input[name='spec[id][]']").val();
+			 if(spec_list)
+			 {
+				 for(i=0;i<spec_list.length;i++)
+			     {
+			    	 if(spec_list[i]==spec[0])
+			    	 {
+			    		 is_exists = true;
+			    		 break;
+			    	 }
+			     }
+			 }
+			 //插入商品模型规格值
+			html = "<tr>"+
+						"<td><input name='spec[id][]' class='normal' type='hidden' value="+spec[0]+" />"+spec[1]+" ["+spec[2]+"]"+
+						"<input name='spec[name][]' type='hidden' value='"+spec[1]+"' />"+
+						"<input name='spec[note][]' type='hidden' value='"+spec[2]+"' />"+
+						"</td>"+
+						"<td><select  name='spec[show_type][]'>"+
+							"<option value = '1'>平铺显示</option>"+
+							"<option value = '2'>下拉显示</option>"+
+						"</select></td>"+
+						"<td><img class='operator' src='{skin:images/admin/icon_asc.gif}' alt='向上'  onclick='SpecOrder(0,this)' />"+
+							"<img class='operator' src='{skin:images/admin/icon_desc.gif}' alt='向下'  onclick='SpecOrder(-1,this)' />"+
+							"<img class='operator' src='{skin:images/admin/icon_del.gif}' alt='删除'  onclick='delAttr(this)' /></td>"+
+					"</tr>";
+
+		}
+
+		if(is_exists)
+		{
+			//模型规格值已存在，提示框
+			art.dialog('该规格已存在！', function(){});
+		}
+		else
+		{
+			//模型规格不存在，插入新规格，关闭对话框
+			$("#spec_list").append(html);
+			art.dialog({id:'add_spec'}).close();
+		}
+	}
+	//添加新规格
+	function addNewSpec()
+	{
+		art.dialog.open('{url:/block/spec_edit}', {
+			id:'spec_edit',
+			width:600,
+			height:500,
+			lock: true,
+		    title: '添加新规格'
+		}, true);
+	}
+
+	//关闭窗口
+	function closeSpec()
+	{	getSpecList();
+		art.dialog({id:'spec_edit'}).close();
+	}
+	//获取规格列表
+	function getSpecList()
+	{
+		//Ajax获取规格的详细信息
+		$.ajax({
+			   type: "POST",
+			   url: "{url:/block/ajax_spec_list}",
+			   dataType: "json",
+			   success: function(data){
+			     if(data)
+			     {
+				     //循环写出规格值
+			    	 var html = "";
+				     for(i=0;i<data.length;i++)
+				     {
+				    	 html += "<li><label><input type=\"radio\" autocomplete=\"off\" name = \"spec\" value=\""+data[i]['id']+","+data[i]['name']+","+data[i]['note']+"\"  onclick=\"selSpec(this,"+data[i]['id']+")\" /> "+data[i]['name']+" ["+data[i]['note']+"]</label></li>";
+				     }
+				     $("#specs").html(html);
+			     }
+			   }
+		});
+	}
+</script>

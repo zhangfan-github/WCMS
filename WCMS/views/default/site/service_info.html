@@ -1,0 +1,44 @@
+<div class="subpage_right">
+	<div><img src="{skin:images/baike_r_bg1.png}" /></div>
+    <div class="subpage_right_bg">
+        <div class="sub_div">
+			<div class="clear_b">
+                <div class="float_l"><div class="sub_right_ti">{$this->column['name']}</div>
+                </div>
+                <div class="float_r solid_line"></div>          
+            </div>
+            <div class="h_10"></div>
+            <p class="news_info_ti f_pink">{$this->showdata['name']} </p>
+             
+              <table border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td valign="top"><img src="{url:}{$this->showdata['picture']}" width="230"/></td>
+                    <td width="20">&nbsp;</td>
+                    <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="2" class="f_purple">
+                        <tr>
+                          <td colspan="2" align="left" valign="top" class="f_purple">{if:empty($this->showdata['definition'])}无{else:}{$this->showdata['definition']}{/if}</td>
+                        </tr>
+                        
+                        <tr>
+                          <td width="60" height="36" align="right" valign="bottom" class="f_pink">服务价格：</td>
+                          <td valign="bottom"><span>{$this->showdata['price']}元</span></td>
+                        </tr>
+                        
+                        <tr>
+                          <td height="60" colspan="2" align="left" valign="bottom" class="f_pink">
+                	       		<a href="{url:/site/yuding/id/}{$this->column['id']}/serv_id/{$this->showdata['id']}" target="_blank"><img src="{skin:images/btn_booking.png}" alt="" /></a>
+								{if:$this->showdata['state']=='1'}				
+								<a href="{url:/site/free_reg/id/}{$this->column['id']}/serv_id/{$this->showdata['id']}" target="_blank"><img src="{skin:images/btn_trial.png}" alt="" /></a>
+								{else:}
+								<a href="#" ><img src="{skin:images/btn_hui.png}" alt="" /></a>
+								{/if}
+                        </td>
+                        </tr>
+                    </table></td>
+                  </tr>
+               </table>
+                 <div class="f_purple"><span class="f_pink">服务介绍：</span>{if:empty($this->showdata['describe'])}无{else:}{$this->showdata['describe']}{/if}</div>
+		</div>
+	</div>
+    <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+ </div>

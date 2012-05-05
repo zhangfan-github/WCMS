@@ -1,0 +1,100 @@
+{js:my97date}
+<script type="text/javascript" src="{theme:javascript/jquery.timePicker.js}"></script>
+<style type="text/css" media="all">@import "{theme:javascript/timePicker.css}";</style>
+<div class="headbar">
+    <div class="position"><span>服务</span><span>>专家咨询排班管理</span><span>活动管理</span><span>></span><span>{if:isset($this->positionRow['id'])}编辑{else:}发布{/if}活动策划</span></div>
+</div>
+<div class="content_box">
+    <div class="content form_content">
+        <form  method='post' name='kebiao' action="{url:/service/kebiao_edit_act/}">
+            <table class="form_table">
+                <col width="150px" />
+                <col />
+                <input type='hidden' name='id' value="" />
+                <tr>
+                    <th>服务课程：</th>
+                    <td>
+                        <select name = 'name'>
+                            <option value='0'>请选择课程</option>
+                            {query:name=service}
+                            {if:$item['id']==$this->scheduleData['sid']}
+                            <option value='{$item['id']}' selected="selected">{$item['name']}</option>
+                            {else:}
+                            <option value='{$item['id']}' >{$item['name']}</option>
+                            {/if}
+                            {/query}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>开始日期：</th>
+                    <td>
+                        <input type='text' class='Wdate' onfocus='WdatePicker()'  name='start_date' value="{$this->scheduleData['start_date']}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>开始时间：</th>
+                    <td>
+                        <input type='text' id='start_time' name='start_time' size='10' value="请选择开始时间" >
+                    </td>
+                </tr>
+                <tr>
+                    <th>结束日期：</th>
+                    <td>
+                        <input type='text' class='Wdate' onfocus='WdatePicker()' name='end_date'  value="{$this->scheduleData['end_date']}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>结束时间：</th>
+                    <td>
+                        <input type='text' id='end_time' name='end_time' size='10' value="请选择结束时间" >
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th></th><td><input type="submit" class='submit' value="确  定"><a href="{url:/service/kebiao_del/id/}{$this->scheduleData['id']}">删除</a></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script type='text/javascript'>
+    var FromObj = new Form('kebiao');
+    FromObj.init
+    ({
+        'id':'{$this->scheduleData['id']}',
+        'start_date':'{$this->scheduleData['start_date']}',
+        'end_date':'{$this->scheduleData['end_date']}',
+        'start_time': '{$this->scheduleData['start_time']}',
+        'end_time': '{$this->scheduleData['end_time']}',
+    });
+    
+
+    
+    //选取时间
+    jQuery(function() {
+	    $("#start_time").timePicker({
+	    	  startTime: "08:00:00", // Using string. Can take string or Date object.
+	    	  endTime: new Date(0, 0, 0, 20, 30, 0), // Using Date object here.
+	    	  show24Hours: true,
+	    	  separator: ':',
+	    	  step: 15});
+	    
+	    $("#end_time").timePicker({
+	        startTime: "08:00:00", // Using string. Can take string or Date object.
+	        endTime: new Date(0, 0, 0, 20, 30, 0), // Using Date object here.
+	        show24Hours: true,
+	        separator: ':',
+	        step: 15});
+	    
+	   // $("#start_time").value = $.timePicker('#start_time').getTime();
+	   // $('#end_time').value = $.timePicker('#end_time').getTime();
+	    // Validate.
+	    $("#end_time").change(function() {
+	      if($.timePicker("#start_time").getTime() > $.timePicker(this).getTime()) {
+	        alert("结束时间在开始时间之前，请重新选择！")
+	      }
+	    });
+    });
+</script>

@@ -1,0 +1,52 @@
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>信息搜索</span><span>></span><span>新闻专题搜索</span></div>
+	<div class="operating">
+		
+		<a href="javascript:void(0)" onclick="selectAll('id[]');"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
+		<a href="javascript:void(0)" onclick="delModel();"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
+		<div style="float:left; padding-left:50px; padding-top:5px;"><input class='small' style="width:150px;" type="text" name="title" value="{$this->title}" id="title"/>&nbsp;&nbsp;<input class='submit1' type="button" value="搜索" onclick="search('{url:/tools/article_search/}');"/></div>
+		
+	</div>
+	<div class="field">
+		<table class="list_table">
+			<thead>
+				<tr>
+					<th width="70" class="t_c">选择</th>
+					<th width="300">标题</th>
+					<th width="500">内容</th>
+					<th width="50">类型</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+<div class="content">
+	<form action="{url:/tools/article_del}" method="post" name="article">
+		<table class="list_table">
+			
+			<tbody>
+			{foreach:items=$this->artSearchRow}
+				<tr>
+					<td width="70" class="t_c"><input type="checkbox" name="id[]" value="{$item['id']}" /></td>
+					<td width="300"><a target="_blank" href='{url:/site/article_detail/id/$item[id]}' title='查看'>{echo:Article::showTitle($item['title'],$item['color'],$item['style'])}</a>{echo:(strlen($item['img'])>0) ? '(图)':''}</td>
+					<td width="500">
+						{$item['content']}
+					</td>
+					<!-- 2011-12-06 -->
+					<td width="50">{if:$item['topic_cat_id']==NULL} 文章{else:} 专题{/if}</td>	
+				</tr>
+			{/foreach}
+			</tbody>
+		</table>
+	</form>
+</div>
+{$this->query->getPageBar()}
+<script>
+//截取中文字符串 
+function SubCN4($str,$len)
+{ 
+ if($str=='' || strlen($str)<=$len) return $str;
+ if(ord(substr($str,$len-1,1))>0xa0) $len++;
+ return substr($str,0,$len);
+}
+</script>

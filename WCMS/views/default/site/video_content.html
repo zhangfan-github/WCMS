@@ -1,0 +1,44 @@
+<div class="subpage_right">
+	<div><img src="{skin:images/baike_r_bg1.png}" /></div>
+	<div class="subpage_right_bg">
+		
+		<div class="sub_div">
+		<!--
+		<div class="clear_b">
+				<div class="float_l"><div class="sub_right_ti"></div>
+				</div>
+				<div class="float_r solid_line"></div>
+		
+		</div>
+		-->
+		 <div class="h_10"></div>
+		 <p class="f_purple news_info_ti">{$this->data['title']}</p>
+		 <div style="text-align: center;color: #A1336D;" >{$this->articleRow['create_time']} </div>
+		  <div style="border-bottom:1px solid gray;">{if:!empty($this->articleRow['keywords'])}关键词:{$this->articleRow['keywords']}{/if}</div>
+		 <div style="color: #A1336D;font-size: 12px;">
+		 </br>
+		 </br>
+				    	{if:$this->flag == 1}
+				    	<div style="width:550px;height:400px;margin:0 auto;">
+				    		<embed src="{$this->data['path']}" type='application/x-shockwave-flash' width='550' height='400' allowscriptaccess='never' allownetworking='internal' />
+						</div>
+						{/if}
+						
+						{if:$this->flag== 0}
+						<div style="width:550px;height:400px;margin:0 auto;">
+							<div id="mediaplayer">JW Player goes here</div>
+							<script type="text/javascript">
+								jwplayer("mediaplayer").setup({
+								flashplayer: "{theme:javascript/player.swf}",
+								file: "{$this->url}",
+								provider: "http",
+								 width:'550' ,
+								 height:'400',
+							});
+						</script>
+						</div>
+						{/if}</div>
+	  </div>
+	</div>
+	<div><img src="{skin:images/baike_r_bg3.png}" /></div>
+</div>

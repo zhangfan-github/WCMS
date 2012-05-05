@@ -1,0 +1,111 @@
+{js:my97date}
+
+
+
+
+<div class="mid_986">
+    <div style="position:relative">
+      <div class="f_purple sub_cur_title"> 您当前的位置：<a href="{url:/}">首页</a> &gt; <a href="{url:/pcenter}">专家中心</a> &gt; <a href="{url:/pcenter/online_qa}">站内咨询</a> </div>
+      <div class="sub_huan">
+   <img src="{skin:images/huan.png}" width="106" height="92" />
+   </div>
+  </div>
+  
+  <div class="subpage_bor">
+        <!-- 左边栏开始 -->
+        <div class="subpage_left">
+            <div><img src="{skin:images/baike_l_bg1.png}" /></div>
+            <div class="subpage_left_bg">
+                <div class="f_purple left_title f_size16B">- 专家中心 -</div>
+            <ul class="left_menu">
+                <li><a href="{url:/pcenter/info}">- 个人信息 -</a></li>
+                <li><a href="{url:/pcenter/online_qa}">- 站内咨询 -</a></li>
+                <li><a href="{url:/pcenter/password}">- 修改密码 -</a></li>
+                
+                <li><a href="{url:/pcenter/schedule}">- 值班时间 -</a></li>
+                <li><a href="/bbs">- 会员社区 -</a></li>
+            </ul>
+            <div class="das_line left_line"></div>
+            <div class="hezuo_div">
+                <div class="hezuo_div_top"></div>
+                <div class="hezuo_div_mid">
+            <div class="left_hezuo_ti f_purple f_size16B">- 合作机构 -</div>
+                <ul class="left_hezuo">
+                    {query:name=operator_links limit=4 Order=order }
+                    <li><a href="{$item['linkurl']}"><img src="{url:}{$item['photo']}" style="width:153px;height:44px;"/></a></li>
+                    {/query}
+                    </ul>
+                    
+             <div class="hezuo_more"><a class="purple" href="{url:/site/column/id/79}">【more】</a></div>    
+                
+                </div>
+            <div class="hezuo_div_bot"></div>
+            </div>
+            </div>
+            <div><img src="{skin:images/baike_l_bg3.png}"/></div>
+        </div>
+        <!-- 左边栏结束 -->
+        <div class="subpage_right">
+            <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+            <div class="subpage_right_bg">
+                
+                <div class="sub_div">
+        <div class="clear_b">
+                        <div class="float_l">
+                          <div class="sub_right_ti">站内咨询</div>
+                        </div>
+                        <div class="float_r solid_line"></div>
+                
+                </div>
+                <div class="h_24"></div>
+                <div class="operating">
+                <a href="javascript:void(0)" onclick="selectAll('check[]')"><button type="button" class="smt"><span class="sel_all">全选</span></button></a>
+                <a href="javascript:void(0)" onclick="delModel({form:'suggestion_list',msg:'确定要删除选中的记录吗？'})"><button class="smt" type="button"><span class="delete">批量删除</span></button></a>
+                </div>
+                <form action="{url:/pcenter/online_qa_del}" method="post" name="suggestion_list" onsubmit="return checkboxCheck('check[]','尚未选中任何记录！')">
+<div class="content">
+    <input type="hidden" name="move_group" value="" />
+    <table  class="email_list">
+          <col width="50px">
+          <col width="100px">
+          <col width="200px">
+          <col width="150px">
+          <col width="50px">
+		  <col />
+            <thead>
+                <tr role="head" id="headth">
+                    <th class="t_c">选择</th>
+                    <th sort="true">咨询人</th>
+                    <th sort="true" datatype="date">咨询内容</th>
+                    <th sort="true" datatype="date">咨询时间</th>
+					<th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+        <tbody>
+            {set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+            {set:$pid = $this->user['pro_id']}
+            {query:name=suggestion AS a join=left join user AS b ON a.user_id eq b.id fields=a.*,b.username order=time DESC page=$page where=pro_id eq $pid}
+            <tr>
+                <td><input name="check[]" type="checkbox" value="{$item['id']}" /></td>
+                <td>{$item['username']}</td>
+                <td><a href="{url:/pcenter/online_qa_edit/id/$item[id]}">{$item['title']}</a></td>
+                <td>{$item['time']}</td>
+				<td>{if:$item['re_content']!=''}<span class="green bold">已回复</span>{else:}<span>未回复</span>{/if}</td>
+                <td><a href="{url:/pcenter/online_qa_edit/id/$item[id]}"><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="修改" /></a>
+                    <a href="javascript:void(0)" onclick="delModel({link:'{url:/pcenter/online_qa_del/check/$item[id]}'})"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" /></a>
+                </td>
+            </tr>
+            {/query}
+        </tbody>
+    </table>
+    {$query->front_getPageBar();}
+</div>
+
+</form>
+              </div>
+            </div>
+            <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+    </div>
+    </div>
+</div>

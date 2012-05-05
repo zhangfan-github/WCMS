@@ -1,0 +1,48 @@
+{js:my97date}
+<div class="headbar">
+    <div class="position"><span>服务</span><span>>专家咨询排班管理</span><span>活动管理</span><span>></span><span>{if:isset($this->positionRow['id'])}编辑{else:}发布{/if}活动策划</span></div>
+</div>
+<div class="content_box">
+    <div class="content form_content">
+        <form  method='post' name='paiban' action="{url:/service/paiban_edit_act}">
+            <table class="form_table">
+                <col width="150px" />
+                <col />
+                <input type='hidden' name='id' value="" />
+                <tr>
+                    <th>值班专家：</th>
+                    <td>
+                        <select name = 'name'>
+                            <option value='0'>请选择专家</option>
+                            {query:name=professional where=state eq 1}
+                            {if:$item['id']==$this->orderData['pro_id']}
+                            <option value='{$item['id']}' selected="selected">{$item['name']}</option>
+                            {else:}
+                            <option value='{$item['id']}' >{$item['name']}</option>
+                            {/if}
+                            {/query}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>值班时间：</th>
+                    <td>
+                        <input type='text' class='Wdate' onfocus='WdatePicker()' onblur="FireEvent(this,'onchange');" name='time'  />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th></th><td><input type="submit" class='submit' value="确定"><a href="{url:/service/paiban_del/id/}{$this->orderData['id']}">删除</a></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type='text/javascript'>
+	var FromObj = new Form('paiban');
+	FromObj.init
+    ({
+        'id':'{$this->orderData['id']}',
+        'time':'{$this->orderData['time']}'
+    });
+</script>

@@ -1,0 +1,60 @@
+<!-- 添加视频    zf-->
+<?php
+$COLUMN_TYPE_CODE='110'; //栏目类型为新闻的代码
+?>
+<script type="text/javascript" src="{theme:javascript/event.js}"></script>
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>视频管理</span><span>></span><span>添加视频</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/tools/upload_act}' method='post'  enctype='multipart/form-data' name='vedio'>
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<input type='hidden' name='id' value="" />
+   			<tr>
+					<th>分类：</th>
+					<td>
+						{echo:Column::showSpecColumn($COLUMN_TYPE_CODE,'category_id',$this->data['category_id'],array('请选择分类'=>null))}
+						<label>*选择所属分类（必填）</label>
+					</td>
+				</tr>
+   			<tr>
+					<th>标题：</th>
+					<td><input type='text' name='title' class='normal'  value='' pattern="required" alt="请输入标题"/></td>
+				</tr>
+				<tr>
+					<th>排序：</th><td><input type='text' class='small' name='sort' value='' /></td>
+				</tr>
+				<tr>
+					<th>视频链接：</th><td><input type='text' name='path' class='normal' value='' pattern="required" alt="请输入地址"/></td>
+				</tr>
+				<tr>
+					<th></th><td><button class='submit' type='submit'><span>确定</span></button></td>
+				</tr>
+				<tr>
+					<th>注意：</th><td style="font-size:120%;">1.允许的视频格式：mp4，flv，swf, f4v其他格式请先转换。</td>
+				</tr>
+				<tr>
+					<th></th><td style="font-size:120%;">2.视频文件首先上传到ftp:/wwwroot/videos文件夹下，“视频链接”填写：videos/文件名。</td>
+				</tr>
+				<tr>
+					<th></th><td style="font-size:120%;">3.网络链接地址请填写完整路径如(http://www.tudou.com/abc.flv)</td>
+				</tr>
+			</table>
+			
+		</form>
+	</div>
+	
+
+<script type='text/javascript'>
+	var FromObj = new Form('vedio');
+	FromObj.init
+	({
+		'id'   :'{$this->data['id']}',
+		'title':'{$this->data['title']}',
+		'sort' :'{echo:$this->data['sort']?$this->data['sort']:99}',
+		'path' :'{echo:$this->data['path']?$this->data['path']:''}',
+	});
+</script>

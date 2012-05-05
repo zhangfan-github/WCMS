@@ -1,0 +1,79 @@
+{set:$user = $this->user;}
+{js:jquery}
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#sub_mit").click(function(){
+    var _name=$("#item_name").val();
+    var u_name=$("#user_name").val();
+    var u_id=$("#user_id").val();
+    var u_phone=$("#telephone").val();
+    var u_yunzhou=$("#yunzhou").val();
+    var u_email=$("#e_mail").val();
+    var p_id=$("#parent_id").val();
+    var s_id=$("#item_id").val();
+  	$.post("{url:/site/free_reg_act/}",{it_name:_name,it_uname:u_name,it_uid:u_id,it_tel:u_phone,it_yunzhou:u_yunzhou,it_email:u_email,it_pid:p_id,it_sid:s_id},function(result){
+	if(result=="1"||result=="0")
+    		{
+			if(result=="1")
+    		 confirm("报名成功，我们将会在24小时内联系您，确认您到俱乐部体验的时间");
+			else
+			 confirm("报名失败");
+    		 window.location.href="{url:/site/column/id/11}";
+    		}
+    else
+    	alert(result);
+    });
+  });
+});
+</script>
+<div class="mid_986">
+	<div style="position:relative">
+	  <div class="f_purple sub_cur_title"> 您当前的位置：<a href="index.html">主页</a> &gt; <a href="service_project.html">
+	  {if:$this->p_id==24}技艺沙龙{else:}禧妈服务{/if}</a> &gt; 
+	  <a href="service_project.html">{if:$this->p_id==83}服务项目{elseif:$this->p_id==86}服务套餐{else:}沙龙活动{/if}</a> &gt; 报名页 </div>
+    </div>
+  <div class="regist_bg1">
+  <img src="{skin:images/txt_trial.png}"/></div>
+  <div class="regist_bg2">
+      <div class="f_purple regist_ti_txt">请填写基本信息：</div>
+      <table width="100%" border="0" cellspacing="0" cellpadding="6" class="f_purple">
+      	<input type="hidden" id = "parent_id" name="parent_id" value="{$this->p_id}">
+      	<input type="hidden" id = "item_id" name="item_id" value="{$this->s_id}">
+      	<input type="hidden" id = "user_id" name="user_id" value="{$user['user_id']}">
+        <tbody>
+         <tr>
+            <td height="50" align="right">{if:$this->p_id==83}项目{elseif:$this->p_id==86}套餐{else:}活动{/if}名称：</td>
+            <td><input type="hidden" id="item_name" name ="item_name" value="{$this->title}"><label>{$this->title}</label></td>
+            <td height="50">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="12%" height="50" align="right">姓名：</td>
+            <td width="29%"><input type="text" name="user_name" id="user_name" class="ipt" pattern="required" alt"请输入姓名" value="{$user['username']}"/></td>
+            <td width="59%" height="50">*必填&nbsp;</td>
+          </tr>
+          <tr>
+            <td height="50" align="right">孕周：</td>
+            <td><input type="text" name="yunzhou" id="yunzhou" class="ipt" pattern="required" alt"请输入孕周"/></td>
+            <td height="50">*必填&nbsp;</td>
+          </tr>
+          <tr>
+            <td height="50" align="right">联系电话：</td>
+            <td><input type="text" name="telephone" id="telephone" class="ipt" pattern="mobi" alt"请输入联系电话" value="{$this->mobile}" /></td>
+            <td height="50">*必填&nbsp;</td>
+          </tr>
+         
+          <tr>
+            <td height="50" align="right">Email：</td>
+            <td><input type="text" name="e_mail" id="e_mail" class="ipt" pattern="email" title"请输入Email" value="{$this->email}" /></td>
+            <td height="50">*必填&nbsp;</td>
+          </tr>
+          <tr>
+            <td height="50" align="right">&nbsp;</td>
+            <td align="center"><input id="sub_mit" type="image" src="{skin:images/btn_submit.png}" width="110" height="31" /></td>
+            <td height="50">&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+  	<div><img src="{skin:images/regist_3.png}" width="986" height="28" /></div>
+</div>

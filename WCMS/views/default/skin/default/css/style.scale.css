@@ -1,0 +1,59 @@
+#slider {
+	height: 218px;
+}
+.s-frame {
+	position: relative;
+	overflow: hidden;
+}
+.s-list {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+.s-item {
+	width: 100%;
+	height: 100%;
+	float: left;
+	overflow: hidden;
+	position:relative;
+}
+.slider_txt{
+	color:#9d4d4b;
+	padding:3px;
+}
+.s_btn_height{
+	position:relative;
+	height:23px;
+}
+
+.s-buttons {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	z-index: 10;
+}
+
+.s-buttons a {
+	display: block;
+	float: left;
+	text-align: center;
+	margin:0 2px;
+	width:23px;
+	height:23px;
+	text-align:center;
+	line-height:22px;
+	/* 隐藏外面的虚线 */
+	outline: none; /* mozilla */
+	hidefocus: expression(this.onFocus=this.blur()); /* ie */
+}
+
+.s-current {
+	color:#fff;
+	background:url(../images/s-btn2.png) no-repeat;
+}
+
+.s-normal {
+	color:#a4537b;
+	background:url(../images/s-btn1.png) no-repeat;
+}

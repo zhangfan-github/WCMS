@@ -1,0 +1,333 @@
+<!--  zf 2012/1/9 @pf -->
+{js:kindeditor}
+{set:$siteConfigObj = new Config("site_config");$site_config   = $siteConfigObj->getInfo();}
+<script type='text/javascript' src="{theme:javascript/swfupload.js}"></script>
+<script type='text/javascript' src="{theme:javascript/swfupload.queue.js}"></script>
+<script type="text/javascript" src="{theme:javascript/fileprogress.js}"></script>
+<script type="text/javascript" src="{theme:javascript/handlers.js}"></script>
+<script type="text/javascript" src="{theme:javascript/event.js}"></script>
+<script type="text/javascript">
+var swfu;
+	window.onload = function () {
+		swfu = new SWFUpload({
+			// Backend Settings
+			upload_url: "{url:/block/img_upload}",
+			post_params: {"PHPSESSID": "NONE"},
+
+			file_size_limit : "2 MB",	// 2MB
+			file_types : "*.jpg;*.jpge;*.png;*.gif",
+			file_types_description : "JPG Images",
+			file_upload_limit : "0",
+			file_queue_error_handler : fileQueueError,
+			file_dialog_complete_handler : fileDialogComplete,
+			upload_progress_handler : uploadProgress,
+			upload_error_handler : uploadError,
+			upload_success_handler : uploadSuccess,
+			upload_complete_handler : uploadComplete,
+
+			// Button Settings
+			button_placeholder_id : "upload",
+			button_width: 50,
+			button_height: 21,
+			button_text : '浏览...',
+			button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+			button_cursor: SWFUpload.CURSOR.HAND,
+
+			// Flash Settings
+			flash_url : "{theme:javascript/swfupload.swf}",
+
+			custom_settings : {
+				upload_target : "show"
+			},
+			// Debug Settings
+			debug: false
+		});
+	};
+	
+	
+	
+	function del_img(id)
+	{
+		//删除数组元素.
+		Array.prototype.remove=function(dx)
+		{
+		    if(isNaN(dx)||dx>this.length){return false;}
+		    for(var i=0,n=0;i<this.length;i++)
+		    {
+		        if(this[i]!=this[dx])
+		        {
+		            this[n++]=this[i]
+		        }
+		    }
+		    this.length-=1
+		}
+		//在数组中获取指定值的元素索引
+		Array.prototype.getIndexByValue= function(value)
+		{
+		    var index = -1;
+		    for (var i = 0; i < this.length; i++)
+		    {
+		        if (this[i] == value)
+		        {
+		            index = i;
+		            break;
+		        }
+		    }
+		    return index;
+		}
+		var photo_name = $('#photo_name').val();
+		photo_name = photo_name.substring(0,photo_name.length-1);
+		var arr = photo_name.split(',');
+		var key = 0;
+		for(var i=0;i<arr.length;i++){
+			if(arr[i].indexOf(id)>0){
+				key = i;
+			}
+		}
+		arr.remove(key);
+		if(arr.length>0)
+		{
+			//如果没有全部删除则不为空
+			$('#photo_name').val(arr.join(',')+',')
+			$("#a"+id).remove();
+			var focus_photo = $('#focus_photo').val();
+			if(focus_photo.indexOf(id)>0)
+			{
+				var photo_ar = arr.join(',');
+				if(photo_ar!='')
+				{
+					arr = photo_ar.split(',');
+					var head = arr[0].substring(0,arr[0].indexOf('.'));
+					var footer = arr[0].substring(arr[0].indexOf('.'));
+					var oldhead = focus_photo.substring(focus_photo.indexOf('_'),focus_photo.indexOf('.'));
+					$('#focus_photo').val(head+oldhead+footer);
+					$('img').each(function(){
+						var src = $(this).attr("src");
+						if(src.indexOf(head+oldhead+footer)>0)
+						{
+							$(this).addClass('current');
+							return;
+						}
+					});
+				}
+			}
+		}else{
+			//如果图片全部删除则值为空
+			$('#photo_name').val("");
+			$('#focus_photo').val("");
+			$("#a"+id).remove();
+		}
+	}
+	$(document).ready(function(){
+		var _choose = $("#s_id").val();	
+		var _array = _choose.split(",");	
+		var getCheckBox = $("#s_p input:checkbox");
+		
+		$(getCheckBox).each(function(key,value){
+			var _val = $(value).val();
+			var temp = 0;
+			for(i=0,len = _array.length;i<len-1;i++){
+				if(_val == _array[i]){
+					temp = 1;
+				}
+			}
+			if(temp == 1){
+				$(value).attr("checked",true);
+			}else{
+				$(value).attr("checked",false);
+			}
+		})
+	});
+	
+	$(function(){
+		var state = {if:$this->spRow['state']==1}1{else:}0{/if};
+		if(state){
+			$("#checked").attr("checked",true);
+		}else{
+			$("#unchecked").attr("checked",true);
+		}
+	})
+</script>
+
+<div class="headbar">
+    <div class="position"><span>服务</span><span>></span><span>服务项目管理</span><span>></span><span>{if:isset($this->spRow['id'])}编辑{else:}添加{/if}套餐</span></div>
+</div>
+<div class="content_box">
+    <div class="content form_content">
+        <form action='{url:/service/service_package_edit_act}' method='post' name='sp'>
+            <input type='hidden' name='id' value='' />
+            <table class="form_table">
+                <col width="150px" />
+                <col />
+                
+                <tr>
+                    <th>名称：</th>
+                    <td>
+                        <input type='text' class='middle' name='name' value='' pattern='required' alt='名称不能为空' />(*此项必填)
+                    </td>
+                </tr>
+				{if:isset($this->spRow['id'])}
+                    {set:$pic = $this->spRow['picture'];}
+                    {if:!empty($pic)}
+                    {set:$pic = $pic.",";}
+                    {/if}
+                {/if}
+                <tr><input type="hidden" name="photo_name" id="photo_name" value="{$pic}"/>
+					<th>图片：</th>
+					<td><input class="middle" name="" type="text" /><div class="upload_btn"><span id="upload"></span></div>	</td>		
+				</tr>
+				<tr>
+					<td></td>
+					<td id="show"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td id="show_list">
+					{if:isset($this->spRow['id'])}
+						{set:$url = $this->spRow['picture'];}
+						{if:!empty($url)}
+						{set:$url_id = substr($url,0,strpos($url,'.'));$url_id = substr(strrchr($url_id,'/'),1);}
+						{set:$urlname=explode(".",$url)}
+							<span id="a{$url_id}" class="pic">
+								<img name="img_name" class="current" style="margin: 5px; opacity: 1;" src="{echo:IUrl::creatUrl().$urlname[0].'_'.$site_config['show_thumb_width'].'_'.$site_config['show_thumb_height'].'.'.$urlname[1]}" >
+								<br>
+								<a id="{$url_id}" href="javascript:;" onclick="del_img(this.id)">删除</a>
+							</span>
+						{/if}
+					{/if}
+					</td>
+				</tr>
+				<tr>
+                    <th>定义：</th>
+                    <td>
+                        <textarea name='def' style='width:600px' pattern='required' alt='定义不能为空'>{$this->spRow['definition']}</textarea>(*此项必填)
+                    </td>
+                </tr>
+                <tr>
+                    <th>介绍：</th>
+	                <td>
+	                	<textarea name='content' style='width:600px;height:300px' pattern='required' alt='内容不能为空'>{$this->spRow['describe']}</textarea>
+	                </td>
+				</tr>
+				<tr id="s_p">
+					<input type="hidden" name="s_id" id = "s_id" value ="">
+				    <th>选择服务项：</th>
+				    <td>
+				    {query:name = service_cat order = id asc}
+				    {set:$cat_id = $item['id'];}
+				    <span style="font-weight:bold;">{$item['name']}</font></span></br>
+				    {query: name=service as s  where= s.parent_id eq $cat_id   order=s.sort asc  fields=s.id as s_id,s.name as s_name,s.price}
+					<div><input  type="checkbox" id="c{$item['s_id']}" value="{$item['s_id']}" />&nbsp;{$item['s_name']}&nbsp;￥<span id="p{$item['s_id']}">{$item[price]}</span></div>
+					{/query}
+					</br>
+					{/query}
+				    </td>
+					{if:isset($this->spRow['id'])}
+                    {set:$all = $this->spRow['pre_price'];}
+                    {else:}
+                    {set:$all = 0;}
+                    {/if}
+				    <td><label id = "total" name="total" value="" display="none">
+					</label><input type="hidden" id="all" name ="all" value="{$all}"></td>
+				</tr>
+				<!-- *************计算套餐总价及所选服务************ -->
+				<script type='text/javascript'>
+				(function(){
+					
+					$("#s_p input:checkbox").each(function(key,value){
+						
+						$(value).click(function(){
+							
+							Array.prototype.getIndexByValue= function(value)
+							{
+							    var index = -1;
+							    for (var i = 0; i < this.length; i++)
+							    {
+							        if (this[i] == value)
+							        {
+							            index = i;
+							            break;
+							        }
+							    }
+							    return index;
+							}
+							
+							var getID = $(this).val();
+							var getSpan = parseFloat($("#p"+getID).html());
+							var total = parseFloat($("#total").html());
+							var choose = $("#s_id").val();
+							var arr = choose.split(",");
+							arr.pop();
+							
+							if($(value).attr("checked")==true)
+								{
+									total = total + getSpan;
+									arr.push($(value).val());
+								}
+							else 
+								{
+									total = total - getSpan;
+									del_index = arr.getIndexByValue($(value).val());
+									arr.splice(del_index,1);
+								}
+							var after_choose = "";
+					        for(var i = 0; i < arr.length; i++)
+					        	after_choose += (arr[i]+",");
+					        $("#s_id").attr("value",after_choose);
+					        $("#total").attr("value",total);
+					        $("#all").attr("value",total);
+							$("#total").html(total);
+						})
+					})
+				})()
+				</script>
+				<!-- ******************************************** -->
+				<tr>
+                    <th>套餐价格：</th>
+                    <td>
+                      <input type='text' class='small' style="text-align: right;" name='price' value='{$this->spRow['price']}' pattern='required' alt='不能为空' />元
+                    </td>
+                </tr>
+				<tr>
+					<th>免费体验：</th>
+					<td>
+					<input type="radio" id="checked" name="state" value="1" ><lable for="checked">开启</lable>
+					&nbsp;&nbsp;   
+					<input type="radio" id="unchecked" name="state"  value="0" checked="checked"><lable for="unchecked">关闭</lable>
+					</td>
+				</tr>
+				<tr>
+                    <th>体验人数：</th>
+                    <td>
+                        <input type='text' class='small' name='num' value='{$this->spRow['num']}' pattern='^\d+$' alt='请填写一个数字' />
+                    </td>
+                </tr>
+                <tr>
+                    <th>排序：</th>
+                    <td>
+                        <input type='text' class='small' name='sort' value='' pattern='^\d+$' alt='请填写一个数字' />
+                    </td>
+                </tr>
+                <tr>
+                    <th></th><td><button class='submit' type='submit'><span>确 定</span></button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type='text/javascript'>
+    var FormObj = new Form('sp');
+    FormObj.init
+    ({
+        'id':'{$this->spRow['id']}',
+        'name':'{$this->spRow['name']}',
+        's_id':'{$this->spRow['services']}',
+        'sort':'{echo:$this->spRow['sort']?$this->spRow['sort']:99}'
+    });
+  //装载编辑器
+	KE.show({
+		id : 'content',
+		imageUploadJson:'{url:/block/upload_img_from_editor}'
+	});
+</script>
+

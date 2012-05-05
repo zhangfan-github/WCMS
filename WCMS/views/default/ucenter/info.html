@@ -1,0 +1,453 @@
+<link href="{theme:javascript/user_info/jquery-ui.css}" rel="stylesheet" type="text/css"/>
+<script src="{theme:javascript/user_info/jquery.min.js}"></script>
+<script src="{theme:javascript/user_info/jquery-ui.min.js}"></script>
+<script src="{theme:javascript/user_info/jquery.idTabs.min.js}"></script>
+<script type="text/javascript">
+//vip激活后首次进入
+var temp = {echo:empty($this->vip_id)?0:1;};
+if(temp ==1)
+art.dialog.alert("您是禧妈拉伢俱乐部的尊贵会员，激活成功！欢迎您，请及时修改密码");
+$(document).ready(function() {
+	   var form_id = {echo:$this->form_id};
+	   var div_id = {echo:$this->div_id};
+	   $("#tabs").tabs({selected:form_id});
+	 //动态选择科目
+	   $("#usual1 ul").idTabs();
+	 })
+</script>
+
+
+<div class="mid_986">
+   <div style="position:relative">
+   <div class="f_purple sub_cur_title"> 您当前的位置：<a href="{url:/}">首页</a> &gt; <a href="{url:/ucenter}">会员中心</a> &gt; <a href="{url:/ucenter/info}">个人信息</a>
+   </div>
+   <div class="sub_huan">
+   <img src="{skin:images/huan.png}" width="106" height="92" />
+   </div>
+   </div>
+  
+  <div class="subpage_bor">
+        <!-- 左边栏开始 -->
+        <div class="subpage_left">
+            <div><img src="{skin:images/baike_l_bg1.png}" /></div>
+            <div class="subpage_left_bg">
+                <div class="f_purple left_title f_size16B">- 会员中心 -</div>
+            <ul class="left_menu">
+                 <li><a href="{url:/ucenter/info}">- 健康档案 -</a></li>
+				<li><a href="{url:/ucenter/warm_advice}">- 温馨提示 -</a></li> 
+                <li><a href="{url:/ucenter/webmail_list}">- 站内邮件 -</a></li>
+                <li><a href="{url:/ucenter/online_qa}">- 站内咨询 -</a></li>
+                <li><a href="{url:/ucenter/activity_list}">- 免费体验 -</a></li>
+                <li><a href="{url:/ucenter/service_list}">- 在线预订 -</a></li>
+				<li><a href="{url:/ucenter/password}">- 修改密码 -</a></li>
+            </ul>
+            <div class="das_line left_line"></div>
+            <div class="hezuo_div">
+                <div class="hezuo_div_top"></div>
+                <div class="hezuo_div_mid">
+            <div class="left_hezuo_ti f_purple f_size16B">- 合作机构 -</div>
+                <ul class="left_hezuo">
+                    {query:name=operator_links limit=4 Order=order }
+                    <li><a href="{$item['linkurl']}"><img src="{url:}{$item['photo']}" style="width:153px;height:44px;"/></a></li>
+                    {/query}
+                    </ul>
+                    
+             <div class="hezuo_more"><a class="purple" href="{url:/site/column/id/79}">【more】</a></div>    
+                
+                </div>
+            <div class="hezuo_div_bot"></div>
+            </div>
+            </div>
+            <div><img src="{skin:images/baike_l_bg3.png}"/></div>
+        </div>
+        <!-- 左边栏结束 -->
+        
+        
+     	<div class="subpage_right">
+            <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+            <input type="hidden" id="div_id" name="div_id" value=""/>
+            <div class="subpage_right_bg"> 
+                <div class="sub_div">
+			        <div class="clear_b">
+		                <div class="float_l">
+		                <div class="sub_right_ti">个人信息|专家建议</div>
+		                </div>
+		                <div class="float_r solid_line"></div>  
+			        </div>
+                	<div class="h_24"></div>
+                
+	                <!--<table class="form_table" width="100%" cellpadding="0" cellspacing="0">
+	                    <col width="300px" />
+	                    <col />
+	                    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+	                    <tr>
+	                    <td align="right"><a class="ico" href="javascript:void(0);"><img src="{url:}{$member['head_ico']}" id="user_ico_img" onerror="this.src='{skin:images/front/user_ico.gif}'" width="96" height="96" alt="个人头像" /></a></td>
+	                    <td align="left" valign="bottom"">{if:empty($member['vip_id'])}&nbsp;&nbsp;&nbsp;&nbsp;<span>用户名：</span><span>{$member['username']}</span>{/if}</br>
+	                    <a class="blue" href="javascript:select_ico();">&nbsp;&nbsp;&nbsp;&nbsp;修改头像</a>
+	                    </td>
+	                    </tr>
+	                    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+	                </table>-->
+	 
+		           	<div id="tabs">
+						<ul>
+						<li><a href="#fragment-1">基本信息</a></li>
+						<li><a href="#fragment-2">专业信息</a></li>
+						<li><a href="#fragment-3">专家记录</a></li>
+						</ul>
+						<form action="{url:/ucenter/ucenter_baseinfo_save}" method='post' name='baseinfo'>
+							<div id="fragment-1" >
+			                <table cellpadding="0" cellspacing="0" style="width:600px;">
+			                   	<col width="20%" />
+								<col width="30%" />
+								<col width="25%" />
+								<col width="25%" />
+								<col/>
+				
+								<tr>
+								<td>VIP客户ID
+								</td>
+								<td>{if:!empty($member['vip_id'])}<label>{$member['vip_id']}{else:}暂无{/if}</label></td>
+								<td colspan="2">VIP客户ID为付费用户专享</td>
+								</tr>
+								<tr>
+								<td>姓名</td><td>{$member['true_name']}</td>
+								<td>性别</td>
+								<td>
+								{if:$member['sex']==1}男
+								{else:}女{/if}
+								</td>
+								</tr>
+								<tr>
+								<td>职业</td><td><input type="text" id="job" name="job"></td>
+								<td>民族</td><td><input type="text" id="nation" name="nation"></td>
+								</tr>
+								<tr>
+								<td>出生日期</td>
+								<td>
+								 <select name='year' ></select>
+				                 <select name='month' ></select>
+				                 <select name='day' ></select>
+								</td>
+								<td>出生地</td><td><input type="text" id="birth_place" name="birth_place"></td>
+								</tr>
+								<tr>
+								<td>QQ号</td><td><input type="text" id="qq" name="qq"></td>
+								<td>Email(*必填)</td><td>{$member['email']}</td>
+								</tr>
+								<tr>
+								<td>手机号码（本人）</td><td><label >{$member['mobile_a']}</label></td>
+								<td>手机号码（配偶）</td><td><label >{$member['mobile_b']}</label></td>
+								</tr>
+								<tr>
+								<td>亲属或指定联系人的姓名</td><td><label >{$member['connecter']}</label></td>
+								<td>亲属或指定联系人的手机号</td><td><label >{$member['mobile_c']}</label></td>
+								</tr>
+								<tr>
+								<td>联系地址</td><td><input type="text" id="contact_addr" name="contact_addr"></td>
+								<td>固定电话</td><td><input type="text" id="telephone" name="telephone"></td>
+								</tr>
+								<tr>
+								<td>预产期（或末次月经日期）</td><td><input type="text" id="yuchanqi" name="yuchanqi"></td>
+								<td>本人首选就诊医院</td><td><input type="text" id="first_hospital" name="first_hospital"></td>
+								</tr>
+								<tr>
+								<td>生育计划</td><td colspan="3"><input type="text" id="birth_plan" name="birth_plan"></td>
+								</tr>
+								{query:name=attribute where=table_id eq 1 order=sort asc}
+									{set:$select_item = explode(',',$item['value']);}
+									{set:$attr_name = 'attr'.$item['id'];}
+									{set:$attr_id = $item['id'];}
+								<tr>
+								<td>{$item['name']}</td><td colspan="3">
+								{if:!empty($item['value'])}
+									{if:$item['type'] == 1}
+										{foreach:$items = $select_item}
+										<input type="radio" name="{$attr_name}" " value="{$item}" {if:isset($attribute[$attr_id])&&$attribute[$attr_id]==$item}checked{/if} >{$item}
+										{/foreach}
+										</td> 
+									{elseif:$item['type'] == 2}
+										{foreach:$items = $select_item}
+										{set:$have = strstr($item,$attribute[$attr_id]);}
+									 	<input type="checkbox" name="{$attr_name}" " value="{$item}" {if:isset($attribute[$attr_id])&&$have!=false}checked{/if} >{$item}
+									 	{/foreach}
+									 	</td>
+									{/if}
+								 {else:}
+								 	<input type="text" value="{if:isset($attribute[$attr_id])&&$attribute[$attr_id]!=''}{$attribute[$attr_id]}{/if}" name="{$attr_name}">
+								 	</td>
+								 {/if}
+								</tr>
+								{/query}
+						</table>
+			            <div align="center" valign="middle">
+			            <input class="smt" type="submit" name="button" id="button" value="保存基本信息" />
+			            </div>
+			            </div>    
+			            </form>
+	            
+	            
+			            <form action="{url:/ucenter/ucenter_advinfo_save/}" method="post" name="advinfo">
+						<input type="hidden" name="user_id" value="{$member['user_id']}">
+						<div id="fragment-2">
+							<table cellpadding="0" cellspacing="0" style="width:600px;">
+								<col width="25%" />
+								<col width="25%" />
+								<col width="25%" />
+								<col width="25%" />
+								<col/>
+								<tr>
+								<td>身高（cm）</td><td><input type="text" id="height" name="height"></td>
+								<td>体重(kg)</td><td><input type="text" id="weight" name="weight"></td>
+								</tr>
+								<tr>
+								<td>腹围（cm）</td><td><input type="text" id="fuwei" name="fuwei"></td>
+								<td>孕前体重（kg）</td><td><input type="text" id="pre_weight" name="pre_weight"></td>
+								</tr>
+								<tr>
+								<td>腰围(cm)</td><td><input type="text" id="yaowei" name="yaowei"></td>
+								<td>血压（kpa）</td><td><input type="text" id="blood_pressure" name="blood_pressure"></td>
+								</tr>
+								<tr>
+								<td>臀围（cm）</td><td><input type="text" id="tunwei" name="tunwei"></td>
+								<td>血红蛋白（g/L）</td><td><input type="text" id="xhdb" name="xhdb"></td>
+								</tr>
+								<tr>
+								<td>腰臀比（WHR）</td><td><input type="text" id="WHR" name="WHR"></td>
+								<td>体重指数（BMI）</td><td><input type="text" id="BMI" name="BMI"></td>
+								</tr>
+								<tr>
+								<td colspan="4">皮褶厚度的测量（cm）</td>
+								</tr>
+								<tr>
+								<td>肱三头肌</td><td><input type="text" id="gsthick" name="gsthick"></td>
+								<td>肩胛下角</td><td><input type="text" id="jxthick" name="jxthick"></td>
+								</tr>
+								<tr>
+								<td>髂脊上部</td><td><input type="text" id="qjthick" name="qjthick"></td>
+								<td>腹部</td><td><input type="text" id="fbthick" name="fbthick"></td>
+								</tr>
+								<tr>
+								<td>是否计划生育</td>
+								<td>
+								<input type="radio" name="buru" value="1" checked>是  
+								<input type="radio" name="buru" value="0" {if:isset($member['buru'])&&$member['buru']==0}checked{/if} >否
+								</td>
+								<td>工作强度</td>
+								<td>
+								<input type="radio" name="work_hardness" value="1" checked> 轻 
+								<input type="radio" name="work_hardness" value="2" {if:isset($member['work_hardness'])&&$member['work_hardness']==2}checked{/if} >中
+								<input type="radio" name="work_hardness" value="3" {if:isset($member['work_hardness'])&&$member['work_hardness']==3}checked{/if} >重
+								</td>
+								</tr>
+								<tr>
+								<td>既往病史</td><td  colspan="3"><input type="text" id="disease_history" name="disease_history"></td>
+								</tr>
+								<tr>
+								<td>过敏史</td><td colspan="3"><input type="text" id="allergy_history" name="allergy_history"></td>
+								</tr>
+								<tr>
+								<td>家族史</td><td colspan="3"><input type="text" id="family_history" name="family_history"></td>
+								</tr>
+								{query:name=attribute where=table_id eq 2 order=sort asc}
+									{set:$select_item = explode(',',$item['value']);}
+									{set:$attr_name = 'attr'.$item['id'];}
+									{set:$attr_id = $item['id'];}
+								<tr>
+								<td>{$item['name']}</td><td colspan="3">
+								{if:!empty($item['value'])}
+									{if:$item['type'] == 1}
+										{foreach:$items = $select_item}
+										<input type="radio" name="{$attr_name}" " value="{$item}" {if:isset($attribute[$attr_id])&&$attribute[$attr_id]==$item}checked{/if} >{$item}
+										{/foreach}
+										</td> 
+									{elseif:$item['type'] == 2}
+										{foreach:$items = $select_item}
+										{set:$have = strstr($item,$attribute[$attr_id]);}
+									 	<input type="checkbox" name="{$attr_name}" " value="{$item}" {if:isset($attribute[$attr_id])&&$have!=false}checked{/if} >{$item}
+									 	{/foreach}
+									 	</td>
+									{/if}
+								 {else:}
+								 	<input type="text" value="{if:isset($attribute[$attr_id])&&$attribute[$attr_id]!=''}{$attribute[$attr_id]}{/if}" name="{$attr_name}">
+								 	</td>
+								 {/if}
+								</tr>
+							   {/query}
+							</table>
+						<div align="center" valign="middle">
+			            <input class="smt" type="submit" name="button" id="button" value="保存专业信息" />
+			            </div>
+						</div>
+						</form>
+				
+				
+						<div id="fragment-3">
+						{if:!empty($member['vip_id'])}
+							  <div id="usual1" class="usual"> 
+								  <ul 	> 
+								  {query:name=professional_group}
+								    <li><a href="#tab{$item['id']}" onclick="getdiv(tab{$item['id']})" >{$item['name']}</a></li> 
+								  {/query} 
+								  </ul> 
+							  </div>  
+							  {query:name=professional_group order=id asc}
+							  {set:$type = $item['id'];}
+							  {code:
+							      $advice = new IQuery('pro_advice');
+								  $advice->where = 'type ='.$type.' and '.'vip_id = '.$member['vip_id'];
+								  $advice->page = isset($_GET['page'])?$_GET['page']:1;
+								  $advice->order = 'create_time desc';
+								  $advice->pagesize = 8;
+								  $advices = $advice->find();
+							  } {/code}
+							 {set:$page = $advice;}
+							  <div id="tab{$item['id']}" >
+									<table cellspacing="0" cellpadding="0" style="width:520px;">
+									<col width="25%" />
+									<col width="60%" />
+									<col width="15%" />
+									
+									<th>时间</th>
+									<th>内容</th>
+									<th>签名</th>
+									
+									{foreach:$items = $advices}
+								    <tr>
+								    <td>
+								    {$item['create_time']}
+								    </td>
+								    <td>
+								    {$item['advice']}
+								    </td>
+								    <td>
+								    {$item['pro_name']}
+								    </td>
+								    </tr>
+									{/foreach}
+									
+									</table>
+							  </div>
+							  {/query}
+						{else:}
+			                                该板块专属VIP用户，您还不是VIP用户。请与客服联系升级为VIP用户！
+	                    {/if}
+						<div style="clear:both;text-align:center;">{if:isset($page)}{$page->front_getPageBar('','onclick=change_href(this)');}{/if}</div>					
+						</div>
+	          		</div>
+             	</div>
+          	</div>
+          	<div><img src="{skin:images/baike_r_bg3.png}" /></div>
+    	</div>
+    	
+    	
+  </div>
+</div>
+
+<script type='text/javascript'>
+	//修改头像
+	function select_ico()
+	{
+		art.dialog.open('{url:/block/user_ico}',{id:'user_ico',title:'设置头像'});
+	}
+
+	//头像上传回调函数
+	function callback_user_ico(content)
+	{
+		var content = eval(content);
+		if(content.isError == true)
+		{
+			alert(content.message);
+		}
+		else
+		{
+			$('#user_ico_img').attr('src',content.data);
+		}
+		art.dialog({id:'user_ico'}).close();
+	}
+
+	//出生日期
+	function dateSelectInit()
+	{
+		var yearHtml = '<option value="">请选择</option>';
+		for(var year=2010;year>=1940;year--)
+		{
+			yearHtml+= '<option value="'+year+'">'+year+'</option>';
+		}
+
+		var monthHtml = '<option value="">--</option>';
+		for(var month=12;month>=1;month--)
+		{
+			if(month < 10) month = '0' + month;
+			monthHtml+= '<option value="'+month+'">'+month+'</option>';
+		}
+
+		var dayHtml = '<option value="">--</option>';
+		for(var day=31;day>=1;day--)
+		{
+			if(day < 10) day = '0' + day;
+			dayHtml+= '<option value="'+day+'">'+day+'</option>';
+		}
+
+		$('[name="year"]').html(yearHtml);
+		$('[name="month"]').html(monthHtml);
+		$('[name="day"]').html(dayHtml);
+	}
+
+	//初始化日期
+	dateSelectInit();
+	
+	//表单回填
+	{set:$birthday = explode('-',$member['birthday'])}
+
+	var form_base_Obj = new Form('baseinfo');
+	form_base_Obj.init({
+		'true_name':'{$member['true_name']}',
+		'job':'{$member['job']}',
+		'nation':'{$member['nation']}',
+		'birth_place':'{$member['birth_place']}',
+		'qq':'{$member['qq']}',
+		'telephone':'{$member['telephone']}',
+		'contact_addr':'{$member['contact_addr']}',
+		'year':'{$birthday[0]}',
+		'month':'{$birthday[1]}',
+		'day':'{$birthday[2]}',
+		'yuchanqi':'{$member['yuchanqi']}',
+		'first_hospital':'{$member['first_hospital']}',
+		'birth_plan':'{$member['birth_plan']}',
+	});
+
+
+	var form_adv_Obj = new Form('advinfo');
+	form_adv_Obj.init({
+		'height':'{$member['height']}',
+		'weight':'{$member['weight']}',
+		'pre_weight':'{$member['pre_weight']}',
+		'yaowei':'{$member['yaowei']}',
+		'fuwei':'{$member['fuwei']}',
+		'tunwei':'{$member['tunwei']}',
+		'WHR':'{$member['WHR']}',
+		'BMI':'{$member['BMI']}',
+		'blood_pressure':'{$member['blood_pressure']}',
+		'xhdb':'{$member['xhdb']}',
+		'gsthick':'{$member['gsthick']}',
+		'jxthick':'{$member['jxthick']}',
+		'qjthick':'{$member['qjthick']}',
+		'fbthick':'{$member['fbthick']}',
+		'disease_history':'{$member['disease_history']}',
+		'allergy_history':'{$member['allergy_history']}',
+		'family_history':'{$member['family_history']}',
+	});
+	function getdiv(div_id)
+	{
+		$("#div_id").val(div_id);
+	}
+	function change_href(atag)
+	{
+		var a = $(atag).attr("href");
+		var apend = $("#div_id").val();
+		a = a+'&div_id='+append;
+		$(atag).attr("href",a);
+	}
+</script>
+ 

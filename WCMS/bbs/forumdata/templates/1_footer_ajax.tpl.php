@@ -1,0 +1,2 @@
+<? if(!defined('IN_DISCUZ')) exit('Access Denied'); $s = ob_get_contents(); ob_end_clean(); $s = preg_replace("/([\x01-\x09\x0b-\x0c\x0e-\x1f])+/", ' ', $s); $s = str_replace(']]>', ']]&gt;', $s); ?><?=$s?>
+]]></root><? exit; ?>

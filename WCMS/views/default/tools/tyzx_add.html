@@ -1,0 +1,234 @@
+<script type='text/javascript' src="{theme:javascript/swfupload.js}"></script>
+<script type='text/javascript' src="{theme:javascript/swfupload.queue.js}"></script>
+<script type="text/javascript" src="{theme:javascript/fileprogress.js}"></script>
+<script type="text/javascript" src="{theme:javascript/handlers.js}"></script>
+<script type="text/javascript" src="{theme:javascript/event.js}"></script>
+<script type="text/javascript">
+	var swfu;
+	window.onload = function () {
+		swfu = new SWFUpload({
+			// Backend Settings
+			upload_url: "{url:/block/goods_img_upload}",
+			post_params: {"PHPSESSID": "NONE"},
+
+			file_size_limit : "2 MB",	// 2MB
+			file_types : "*.jpg;*.jpge;*.png;*.gif",
+			file_types_description : "JPG Images",
+			file_upload_limit : "0",
+			file_queue_error_handler : fileQueueError,
+			file_dialog_complete_handler : fileDialogComplete,
+			upload_progress_handler : uploadProgress,
+			upload_error_handler : uploadError,
+			upload_success_handler : uploadSuccess,
+			upload_complete_handler : uploadComplete,
+
+			// Button Settings
+			button_placeholder_id : "upload",
+			button_width: 50,
+			button_height: 21,
+			button_text : '浏览...',
+			button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+			button_cursor: SWFUpload.CURSOR.HAND,
+
+			// Flash Settings
+			flash_url : "{theme:javascript/swfupload.swf}",
+
+			custom_settings : {
+				upload_target : "show"
+			},
+			// Debug Settings
+			debug: false
+		});
+	};
+	function show_link(img)
+	{
+		art.dialog.open('{url:/block/goods_photo_link/?img=}'+img, {
+			id:'goods_photo_link',
+			width:'700px',
+			height:'160px',
+			lock: true,
+		    title: '图片链接'
+		});
+	}
+	function del_img(id)
+	{
+		//删除数组元素.
+		Array.prototype.remove=function(dx)
+		{
+		    if(isNaN(dx)||dx>this.length){return false;}
+		    for(var i=0,n=0;i<this.length;i++)
+		    {
+		        if(this[i]!=this[dx])
+		        {
+		            this[n++]=this[i]
+		        }
+		    }
+		    this.length-=1
+		}
+		//在数组中获取指定值的元素索引
+		Array.prototype.getIndexByValue= function(value)
+		{
+		    var index = -1;
+		    for (var i = 0; i < this.length; i++)
+		    {
+		        if (this[i] == value)
+		        {
+		            index = i;
+		            break;
+		        }
+		    }
+		    return index;
+		}
+		var photo_name = $('#photo_name').val();
+		photo_name = photo_name.substring(0,photo_name.length-1);
+		var arr = photo_name.split(',');
+		var key = 0;
+		for(var i=0;i<arr.length;i++){
+			if(arr[i].indexOf(id)>0){
+				key = i;
+			}
+		}
+		arr.remove(key);
+		if(arr.length>0)
+		{
+			//如果没有全部删除则不为空
+			$('#photo_name').val(arr.join(',')+',')
+			$("#a"+id).remove();
+			var focus_photo = $('#focus_photo').val();
+			if(focus_photo.indexOf(id)>0)
+			{
+				var photo_ar = arr.join(',');
+				if(photo_ar!='')
+				{
+					arr = photo_ar.split(',');
+					var head = arr[0].substring(0,arr[0].indexOf('.'));
+					var footer = arr[0].substring(arr[0].indexOf('.'));
+					var oldhead = focus_photo.substring(focus_photo.indexOf('_'),focus_photo.indexOf('.'));
+					$('#focus_photo').val(head+oldhead+footer);
+					$('img').each(function(){
+						var src = $(this).attr("src");
+						if(src.indexOf(head+oldhead+footer)>0)
+						{
+							$(this).addClass('current');
+							return;
+						}
+					});
+				}
+			}
+		}else{
+			//如果图片全部删除则值为空
+			$('#photo_name').val("");
+			$('#focus_photo').val("");
+			$("#a"+id).remove();
+		}
+	}
+	function focus_img(little,obj)
+	{
+		$('#focus_photo').val(little);
+		$("img[name='img_name']").removeClass('current');
+		obj.className = 'current';
+	}
+</script>
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>DIY</span><span>></span><span>添加DIY</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/tools/tyzx_edit_act}' method='post' name='ad_position'>
+			<table class="form_table">
+				<input type='hidden' name='id' />
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>产品名称：</th>
+					<td>
+						<input type='text' class='normal' pattern='required' alt="请填写名称" name='name' />
+						<label>*产品名称（必填）</label>
+					</td>
+				</tr>
+				<tr>
+					<th>产品型号：</th>
+					<td>
+						<input type='text' class='normal' name='pro_model' pattern='required' alt='填写型号' />
+						<label>*产品型号（必填)</label>
+					</td>
+				</tr>
+
+				<tr>
+					<th>颜色：</th>
+					<td>
+						<input type='text' name='color' class='small'/>
+					</td>
+				</tr>
+				<tr>
+					<th>长度：</th>
+					<td>
+						<input type='text' name="pro_length" class='small'/>mm
+					</td>
+				</tr>
+				<tr>
+					<th>宽度：</th>
+					<td>
+						<input type='text' name='pro_width' class='small'/>mm
+					</td>
+				</tr>
+				<tr>
+				<tr>
+					<th>高度：</th>
+					<td>
+						<input type='text' name='pro_height' class='small'/>mm
+					</td>
+				</tr>
+				<tr>
+					<th>左边突出：</th>
+					<td>
+						<input type='text' name='pro_left' class='small'/>cm
+					</td>
+				</tr>
+				<tr>
+					<th>右边突出：</th>
+					<td>
+						<input type='text' name='pro_right' class='small'/>cm
+					</td>
+				</tr>
+				<tr>
+					<input type="hidden" name="photo_name" id="photo_name" value=""/>
+					<input type="hidden" name="focus_photo" id="focus_photo" value=""/>
+					<th>产品图片：</th>
+					<td>
+						<input class="middle" name="" type="text" /><div class="upload_btn"><span id="upload"></span></div>
+					</td>
+				</tr>
+				<tr>
+					<td></td><td id="show"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td id="show_list"></td>
+				</tr>
+				<tr>
+					<th></th><td><button class='submit' type='submit'><span>确 定</span></button></td>
+				</tr>
+
+
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+	var FromObj = new Form('ad_position');
+	FromObj.init
+	({
+		'id':'{$this->productRow['id']}',
+		'name':'{$this->productRow['name']}',
+		'pro_model':'{$this->productRow['pro_model']}',
+		'color':'{$this->productRow['color']}',
+		'pro_length':'{$this->productRow['pro_length']}',
+		'pro_width':'{$this->productRow['pro_width']}',
+		'pro_height':'{$this->productRow['pro_height']}',
+		'pro_left':'{$this->productRow['pro_left']}',
+		'pro_right':'{$this->productRow['pro_right']}',
+		'photo_name':'{$this->productRow['photo_name']}'
+	});
+</script>

@@ -1,0 +1,95 @@
+{set:$user = $this->user;}
+{if:(isset($user['user_id']) && $user['user_id']!='')}{set:$_flag=1;}{elseif:(isset($user['pro_id']) && $user['pro_id']!='')}{set:$_flag=2}{else:}{set:$_flag=0}{/if}
+{set:$siteConfigObj = new Config("site_config");$site_config   = $siteConfigObj->getInfo();}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$site_config['name']}</title>
+<link rel="stylesheet" href="{skin:css/css.css}" />
+<script type='text/javascript' src="{theme:javascript/js.js}"></script>
+<script type='text/javascript' src="{theme:javascript/lib.common.js}"></script>
+<script type='text/javascript' src="{theme:javascript/lib.physical.js}"></script>
+<script type='text/javascript' src="{theme:javascript/app.scale.js}"></script>
+<link rel="stylesheet" type="text/css" href="{skin:}jquery.bxSlider/bx_styles/bx_styles.css" />
+{js:jquery}
+{js:validate}
+{js:form}
+{js:dialog}
+<script type='text/javascript' src="{theme:javascript/common.js}"></script>
+<script>
+function addCookie() {
+	{set:$url = $site_config['url'];}
+	if(document.all) {
+		window.external.addFavorite('{$url}','禧妈拉伢');
+	}
+	else if(window.sidebar) {
+	
+		window.sidebar.addPanel('禧妈拉伢','{$url}',"");
+	}
+}
+</script>
+</head>
+<body>
+<!--top start-->
+<div class="header" style="width:974px;height:67px;margin:0 auto;">
+	<div class="logo" style="width:242px;height:67px;float:left;margin-left:28px;">
+			<img src="{webroot:}image/logo.gif">		
+	</div>
+	<div class="top_info">
+				<div class="float_l" style="padding-left:50px;">
+				<label>您好！</label>{if:$_flag==1}<label>{$user['username']}</label><a class="c_cus" href="{url:/ucenter}">会员中心</a>|<a href="{url:/simple/logout}">退出</a>
+				{elseif:$_flag==2}<label>{$user['proname']}</label><a href="{url:/pcenter}">专家中心</a>|<a href="{url:/simple/logout}">退出</a>
+				{else:}<label>欢迎访问禧妈拉伢网。请<a href="{url:/simple/login}">登录</a>或<a href="{url:/simple/reg}">注册</a><a href="{url:/simple/vip_reg}">VIP客户注册</a></label>{/if}
+			  </div>
+			  <div class="float_r">
+				<a href="{url:/site/column/id/80}">关于我们</a>|<a href="{url:/site/column/id/82}">联系我们</a>|<a href="javascript:addCookie();">加入收藏</a>
+			  </div>
+	</div>
+	
+</div>
+<div class="menu_bg">
+    <div class="mid_974">
+		<div style="height:23px;">
+		</div>
+        <ul class="top_menu">
+            <li><a href="{$site_config['url']}"><span class="m_ch">首页</span><span class="m_en">HOME</span></a></li>
+            <li><a href="{url:/site/column/id/11}"><span class="m_ch">禧妈服务</span><span class="m_en">SERVICES</span></a></li>
+            <li><a href="{url:/site/column/id/17}"><span class="m_ch">孕育百科</span><span class="m_en">KNOWLEDGE</span></a></li>
+            <li><a href="{url:/site/column/id/21}"><span class="m_ch">展示空间</span><span class="m_en">SHOW</span></a></li>
+            <li><a href="{url:/site/column/id/27}"><span class="m_ch">专家团队</span><span class="m_en">SPECILISTS</span></a></li>              
+            <li><a href="{url:/site/column/id/34}"><span class="m_ch">在线咨询</span><span class="m_en">CONSULTATION</span></a></li>                            
+            <li><a href="{$site_config['bbs']}"><span class="m_ch">会员社区</span><span class="m_en">COMMUNITY</span></a></li>              
+        </ul>
+    </div>
+    </div>
+</div>
+<!--top end-->
+<div class="mid_986 clear_b sub_banner">
+  <div class="weibe2"><a href="{$site_config['weibo_link']}"  target="_blank"><img src="{skin:images/weibe.png}"  width="194" height="48" /></a></div>
+</div>
+
+{viewcontent}
+
+
+<!-- JiaThis Button BEGIN -->
+<script type="text/javascript">var jiathis_config = {data_track_clickback:true};</script>
+<script type="text/javascript" src="http://v2.jiathis.com/code/jiathis_r.js?type=left&move=0&uid=1521449" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- 53kf -->
+<script type='text/javascript' src='http://chat.53kf.com/kf.php?arg=xmlyclub&style=1'></script><div style='display:none;'><a href='http://www.53kf.com'>客服系统</a></div>
+<!-- 53kf end  -->
+
+
+<!--bottom start-->
+<div class="bottom">
+  <div class="mid">
+    <div class="b_link"><a href="{$site_config['url']}">首页</a>
+    |<a href="{url:/site/column/id/80}">关于禧妈拉伢</a>|<a href="{url:/simple/reg}">注册会员</a>|<a href="{url:/site/column/id/83}">服务项目</a>|<a href="{url:/site/column/id/999}">友情链接</a>|<a href="{url:/simple/login}">专家登录</a></div>
+    <div class="b_txt">{$site_config['site_footer_code']}</div>
+  </div>
+</div>
+<!--bottom end-->
+</body>
+</html>

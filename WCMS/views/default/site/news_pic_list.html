@@ -1,0 +1,42 @@
+/*图片列表×/
+<div class="middle_right">
+<div class="middle_top"><span>当前位置:</span>
+{set:$pid = $this->pid;}
+{query:name=column where= id eq $pid}
+<a href="{url:/site/column/id/}{$item['id']}">{$item['name']}</a>-->{$this->column['name']}</div>
+{/query}
+<div class="content">
+<div class="j_side">
+<div class="j_content">
+                <div class="j_vio">
+				{foreach:items=$this->Row}
+			
+					<div class="j_float">
+						<table width="155" border="0" cellspacing="0" cellpadding="0">
+						
+							<tr>
+							    {if:$item['list_img']!=null}
+							    <td><a href="{url:/site/column/id/}{$this->column['id']}/news_id/{$item['id']}">
+							    <img src="{url:}{$item['list_img']}" width="155" height="81" alt="car" /></a></td>
+								{else:}
+								<td><a href="{url:/site/column/id/}{$this->column['id']}/news_id/{$item['id']}">
+								<img src="{skin:image/default.gif}" width="155" height="81" alt="car" /></a></td>
+								{/if}
+							</tr>
+							<tr>
+							{if:strlen($item['title'])>8}
+							{set:$item['title'] = iconv_substr($item['title'],0,8,'utf-8')."..."}
+							{/if}
+								<td>
+								<div class="j_text"><a href="{url:/site/column/id/}{$this->column['id']}/news_id/{$item['id']}" >{$item['title']}</a></div>
+								</td>
+							</tr>
+						</table>
+					</div>
+				{/foreach}
+				</div>
+</div> 
+</div>
+		{$this->query->getPageBar()}
+		</div>
+</div>

@@ -1,0 +1,28 @@
+{js:jquery}
+<script type='text/javascript'>
+function gettable()
+{
+	var mydata = $("#mytable").html();
+	window.open('{url:/member/get_excel}?data='+mydata ,'_blank');	
+}
+</script>
+<input class="btn_print noprint" type="submit" onclick="window.print();" value="打印" />
+<input class="btn_print noprint" type="submit" onclick="gettable();" value="导出" />
+<div id="mytable" >
+	<table cellspacing="0" cellpadding="0" border="1" style="align:center;margin: 0 auto;">
+	<tr>
+	{foreach:$items=$this->column_name}
+	<th>{$item}</th>
+	{/foreach}
+	</tr>
+	
+	{foreach:$items=$this->showdata}
+	{set:$val = $item;}
+	{if:count($this->column_name) == count($val)}
+	<tr>{foreach:$items=$val}<td>{if:$key != 'sex' }{echo:$item}{else:}{echo:$item==1?"男":"女";}{/if}</td>{/foreach}</tr>
+	{else:}
+	<tr>{foreach:$items=$val}<td>{if:$key != 'sex' }{echo:$item}{else:}{echo:$item==1?"男":"女";}{/if}</td>{/foreach}<td></td></tr>
+	{/if}
+	{/foreach}
+	</table>
+</div>

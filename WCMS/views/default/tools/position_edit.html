@@ -1,0 +1,126 @@
+{js:kindeditor}
+{js:my97date}
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>广纳贤才管理</span><span>></span><span>{if:isset($this->positionRow['id'])}编辑{else:}发布{/if}社会招聘</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/tools/position_edit_act}' method='post' name='position'>
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<input type='hidden' name='id' value="" />
+				<tr>
+					<th>招聘岗位：</th>
+					<td><input type='text' name='position' class='normal' value='' pattern='required' alt='标题不能为空' /></td>
+				</tr>
+				<tr>
+					<th>招聘人数：</th>
+					<td><input type='text' name='position_num' class='normal' value=''/>人</td>
+				</tr>
+				<tr>
+					<th>性别要求：</th>
+					<td>
+						<label class='attr'><input type='radio' name='need_sex' value='2' checked/>不限</label>
+						<label class='attr'><input type='radio' name='need_sex' value='0' />男性</label>
+						<label class='attr'><input type='radio' name='need_sex' value='1' />女性</label>
+					</td>
+				</tr>
+				<tr>
+					<th>招聘部门：</th>
+					<td>
+					<select name="department" class='middle'>
+					<option value="0">-请选择-</option>
+					{query: name=select where= parent_id eq $this->department}
+						{$item['id']}				
+						<option value="{$item['id']}">{$item['name']}</option>
+					{/query}
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<th>职位类型：</th>
+					<td>
+					<select name="position_type" class='middle'>
+					<option value="0">-请选择-</option>
+					{query:name=select where=parent_id eq $this->position_type}
+							{if:!empty($item['name'])}
+						<option value="{$item['id']}">{$item['name']}</option>
+						{/if}
+					{/query}
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<th>年龄要求：</th>
+					<td><input type='text' name='need_age' class='normal' value=''/></td>
+				</tr>
+				<tr>
+					<th>学历要求：</th>
+					<td>
+					<select name="education" class='middle'>
+					<option value="0">-请选择-</option>
+					{query:name=select where=parent_id eq $this->education_type}
+						{if:!empty($item['name'])}
+						<option value="{$item['id']}">{$item['name']}</option>
+						{/if}
+					{/query}
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<th>工作经验：</th>
+					<td><input type='text' name='work_experience' class='normal' value=''/></td>
+				</tr>
+				<tr>
+					<th>结束时间：</th>
+					<td>
+						<input type='text' class='Wdate' onfocus='WdatePicker()' onblur="FireEvent(this,'onchange');" name='end_time'  />
+					</td>
+				</tr>
+				<tr>
+					<th>工作地区：</th>
+					<td><input type='text' name='operational_area' class='normal' value=''/></td>
+				</tr>
+				<tr>
+					<th valign="top">详细说明：</th><td><textarea name='description' style='width:600px;height:300px' pattern='required' alt='内容不能为空'>{$this->positionRow['description']}</textarea></td>
+				</tr>
+				<tr>
+					<th>招聘岗位状态：</th>
+					<td>
+						<label class='attr'><input type='radio' name='position_status' value='0' checked/>发布</label>
+						<label class='attr'><input type='radio' name='position_status' value='1' />不发布</label>
+					</td>
+				</tr>
+				<tr>
+					<th></th><td><button class='submit' type='submit'><span>确 定</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+	var FromObj = new Form('position');
+	FromObj.init
+	({
+		'id':'{$this->positionRow['id']}',
+		'position':'{$this->positionRow['position']}',
+		'position_num':'{$this->positionRow['position_num']}',
+		'need_sex':'{$this->positionRow['need_sex']}',
+		'department':'{$this->positionRow['department']}',
+		'position_type':'{$this->positionRow['position_type']}',
+		'need_age':'{$this->positionRow['need_age']}',
+		'education':'{$this->positionRow['education']}',
+		'work_experience':'{$this->positionRow['work_experience']}',
+		'end_time':'{$this->positionRow['end_time']}',
+		'operational_area':'{$this->positionRow['operational_area']}',
+		'position_status':'{$this->positionRow['position_status']}'
+	});
+
+	//装载编辑器
+	KE.show({
+		id : 'description',
+		imageUploadJson:'{url:/block/upload_img_from_editor}'
+	});
+</script>

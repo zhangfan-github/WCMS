@@ -1,0 +1,88 @@
+{js:kindeditor}
+{js:my97date}
+<?php
+$COLUMN_TYPE_CODE='111'; //栏目类型为活动的代码
+?>
+<div class="headbar">
+	<div class="position"><span>内容</span><span>></span><span>活动管理</span><span>></span><span>{if:isset($this->positionRow['id'])}编辑{else:}发布{/if}活动策划</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/tools/huodong_edit_act}' method='post' name='huodong'>
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<input type='hidden' name='id' value="" />
+				<tr>
+					<th>活动分类：</th>
+					<td>
+						{echo:Column::showSpecColumn($COLUMN_TYPE_CODE,'category_id',$this->huodongRow['category_id'],array('请选择分类'=>null))}
+						<label>*选择所属分类（必填）</label>
+					</td>
+				</tr>
+				<tr>
+					<th>活动名称：</th>
+					<td><input type='text' name='huodong' class='normal' value='' pattern='required' alt='名称不能为空' /></td>
+				</tr>
+				<tr>
+					<th>参加人数：</th>
+					<td><input type='text' name='huodong_num' class='normal' value=''/>人</td>
+				</tr>
+				<tr>
+					<th>举办地点：</th>
+					<td><input type='text' name='operational_area' class='normal' value=''/></td>
+				</tr>
+				<tr>
+					<th>举办时间：</th>
+					<td>
+						<input type='text' class='Wdate' onfocus='WdatePicker()' onblur="FireEvent(this,'onchange');" name='run_time'  />
+					</td>
+				</tr>
+				<tr>
+					<th valign="top">活动主题：<br />(200字左右)</th><td><textarea name='topic' style='width:595px;height:50px' pattern='required' alt='主题不能为空'>{$this->huodongRow['topic']}</textarea></td>
+				</tr>
+				<tr>
+					<th valign="top">活动内容介绍：</th><td><textarea name='description' style='width:600px;height:300px' pattern='required' alt='内容不能为空'>{$this->huodongRow['description']}</textarea></td>
+				</tr>
+			
+				<tr>
+					<th>报名结束时间：</th>
+					<td>
+						<input type='text' class='Wdate' onfocus='WdatePicker()' onblur="FireEvent(this,'onchange');" name='end_time'  />
+					</td>
+				</tr>
+				<tr>
+					<th>活动状态：</th>
+					<td>
+						<label class='attr'><input type='radio' name='huodong_status' value='0' checked/>报名中</label>
+						<label class='attr'><input type='radio' name='huodong_status' value='1' />报名停止</label>
+					</td>
+				</tr>
+				
+				<tr>
+					<th></th><td><button class='submit' type='submit'><span>确 定</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+	var FromObj = new Form('huodong');
+	FromObj.init
+	({
+		'id':'{$this->huodongRow['id']}',
+		'huodong':'{$this->huodongRow['huodong']}',
+		'huodong_num':'{$this->huodongRow['huodong_num']}',
+		'operational_area':'{$this->huodongRow['operational_area']}',
+		'run_time':'{$this->huodongRow['run_time']}',
+		'end_time':'{$this->huodongRow['end_time']}',
+		'huodong_status':'{$this->huodongRow['huodong_status']}'
+	});
+
+	//装载编辑器
+	KE.show({
+		id : 'description',
+		imageUploadJson:'{url:/block/upload_img_from_editor}'
+	});
+</script>

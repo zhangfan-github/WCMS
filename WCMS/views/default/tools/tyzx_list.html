@@ -1,0 +1,56 @@
+<?php
+$COLUMN_TYPE_CODE='103'; //栏目类型为列表的代码
+?>
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>DIY</span><span>></span><span>DIY列表</span></div>
+	<div class="operating">
+		<a href="javascript:void(0)" onclick="event_link('{url:/tools/tyzx_add}');"><button class="operating_btn" type="button"><span class="addition">添加DIY</span></button></a>
+		<a href="javascript:void(0)" onclick="selectAll('id[]');"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
+		<a href="javascript:void(0)" onclick="delModel();"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
+	</div>
+	<div class="field">
+		<table class="list_table">
+			<col width="80px" />
+			<col width="300px" />
+			<col width="300px" />
+			<col width="200px" />
+			<col />
+			<thead>
+				<tr>
+					<th class="t_c">选择</th>
+					<th>产品名称</th>
+					<th>产品型号</th>
+					<th>创建时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+<div class="content">
+	<form action="{url:/tools/tyzx_del}" method="post" name="article">
+		<table class="list_table">
+			<col width="80px" />
+			<col width="300px" />
+			<col width="300px" />
+			<col width="200px" />
+			<col />
+			<tbody>
+				{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+				{query: name=tyzx as t order=t.id desc page=$page pagesize=10 fields=t.id,t.name,t.time,t.pro_model}
+				<tr>
+					<td class="t_c"><input type="checkbox" name="id[]" value="{$item['id']}" /></td>
+					<td>{echo:Article::showTitle($item['name'])}</td>
+					<td>{echo:Article::showTitle($item['pro_model'])}</td>
+					<td>{$item['time']}</td>
+					<td>
+						<a href='{url:/tools/tyzx_edit_show/id/}{$item['id']}'><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="编辑" /></a>
+						<a href='javascript:void(0)' onclick="delModel({link:'{url:/tools/tyzx_del/id/}{$item['id']}'});"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" title="删除" /></a>
+					</td>
+				</tr>
+				{/query}
+			</tbody>
+		</table>
+	</form>
+</div>
+{$query->getPageBar()}

@@ -1,0 +1,308 @@
+{js:kindeditor}
+{set:$siteConfigObj = new Config("site_config");$site_config   = $siteConfigObj->getInfo();}
+<script type='text/javascript' src="{theme:javascript/swfupload.js}"></script>
+<script type='text/javascript' src="{theme:javascript/swfupload.queue.js}"></script>
+<script type="text/javascript" src="{theme:javascript/fileprogress.js}"></script>
+<script type="text/javascript" src="{theme:javascript/handlers.js}"></script>
+<script type="text/javascript" src="{theme:javascript/event.js}"></script>
+<script type="text/javascript">
+	var swfu;
+	window.onload = function () {
+		swfu = new SWFUpload({
+			// Backend Settings
+			upload_url: "{url:/block/img_upload}",
+			post_params: {"PHPSESSID": "NONE"},
+
+			file_size_limit : "10 MB",	// 2MB
+			file_types : "*.jpg;*.jpge;*.png;*.gif",
+			file_types_description : "JPG Images",
+			file_upload_limit : "0",
+			file_queue_error_handler : fileQueueError,
+			file_dialog_complete_handler : fileDialogComplete,
+			upload_progress_handler : uploadProgress,
+			upload_error_handler : uploadError,
+			upload_success_handler : uploadSuccess,
+			upload_complete_handler : uploadComplete,
+
+			// Button Settings
+			button_placeholder_id : "upload",
+			button_width: 50,
+			button_height: 21,
+			button_text : '浏览...',
+			button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+			button_cursor: SWFUpload.CURSOR.HAND,
+
+			// Flash Settings
+			flash_url : "{theme:javascript/swfupload.swf}",
+
+			custom_settings : {
+				upload_target : "show"
+			},
+			// Debug Settings
+			debug: false
+		});
+	};
+	function show_link(img)
+	{
+		art.dialog.open('{url:/block/goods_photo_link/?img=}'+img, {
+			id:'goods_photo_link',
+			width:'700px',
+			height:'160px',
+			lock: true,
+		    title: '图片链接'
+		});
+	}
+	function del_img(id)
+	{
+		//删除数组元素.
+		Array.prototype.remove=function(dx)
+		{
+		    if(isNaN(dx)||dx>this.length){return false;}
+		    for(var i=0,n=0;i<this.length;i++)
+		    {
+		        if(this[i]!=this[dx])
+		        {
+		            this[n++]=this[i]
+		        }
+		    }
+		    this.length-=1
+		}
+		//在数组中获取指定值的元素索引
+		Array.prototype.getIndexByValue= function(value)
+		{
+		    var index = -1;
+		    for (var i = 0; i < this.length; i++)
+		    {
+		        if (this[i] == value)
+		        {
+		            index = i;
+		            break;
+		        }
+		    }
+		    return index;
+		}
+		var photo_name = $('#photo_name').val();
+		photo_name = photo_name.substring(0,photo_name.length-1);
+		var arr = photo_name.split(',');
+		var key = 0;
+		for(var i=0;i<arr.length;i++){
+			if(arr[i].indexOf(id)>0){
+				key = i;
+			}
+		}
+		arr.remove(key);
+		if(arr.length>0)
+		{
+			//如果没有全部删除则不为空
+			$('#photo_name').val(arr.join(',')+',')
+			$("#a"+id).remove();
+			var focus_photo = $('#focus_photo').val();
+			if(focus_photo.indexOf(id)>0)
+			{
+				var photo_ar = arr.join(',');
+				if(photo_ar!='')
+				{
+					arr = photo_ar.split(',');
+					var head = arr[0].substring(0,arr[0].indexOf('.'));
+					var footer = arr[0].substring(arr[0].indexOf('.'));
+					var oldhead = focus_photo.substring(focus_photo.indexOf('_'),focus_photo.indexOf('.'));
+					$('#focus_photo').val(head+oldhead+footer);
+					$('img').each(function(){
+						var src = $(this).attr("src");
+						if(src.indexOf(head+oldhead+footer)>0)
+						{
+							$(this).addClass('current');
+							return;
+						}
+					});
+				}
+			}
+		}else{
+			//如果图片全部删除则值为空
+			$('#photo_name').val("");
+			$('#focus_photo').val("");
+			$("#a"+id).remove();
+		}
+	}
+	function focus_img(little,obj)
+	{
+		$('#focus_photo').val(little);
+		$("img[name='img_name']").removeClass('current');
+		obj.className = 'current';
+	}
+</script>
+<script>
+	function sub_action()
+	{
+		var login_id=$("#login_id").val();
+		if(( $("#name").val()!='' )&&( $("#position").val()!='') &&( $("#work_place").val()!='')
+					&&($("#email").val()!='')&&($("#description").val()!='') &&($("#sort").val()!='')   )
+		{
+		
+		$.get("{url:/member/check_id}?login_id="+login_id,
+				function(result){
+				if( (result=="0"))
+					{
+					document.article.submit();
+					}
+				else
+					{
+					document.getElementById("msg").innerHTML="已经被使用的用户名";	
+					}
+				})
+		}
+		else
+		{
+			document.getElementById("kfc").innerHTML="请填写所有的选项";
+		}
+	}
+	function login_focus()
+	{
+		document.getElementById("msg").innerHTML="";	
+	}
+
+			
+</script>
+<div class="headbar">
+	<div class="position"><span>服务</span><span>></span><span>专家管理</span><span>></span><span>{if:isset($this->showdata['id'])}编辑{else:}添加{/if}专家</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/member/expert_edit_act}' method='post' name='article'>
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<input type='hidden' name='id' value="" />
+				<tr>
+					<th>专家组：</th>
+					<td>
+							{query:name=professional_group}							
+							{if:in_array($item['id'],$this->group )}
+							<input type="checkbox" id='group' name="group[]" value="{$item['id']}" checked=true />&nbsp;&nbsp;&nbsp;{$item['name']}&nbsp;&nbsp;&nbsp;
+							{else:}
+							<input type="checkbox" id='group' name="group[]" value="{$item['id']}" />&nbsp;&nbsp;&nbsp;{$item['name']}&nbsp;&nbsp;&nbsp;
+							{/if}
+							{/query}
+						<label>*选择所属专家所属组（必填）</label>
+					</td>
+				</tr>
+				<tr>
+					<th>姓名：</th>
+					<td><input type='text' name='name' id='name' class='normal' value='{$this->showdata['name']}' pattern='required' alt='姓名不能为空' /></td>
+				</tr>
+					<tr><input type="hidden" name="photo_name" id="photo_name" value="{$this->showdata['head_ico']}"/><input type="hidden" name="focus_photo" id="focus_photo" value="{$this->showdata['head_ico']}"/>
+					<th>头像：</th>
+					<td><input class="middle" name="" type="text" /><div class="upload_btn"><span id="upload"></span></div><label>上传的图片可替代当前的头像	</td>		
+				</tr>
+				<tr>
+					<td></td>
+					<td id="show"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td id="show_list">
+
+						{set:$url = $this->showdata['head_ico'];}
+						{if:!empty($url)}
+						{set:$url_id = substr($url,0,strpos($url,'.'));$url_id = substr(strrchr($url_id,'/'),1);}
+						{set:$urlname=explode(".",$url)}
+							<span id="a{$url_id}" class="pic">
+								<img name="img_name" class="current" style="margin: 5px; opacity: 1;" src="{echo:IUrl::creatUrl().$urlname[0].'_'.$site_config['show_thumb_width'].'_'.$site_config['show_thumb_height'].'.'.$urlname[1]}" onclick="focus_img('{$url}',this)">
+								<br>
+								<a href="javascript:;" style="padding-right:1em" onclick="show_link('{$url}')">链接</a>
+								<a id="{$url_id}" href="javascript:;" onclick="del_img(this.id)">删除</a>
+							</span>
+						{/if}
+					</td>
+				</tr>
+				<tr>
+					<th>职称：</th>
+					<td>
+						<input type='text' class='normal' name='position' id='position' value='{$this->showdata['position']}' pattern='required' alt='职称不能为空'/>
+					</td>
+				</tr>
+				<!-- 			
+				<tr>
+					<th>服务时间</th>
+				</tr>
+				 -->
+
+				<tr>
+					<th>服务地点</th>
+					<td>
+						<input type='text' class='normal' name='work_place' id='work_place' value='{$this->showdata['work_place']}' pattern='required' alt='服务地点不能为空'/>
+					</td>
+				</tr>
+				<tr>
+					<th>专家状态：</th>
+					<td>
+					{if:$this->showdata['state']=='0'}
+						<label class='attr'><input type='radio' name='visiblity' id='visiblity'  value='1'  />正常</label>
+						<label class='attr'><input type='radio' name='visiblity' id='visiblity' value='0' checked=checked />无效</label>
+					{else:}
+						<label class='attr'><input type='radio' name='visiblity' id='visiblity' value='1' checked=checked />正常</label>
+						<label class='attr'><input type='radio' name='visiblity' id='visiblity' value='0' />无效</label>
+					{/if}
+					</td>
+				</tr>
+				{if:empty($this->showdata['id'])}
+				<tr>
+					<th>分配ID：</th>
+					<td>
+						<input type='text' class='normal' id='login_id' name='login_id' value='{$this->showdata['id']}' onfocus="login_focus()" pattern="^[\w\u0391-\uFFE5]{2,20}$" alt="2-20个字符，字数、数字、下划线和中文" />
+						<lable id="msg" style="color:red;"></lable>
+					</td>
+				</tr>
+				<tr>
+					<th>分配密码：</th>
+					<td>
+						<input type='password' class='normal' name='password' id='password' value='' pattern="^\S{6,32}$" bind='repassword' alt='填写6-32个字符'/>
+					</td>				
+				</tr>
+				<tr>
+					<th>再次输入密码：</th>
+					<td>
+						<input type='password' class='normal' name='pass_again' id='pass_again' value='' pattern="^\S{6,32}$" bind='password' alt='两次填写的密码不一致'/>
+					</td>				
+				</tr>
+				{/if}
+				<tr>
+					<th>邮箱</th>
+					<td>
+						<input  type="text" class='normal' name='email' id='email' value='{if:$this->showdata['email']}{$this->showdata['email']}{else:}a@ximalaya.com{/if}' pattern="email" alt="填写正确的邮箱格式" /></td>
+					</td>
+				</tr>
+				<tr>
+					<th valign="top">介绍：</th><td><textarea name='description' id='description' style='width:600px;height:300px' pattern='required' alt='内容不能为空'>{$this->showdata['introduce']}</textarea></td>
+				</tr>
+				<tr>
+				<th>排序</th>
+					<td>
+						<input  type="text" class='normal' name='sort' id='sort' value='{if:$this->showdata['sort']}{$this->showdata['sort']}{else:}1{/if}' pattern="required" alt="填写数字" /></td>
+					</td>
+				</tr>
+				<tr>
+					<th></th>
+					<td><button class='submit' type='button' onClick="sub_action()"><span>确 定</span></button>
+					<lable id="kfc" style="color:red;"></lable>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+	var FromObj = new Form('article');
+	FromObj.init
+	({
+		'id':'{$this->showdata['id']}'
+	});
+
+	//装载编辑器
+	KE.show({
+		id : 'description',
+		imageUploadJson:'{url:/block/upload_img_from_editor}'
+	});
+
+</script>

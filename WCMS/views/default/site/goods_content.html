@@ -1,0 +1,40 @@
+  <div class="subpage_right">
+      <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+      <div class="subpage_right_bg">
+          
+      <div class="sub_div">
+	<div class="clear_b">
+                  <div class="float_l"><div class="sub_right_ti">{$this->column['name']}</div>
+                  </div>
+                  <div class="float_r solid_line"></div>
+          
+          </div>
+           <div class="h_10"></div>
+           <p class="news_info_ti f_pink">{$this->data['name']}</p>
+           <table border="0" cellspacing="0" cellpadding="0" >
+             <tr>
+               <td valign="top"><img src="{url:}{$this->data['image']}" width="175px" /></td>
+               <td width="10">&nbsp;</td>
+               <td valign="top">
+		<table  width="300px" border="0" cellspacing="0" cellpadding="2" class="f_purple">
+                 <tr>
+                   <td width="25%" align="right" valign="top" class="f_pink">商品名称：</td>
+                   <td width="75%" valign="top">{$this->data['name']}</td>
+                 </tr>
+                 <tr>
+                   <td align="right" valign="top" class="f_pink">商品价格：</td>
+                   <td valign="top">{$this->data['price']}</td>
+                 </tr>
+                 <tr>
+                   <td align="right" valign="top" class="f_pink">商品简介：</td>
+                   <td valign="top">{$this->data['describe']}</span></td>
+                 </tr>
+               </table>
+			</td>
+             </tr>
+           </table>
+           <div class="f_purple">{$this->data['introduction']}</div>
+	</div>
+      </div>
+      <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+  </div>

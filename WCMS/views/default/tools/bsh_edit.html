@@ -1,0 +1,73 @@
+{js:kindeditor}
+<script type="text/javascript" src="{theme:javascript/event.js}"></script>
+<script type="text/javascript">
+$(function(){
+	var state = {echo:$this->bsh_data['access']};
+	if(state){
+		$("#access").attr("checked",true);
+	}
+	$("#access").click(function(){
+		if($("#access").attr("checked")==true){
+	       $("#access").attr("value",1);
+	    }else{
+	    $("#access").attr("value",0);
+	    }
+	   }
+ 	)
+})
+</script>
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>博士后工作站</span><span>></span><span>{if:isset($this->bsh_data['id'])}编辑{else:}添加{/if}内容</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/tools/bsh_edit_act}' method='post'  enctype='multipart/form-data' name='bsh'>
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<input type='hidden' name='id' value="" />
+   			    <tr>
+					<th>标题：</th>
+					<td><input type='text' name='title' class='normal'  value='' pattern="required" alt="请输入标题"/></td>
+				</tr>
+				<tr>
+					<th valign="top">内容：</th><td><textarea name='content' style='width:600px;height:300px' pattern='required' alt='内容不能为空'>{$this->bsh_data['content']}</textarea></td>
+				</tr>
+				<tr>
+					<th>排序：</th><td><input type='text' class='small' name='sort' value='' /></td>
+				</tr>
+				<tr>
+					<th>附件：</th><td><input type='file' name='att_file' class='normal' /><label> (支持后缀名为'jpg','gif','png','zip','rar','docx','doc','xls','xlsx','pdf'的文件，大小不超过2M。)</label></td>
+				</tr>
+				{if:($this->bsh_data['file']!='')}
+				{set:$file_id = substr($this->bsh_data['file'],0,strpos($this->bsh_data['file'],'.'));$file_id = substr(strrchr($file_id,'/'),1);}
+				<tr><td></td><td><lable>{$this->bsh_data['file_name']}</lable></td></tr>
+				<tr><th></th><td>{$this->bsh_data['file']} <a id="{$file_id}" href="{echo:IUrl::creatUrl().$this->bsh_data['file']}" >查看</a> </td></tr>
+				{/if}
+				<tr>
+					<th>登录后下载：</th><td><input type='checkbox'  name='access' id="access" /></td>
+				</tr>
+				<tr>
+					<th></th><td><button class='submit' type='submit'><span>确 定</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+	var FromObj = new Form('bsh');
+	FromObj.init
+	({
+		'id'   :'{$this->bsh_data['id']}',
+		'title':'{$this->bsh_data['title']}',
+		'sort' :'{echo:$this->bsh_data['sort']?$this->bsh_data['sort']:99}',
+	});
+	//装载编辑器
+	KE.show({
+		id : 'content',
+		imageUploadJson:'{url:/block/upload_img_from_editor}',
+		fileManagerJson:'../../php/file_manager_json.php',
+		allowFileManager : true
+	});
+</script>

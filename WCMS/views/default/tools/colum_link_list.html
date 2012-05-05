@@ -1,0 +1,44 @@
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>链接管理</span><span>></span><span>链接列表</span></div>
+	
+	<div class="field">
+		<table class="list_table">
+		    <col width="100px" />
+			<col width="600px" />		
+			<col />
+			<thead>
+				<tr>
+				    <th>栏目</th>									
+					<th>链接地址</th>				
+					<th>操作</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+<div class="content">
+	<form action="{url:/tools/link_del}" method="post" name="link">
+		<table class="list_table">	
+		    <col width="100px" />	
+			<col width="600px" />			
+			<col />
+			<tbody>
+				{query: name=column where=type eq 105}
+				{set:$parentid=$item['id'];}
+				<tr>
+				    <td>{$item['name']}</td>
+					<td>
+					{query: name=column_links where=column_id eq $parentid item=$help_row}
+						{$help_row['linkurl']}
+					{/query}
+					&nbsp;</td>
+					
+					<td>
+						<a href='{url:/tools/colum_link_edit/id/}{$item['id']}'><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="编辑" /></a>					
+					</td>
+				</tr>
+				{/query}
+			</tbody>
+		</table>
+	</form>
+</div>

@@ -1,0 +1,75 @@
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>专题管理</span><span>></span><span>专题信息</span></div>
+	<div class="operating">
+		
+		<a href="javascript:void(0)" onclick="event_link('{url:/tools/special_topic_article_edit}')"><button class="operating_btn" type="button"><span class="addition">添加文章内容</span></button></a>
+		<a href="javascript:void(0)" onclick="event_link('{url:/tools/special_topic_image_edit}')"><button class="operating_btn" type="button"><span class="addition">添加图片内容</span></button></a>
+		<a href="javascript:void(0)" onclick="selectAll('id[]');"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
+		<a href="javascript:void(0)" onclick="delModel();"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
+    	<div style="float:left; padding-left:50px; padding-top:5px;">
+    	<input class='small' style="width:150px;" type="text" name="title" value="{$this->title}" id="title"/>
+    	&nbsp;&nbsp;<input class='submit1' type="button" value="搜索" onclick="search('{url:/tools/special_topic_info/}');"/>
+    	</div>
+	</div>
+	<div class="field">
+		<table class="list_table">
+		    <col width="40px" />
+			<col width="300px" />
+			<col width="100px" />
+			<col width="200px" />
+			<col width="200px" />
+			<col />
+			<thead>
+				<tr>
+					<th class="t_c">选择</th>
+					<th >标题</th>
+					<th >信息分类</th>
+					<th >专题</th>
+					<th >专题分类</th>
+					<th >操作</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+<div class="content">
+	<form action="{url:/tools/topic_info_del}" method="post" name="topic_info">
+		<table class="list_table">
+			<col width="40px" />
+			<col width="300px" />
+			<col width="100px" />
+			<col width="200px" />
+			<col width="200px" />
+			<col />
+			<tbody>
+			    {set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+			    {foreach:items=$this->SearchRow}
+				<tr>
+					<td class="t_c"><input type="checkbox" name="id[]" value="{$item['id']}" /></td>					
+					<td>{$item['title']}</td>
+					{if:$item['type']==0}
+					<td>文章</td>
+					{elseif:$item['type']==1}
+					<td>图片</td>
+					{elseif:$item['type']==2}
+					<td>其他</td>
+					{/if}
+					<td>{$item['topic']}</td>
+					<td>{$item['cat_name']}</td>
+					<td>
+					{if:$item['type']==0}
+						<a href='{url:/tools/special_topic_article_edit/id/}{$item['id']}'><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="编辑" title="编辑" /></a>	
+					{elseif:$item['type']==1}	
+					    <a href='{url:/tools/special_topic_image_edit/id/}{$item['id']}'><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="编辑" title="编辑" /></a>	
+					{/if}			
+					    <a href='#'><img class="operator" src="{skin:images/admin/icon_check.gif}" alt="查看" title="查看" /></a>
+						<a href='javascript:void(0)' onclick="delModel({link:'{url:/tools/topic_info_del/id/}{$item['id']}'});"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" title="删除" /></a>
+					</td>
+				</tr>
+				{/foreach}
+			</tbody>
+		</table>
+	</form>
+</div>
+{$query->getPageBar()}
+<script type="text/javascript">art.dialog.alert("abc")</script>

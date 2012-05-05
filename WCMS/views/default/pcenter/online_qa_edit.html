@@ -1,0 +1,99 @@
+
+
+<div class="mid_986">
+    <div style="position:relative">
+      <div class="f_purple sub_cur_title"> 您当前的位置：<a href="{url:/}">首页</a> &gt; <a href="{url:/pcenter}">专家中心</a> &gt; <a href="{url:/pcenter/online_qa}">站内咨询</a> </div>
+      <div class="sub_huan">
+   <img src="{skin:images/huan.png}" width="106" height="92" />
+   </div>
+  </div>
+  
+  <div class="subpage_bor">
+        <!-- 左边栏开始 -->
+        <div class="subpage_left">
+            <div><img src="{skin:images/baike_l_bg1.png}" /></div>
+            <div class="subpage_left_bg">
+                <div class="f_purple left_title f_size16B">- 专家中心 -</div>
+            <ul class="left_menu">
+                <li><a href="{url:/pcenter/info}">- 个人信息 -</a></li>
+                <li><a href="{url:/pcenter/online_qa}">- 站内咨询 -</a></li>
+                <li><a href="{url:/pcenter/password}">- 修改密码 -</a></li>
+                
+                <li><a href="{url:/pcenter/schedule}">- 值班时间 -</a></li>
+                <li><a href="/bbs">- 会员社区 -</a></li>
+            </ul>
+            <div class="das_line left_line"></div>
+            <div class="hezuo_div">
+                <div class="hezuo_div_top"></div>
+                <div class="hezuo_div_mid">
+            <div class="left_hezuo_ti f_purple f_size16B">- 合作机构 -</div>
+                <ul class="left_hezuo">
+                    {query:name=operator_links limit=4 Order=order }
+                    <li><a href="{$item['linkurl']}"><img src="{url:}{$item['photo']}" style="width:153px;height:44px;"/></a></li>
+                    {/query}
+                    </ul>
+                    
+             <div class="hezuo_more"><a class="purple" href="{url:/site/column/id/79}">【more】</a></div>    
+                
+                </div>
+            <div class="hezuo_div_bot"></div>
+            </div>
+            </div>
+            <div><img src="{skin:images/baike_l_bg3.png}"/></div>
+        </div>
+        <!-- 左边栏结束 -->
+
+<!-- Online QA Top -->
+
+ <div class="subpage_right">
+            <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+            <div class="subpage_right_bg">
+                
+                <div class="sub_div">
+        <div class="clear_b">
+                        <div class="float_l">
+                          <div class="sub_right_ti">站内咨询</div>
+                        </div>
+                        <div class="float_r solid_line"></div>
+                
+                </div>
+                <div class="h_24"></div>
+                {set:$items=$this->suggestion;}
+                <div class="operating">
+                    <a onclick="location='{url:/pcenter/online_qa_del/check/$items[id]}'" href="javascript:void(0);"><button  class="smt" type="button"><span class="delete">删除</span></button></a>
+
+                    <a href="javascript:void(0)" onclick="history.go(-1)"><button class="smt" type="button"><span class="return">返回</span></button></a>
+                </div>
+                
+                <form action="{url:/pcenter/online_qa_edit_act/}" method="post" name="comment_edit">
+	            <input type="hidden" name="id" value="{$items['id']}" />
+	            <table class="email_list" width="100%">
+                <col width="150px" />
+                <col />
+                <tr>
+                    <th><b>咨询人：</b></th><td>{if:isset($items['user_id'])}{$items['username']}</a>{/if}
+                    <input type="hidden" value="{$items['id']}" name="check[]" /></td>
+                </tr>
+                <tr>
+                    <th><b>咨询时间：</b></th><td>{$items['time']}</td>
+                </tr>
+                <tr>
+                    <th><b>咨询内容：</b></th><td>{$items['content']}</td>
+                </tr>
+                <tr>
+                    <th valign="top"><b>回复：</b></th><td><textarea rows="4" cols='50' name="re_content" rows="" cols="">{$items['re_content']}</textarea></td>
+                </tr>
+                <tr>
+                    <th></th><td><button class="smt" type="submit"><span>回 复</span></button></td>
+                </tr>
+            </table>
+        </form>
+                <!-- End -->
+                </div>
+            </div>
+            <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+    </div>
+    </div>
+</div>
+
+<!-- Online QA End -->

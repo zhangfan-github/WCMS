@@ -1,0 +1,50 @@
+<div class="subpage_right">
+    <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+    <div class="subpage_right_bg">
+                
+        <div class="sub_div">
+			<div class="clear_b">
+				<div class="float_l"><div class="sub_right_ti">{$this->column['name']}</div>
+				</div>
+				<div class="float_r solid_line"></div>                
+            </div>
+            <div class="h_24"></div>
+            <ul class="me-list">
+			{foreach:items=$this->seviceRow item=$val key=$k}
+					<li>
+						<div class="list_img"><a href="{url:/site/column/id/}{$this->column['id']}/servpack_id/{$val['id']}" target="_blank"><img src="{url:}{$val['picture']}" alt="" width="120" height="120" /></a></div>
+                        <div class="list_txt">
+							<div class="f_size14"><a href="{url:/site/column/id/}{$this->column['id']}/servpack_id/{$val['id']}" target="_blank" class="pink">{$val['name']}</a></div>
+
+							<div class="f_pink">套餐内容：</br>
+							{set:$i=0;}
+							{foreach:items=$this->showdataRow[$k] item=$tmp}
+							<a href = "{url:/site/column/id/}83/serv_id/{$tmp['id']}" class="f_pink" target="_blank"><span>{$tmp['name']}</span></a>&nbsp;
+							{set:$i=$i+1;}
+							{if:$i==3}
+								</br>
+								{set:$i=0;}
+							{/if}
+							{/foreach}</div>
+							<div class="f_pink">套餐价格：{$val['price']}元</div>
+							<div class="f_purple">套餐简介：{$val['definition']}
+								<a href="{url:/site/column/id/}{$this->column['id']}/servpack_id/{$val['id']}" target="_blank" class="purple">【详情】</a>
+							</div>
+                            <div class="btn_trial">
+                            <a href="{url:/site/yuding/id/}{$this->column['id']}/servpack_id/{$val['id']}" target="_blank"><img src="{skin:images/btn_booking.png}" alt="在线预定" /></a>
+                            {if:$val['state']==1}
+                            <a href="{url:/site/free_reg/id/}{$this->column['id']}/servpack_id/{$val['id']}" target="_blank"><img src="{skin:images/btn_trial.png}" alt="免费体验" /></a>
+                            {else:}
+                            <a href="#" ><img src="{skin:images/btn_hui.png}" alt="免费体验" /></a>
+                            {/if}
+						</div>
+						</div>
+					</li>
+              {/foreach}   
+			</ul>
+			<div class="clear_b"></div>	
+			{$this->query->front_getPageBar()}
+        </div>
+    </div>
+    <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+</div>

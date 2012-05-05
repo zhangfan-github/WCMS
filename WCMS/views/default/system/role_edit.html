@@ -1,0 +1,38 @@
+<div class="headbar">
+	<div class="position"><span>系统</span><span>></span><span>权限管理</span><span>></span><span>{if:isset($this->roleRow['id'])}编辑{else:}添加{/if}角色</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/system/role_edit_act}" method="post" name="role_edit">
+			<input type='hidden' name='id' />
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>名称：</th>
+					<td><input type='text' class='normal' name='name' pattern='required' alt='请填写角色名称' /><label>* 角色名称</label></td>
+				</tr>
+				<tr>
+					<th valign="top">权限分配：</th>
+					<td>
+						<ul class='attr_list'>
+							{query:name=right where=is_del eq 0 order=`right` asc}
+							<li><label class='attr'><input type='checkbox' value='{$item['right']}' name='right[]' />{$item['name']}</label></li>
+							{/query}
+						</ul>
+					</td>
+				</tr>
+				<tr><td></td><td><button class="submit" type='submit'><span>保 存</span></button></td></tr>
+			</table>
+		</form>
+	</div>
+</div>
+<script type='text/javascript'>
+	var formObj = new Form('role_edit');
+	formObj.init({
+		'id':'{$this->roleRow['id']}',
+		'name':'{$this->roleRow['name']}',
+		'right[]':'{echo:str_replace(',',';',$this->roleRow['rights'])}'
+	});
+
+</script>

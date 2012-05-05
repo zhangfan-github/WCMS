@@ -1,0 +1,250 @@
+<script type='text/javascript' src="{theme:javascript/swfupload.js}"></script>
+<script type='text/javascript' src="{theme:javascript/swfupload.queue.js}"></script>
+<script type="text/javascript" src="{theme:javascript/fileprogress.js}"></script>
+<script type="text/javascript" src="{theme:javascript/handlers.js}"></script>
+<script type="text/javascript" src="{theme:javascript/event.js}"></script>
+<script type="text/javascript">
+    var swfu;
+    window.onload = function () {
+        swfu = new SWFUpload({
+            // Backend Settings
+            upload_url: "{url:/block/img_upload}",
+            post_params: {"PHPSESSID": "NONE"},
+
+            file_size_limit : "4 MB",   // 2MB
+            file_types : "*.jpg;*.jpge;*.png;*.gif",
+            file_types_description : "JPG Images",
+            file_upload_limit : "0",
+            file_queue_error_handler : fileQueueError,
+            file_dialog_complete_handler : fileDialogComplete,
+            upload_progress_handler : uploadProgress,
+            upload_error_handler : uploadError,
+            upload_success_handler : uploadSuccess,
+            upload_complete_handler : uploadComplete,
+
+            // Button Settings
+            button_placeholder_id : "upload",
+            button_width: 50,
+            button_height: 21,
+            button_text : '浏览...',
+            button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+            button_cursor: SWFUpload.CURSOR.HAND,
+
+            // Flash Settings
+            flash_url : "{theme:javascript/swfupload.swf}",
+
+            custom_settings : {
+                upload_target : "show"
+            },
+            // Debug Settings
+            debug: false
+        });
+    };
+    function show_link(img)
+    {
+        art.dialog.open('{url:/block/goods_photo_link/?img=}'+img, {
+            id:'goods_photo_link',
+            width:'700px',
+            height:'160px',
+            lock: true,
+            title: '图片链接'
+        });
+    }
+    function del_img(id)
+    {
+        //删除数组元素.
+        Array.prototype.remove=function(dx)
+        {
+            if(isNaN(dx)||dx>this.length){return false;}
+            for(var i=0,n=0;i<this.length;i++)
+            {
+                if(this[i]!=this[dx])
+                {
+                    this[n++]=this[i]
+                }
+            }
+            this.length-=1
+        }
+        //在数组中获取指定值的元素索引
+        Array.prototype.getIndexByValue= function(value)
+        {
+            var index = -1;
+            for (var i = 0; i < this.length; i++)
+            {
+                if (this[i] == value)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            return index;
+        }
+        var photo_name = $('#photo_name').val();
+        photo_name = photo_name.substring(0,photo_name.length-1);
+        var arr = photo_name.split(',');
+        var key = 0;
+        for(var i=0;i<arr.length;i++){
+            if(arr[i].indexOf(id)>0){
+                key = i;
+            }
+        }
+        arr.remove(key);
+        if(arr.length>0)
+        {
+            //如果没有全部删除则不为空
+            $('#photo_name').val(arr.join(',')+',')
+            $("#a"+id).remove();
+            var focus_photo = $('#focus_photo').val();
+            if(focus_photo.indexOf(id)>0)
+            {
+                var photo_ar = arr.join(',');
+                if(photo_ar!='')
+                {
+                    arr = photo_ar.split(',');
+                    var head = arr[0].substring(0,arr[0].indexOf('.'));
+                    var footer = arr[0].substring(arr[0].indexOf('.'));
+                    var oldhead = focus_photo.substring(focus_photo.indexOf('_'),focus_photo.indexOf('.'));
+                    $('#focus_photo').val(head+oldhead+footer);
+                    $('img').each(function(){
+                        var src = $(this).attr("src");
+                        if(src.indexOf(head+oldhead+footer)>0)
+                        {
+                            $(this).addClass('current');
+                            return;
+                        }
+                    });
+                }
+            }
+        }else{
+            //如果图片全部删除则值为空
+            $('#photo_name').val("");
+            $('#focus_photo').val("");
+            $("#a"+id).remove();
+        }
+    }
+    function focus_img(little,obj)
+    {
+        $('#focus_photo').val(little);
+        $("img[name='img_name']").removeClass('current');
+        obj.className = 'current';
+    }
+
+    function ResizeImage(obj, MaxW, MaxH) {
+
+        if (obj != null) imageObject = obj;
+
+        var state=imageObject.readyState;
+
+        if(state!='complete') {
+
+        setTimeout("ResizeImage(null,"+MaxW+","+MaxH+")",50);
+
+        return;
+
+        }
+
+        var oldImage = new Image();
+
+        oldImage.src = imageObject.src;
+
+        var dW=oldImage.width;
+
+        var dH=oldImage.height;
+
+        if(dW>MaxW || dH>MaxH)
+
+        { a=dW/MaxW; b=dH/MaxH; if(b>a) a=b; dW=dW/a; dH=dH/a; }
+
+        if(dW > 0 && dH > 0)
+
+        { imageObject.width=dW; imageObject.height=dH; }
+
+    }
+    
+</script>
+<?php
+$COLUMN_TYPE_CODE='106'; //栏目类型为列表的代码
+        
+//获得配置文件中的数据
+$config      = new Config("site_config");
+$config_info = $config->getInfo();
+
+$list_thumb_width  = isset($config_info['list_thumb_width'])  ? $config_info['list_thumb_width']  : 175;
+$list_thumb_height = isset($config_info['list_thumb_height']) ? $config_info['list_thumb_height'] : 175;
+$show_thumb_width  = isset($config_info['show_thumb_width'])  ? $config_info['show_thumb_width']  : 85;
+$show_thumb_height = isset($config_info['show_thumb_height']) ? $config_info['show_thumb_height'] : 85;
+
+?>
+<div class="headbar">
+    <div class="position"><span>工具</span><span>></span><span>下载管理</span><span>></span><span>{if:isset($id)}编辑{else:}添加{/if}下载</span></div>
+</div>
+<div class="content_box">
+    <div class="content form_content">
+        <form action='{url:/tools/download_edit_act}' method='post' enctype='multipart/form-data' name='download'>
+            <table class="form_table">
+                <col width="150px" />
+                <col />
+                <input type="hidden" name="id" value="" />
+                <tr>
+                    <th>下载分类：</th>
+                    <td>
+                        {echo:Column::showSpecColumn1($COLUMN_TYPE_CODE,'category_id',$category_id,array('请选择分类'=>null))}
+                        <label>*选择下载所属分类（必填）</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>下载名称：</th>
+                    <td><input type='text' name='name' class='normal' value='' pattern="required" alt="请填写下载名称" /><label>*下载名称（必填）</label></td>
+                </tr>
+                <tr>
+                    <th>是否公开下载：</th>
+                    <td><label class='attr'>公开下载：<input name="access" type="radio" value=0 {if:$access=='0'} checked="checked" {/if}/></label><label class='attr'>登录下载：<input  name="access" type="radio" value="1" {if:$access=='1'} checked="checked" {/if}/></label></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="show_list">
+                    {if:isset($id)}
+
+                        {set:$url = $photo;}
+                        {if:!empty($url)}
+                        {set:$url_id = substr($url,0,strpos($url,'.'));$url_id = substr(strrchr($url_id,'/'),1);}
+                            <span id="a{$url_id}" class="pic">
+                                <img name="img_name" width="{$show_thumb_width}" height="{$show_thumb_height}" class="current" style="margin: 5px; opacity: 1;" src="{echo:IUrl::creatUrl().$url}" onclick="focus_img('{$url}',this)" >
+                                <br>
+                                <a href="javascript:;" style="padding-right:1em" onclick="show_link('{$url}')">链接</a>
+                                <a id="{$url_id}" href="javascript:;" onclick="del_img(this.id)">删除</a>
+                            </span>
+                        {/if}
+                    {/if}
+                    </td>
+                </tr>
+                <tr>
+                    <th>下载地址：</th>
+                    <td><input type='text' name='linkurl' class='normal' value=''  alt="请填写下载的地址" /><label>下载地址(可选)</label></td>
+                </tr>       
+                <tr>
+                    <th>下载文件：</th><td><input type='file' name='attach' class='normal' /><label>下载地址和下载文件二选一  (支持后缀名为'jpg','gif','png','zip','rar','docx','doc','xls','xlsx','pdf'的文件，大小不超过2M。)</label></td>
+                </tr>
+                {if:($file!='')}
+                {set:$file_id = substr($file,0,strpos($file,'.'));$file_id = substr(strrchr($file_id,'/'),1);}
+                <tr><th></th><td>{$file} <a id="{$file_id}" href="{echo:IUrl::creatUrl().$file}" >查看</a> </td></tr>
+                {/if}
+                <tr>
+                    <th>排序：</th><td><input type='text' class='small' name='order' value='' pattern="^\d+$" alt="排序必须为数字" /></td>
+                </tr>
+                <tr>
+                    <td></td><td><button class='submit' type='submit'><span>确 定</span></button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type='text/javascript'>
+    var formObj = new Form('download');
+    formObj.init({
+        'id':'{$id}',
+        'name':'{$name}',
+        'linkurl':'{$linkurl}',
+        'order':'{echo:$order?$order:99}'
+    });
+</script>

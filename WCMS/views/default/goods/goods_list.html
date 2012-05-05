@@ -1,0 +1,67 @@
+<div class="headbar">
+    <div class="position"><span>商品</span><span>></span><span>商品管理</span><span>></span><span>商品列表</span></div>
+    <div class="operating">
+        <a href="javascript:void(0)" onclick="event_link('{url:/goods/goods_edit}')"><button class="operating_btn" type="button"><span class="addition">添加商品</span></button></a>
+        <a href="javascript:void(0)" onclick="selectAll('id[]');"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
+        <a href="javascript:void(0)" onclick="delModel();"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
+    </div>
+    <div class="field">
+        <table class="list_table">
+            <col width="40px" />
+            <col width="150px" />
+            <col width="100px" />
+            <col width="100px" />
+            <col width="100px" />
+            <col width="300px" />
+            <col width="50px" />
+            <col />
+            <thead>
+                <tr>
+                    <th class="t_c">选择</th>
+                    <th>商品名称</th>
+                    <th>商品编号</th>
+                    <th>商品价格</th>
+                    <th>是否上架</th>
+                    <th>商品分类</th>
+                    <th>排序</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div class="content">
+    <form action="{url:/goods/goods_del}" method="post" name="goods">
+        <table class="list_table">
+            <col width="40px" />
+            <col width="150px" />
+            <col width="100px" />
+            <col width="100px" />
+            <col width="100px" />
+            <col width="300px" />
+            <col width="50px" />
+            <col />
+            <tbody>
+                {set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+				{query: name=goods as g,goods_cat as gc where= g.cat_id eq gc.id    order=g.sort asc page=$page pagesize=20 fields=g.id,g.name,g.gid,g.price,g.state,g.sort,gc.name as cat_name}
+                <tr>
+                    <td class="t_c"><input type="checkbox" name="id[]" value="{$item['id']}" /></td>
+                    
+                    <td>{$item['name']}</td>
+                    <td>{$item['gid']}</td>
+                    <td>{$item['price']}</td>
+                    <td>{echo:($item['state']==1) ? '是':'否'}</td>
+                    <td>{$item['cat_name']}</td>
+                    <td>{$item['sort']}</td>
+                    <td>
+                        <a href='{url:/goods/goods_edit/id/}{$item['id']}'><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="编辑" title="编辑" /></a>
+                        
+                        <a href='javascript:void(0)' onclick="delModel({link:'{url:/goods/goods_del/id/}{$item['id']}'});"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" title="删除" /></a>
+                    </td>
+                </tr>
+                {/query}
+            </tbody>
+        </table>
+    </form>
+</div>
+{$query->getPageBar()}

@@ -1,0 +1,23 @@
+<div class="subpage_right">
+	<div><img src="{skin:images/baike_r_bg1.png}" /></div>
+    <div class="subpage_right_bg">
+        <div class="sub_div">
+			<div class="clear_b">
+                <div class="float_l"><div class="sub_right_ti">{$this->column['name']}</div>
+                </div>
+                <div class="float_r solid_line"></div>          
+            </div>
+            <div class="h_10"></div>
+            <p class="news_info_ti f_pink">{$this->showdata['name']} </p>
+             
+                <table border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td valign="top"><img src="{url:}{$this->showdata['pic']}" width="230"/></td>
+                    <td width="20">&nbsp;</td>
+                  </tr>
+                </table>
+                 <div class="f_purple"><span class="f_pink">营养菜谱介绍：</span>{if:empty($this->showdata['content'])}无{else:}{$this->showdata['content']}{/if}</div>
+		</div>
+	</div>
+    <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+ </div>

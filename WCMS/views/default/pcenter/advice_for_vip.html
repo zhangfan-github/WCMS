@@ -1,0 +1,297 @@
+<link href="{theme:javascript/user_info/jquery-ui.css}" rel="stylesheet" type="text/css"/>
+<script src="{theme:javascript/user_info/jquery.min.js}"></script>
+<script src="{theme:javascript/user_info/jquery-ui.min.js}"></script>
+<script src="{theme:javascript/user_info/jquery.idTabs.min.js}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	   var form_id = {echo:$this->form_id};
+	   $("#tabs").tabs({selected:form_id});
+	   
+	   {if:!empty($this->div_id)}
+		 $("#usual1 ul").idTabs({echo:'"'.$this->div_id.'"'});
+	   {else:}
+			 $("#usual1 ul").idTabs();
+	   {/if}
+	 })
+</script>
+
+<div class="mid_986">
+   <div style="position:relative">
+      <div class="f_purple sub_cur_title"> 您当前的位置：
+      <a href="{url:/}">首页</a> &gt; 
+      <a href="{url:/pcenter}">专家中心</a> &gt; 
+      <a href="{url:/pcenter/advice_for_vip}">个人信息</a> 
+      </div>
+      <div class="sub_huan">
+   	  	<img src="{skin:images/huan.png}" width="106" height="92" />
+   	  </div>
+   </div>
+  
+   <div class="subpage_bor">
+        <!-- 左边栏开始 -->
+        <div class="subpage_left">
+            <div><img src="{skin:images/baike_l_bg1.png}" /></div>
+            <div class="subpage_left_bg">
+                <div class="f_purple left_title f_size16B">- 专家中心 -</div>
+            <ul class="left_menu">
+                <li><a href="{url:/pcenter/info}">- 个人信息 -</a></li>
+                <li><a href="{url:/pcenter/advice_for_vip}">- 健康指南 -</a></li>
+                <li><a href="{url:/pcenter/online_qa}">- 站内咨询 -</a></li>
+                <li><a href="{url:/pcenter/password}">- 修改密码 -</a></li>
+                
+                <li><a href="{url:/pcenter/schedule}">- 值班时间 -</a></li>
+                <li><a href="/bbs">- 会员社区 -</a></li>
+            </ul>
+            <div class="das_line left_line"></div>
+            <div class="hezuo_div">
+                <div class="hezuo_div_top"></div>
+                <div class="hezuo_div_mid">
+            <div class="left_hezuo_ti f_purple f_size16B">- 合作机构 -</div>
+                <ul class="left_hezuo">
+                    {query:name=operator_links limit=4 Order=order }
+                    <li><a href="{$item['linkurl']}"><img src="{url:}{$item['photo']}" style="width:153px;height:44px;"/></a></li>
+                    {/query}
+                    </ul>
+                    
+             <div class="hezuo_more"><a class="purple" href="{url:/site/column/id/79}">【more】</a></div>    
+                
+                </div>
+            <div class="hezuo_div_bot"></div>
+            </div>
+            </div>
+            <div><img src="{skin:images/baike_l_bg3.png}"/></div>
+        </div>
+        <!-- 左边栏结束 -->
+        
+        <!-- 具体内容  -->
+        <div class="subpage_right">
+            <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+            <div class="subpage_right_bg">
+                
+                <div class="sub_div">
+	        		<div class="clear_b">
+	                        <div class="float_l"><div class="sub_right_ti">健康指南</div>
+	                        </div>
+	                        <div class="float_r solid_line"></div>
+	                
+	                </div>
+               		<div class="h_24"></div>
+               	
+	               	<div id="tabs">
+							<ul>
+							<li><a href="#fragment-1">专业信息</a></li>
+							<li><a href="#fragment-2">专家记录</a></li>
+							<li>
+							<select id="vip_id" name ="vip_id" onchange="top.location.href=this.options[this.selectedIndex].value">
+							<option value="0">请选择用户</option>
+							{query:name=member where=vip_id is not NULL order=user_id asc}
+							<option value="{url:/pcenter/advice_for_vip/user_id/}{$item['user_id']}/vip_id/{$item['vip_id']}" {if:isset($member['vip_id'])&&$member['vip_id']==$item['vip_id']}selected{/if}>
+							{$item['true_name']}
+							</option>
+							{/query}
+							</select>
+							</li>
+							</ul>
+							
+	
+							<div id="fragment-1">
+								<table cellpadding="0" cellspacing="0" style="width:600px;">
+									<col width="25%" />
+									<col width="25%" />
+									<col width="25%" />
+									<col width="25%" />
+									<col/>
+									<tr>
+									<td>身高（cm）</td><td>{$member['height']}</td>
+									<td>体重(kg)</td><td>{$member['weight']}</td>
+									</tr>
+									<tr>
+									<td>腹围（cm）</td><td>{$member['fuwei']}</td>
+									<td>孕前体重（kg）</td><td>{$member['pre_weight']}</td>
+									</tr>
+									<tr>
+									<td>腰围(cm)</td><td>{$member['yaowei']}</td>
+									<td>血压（kpa）</td><td>{$member['blood_pressure']}</td>
+									</tr>
+									<tr>
+									<td>臀围（cm）</td><td>{$member['tunwei']}</td>
+									<td>血红蛋白（g/L）</td><td>{$member['xhdb']}</td>
+									</tr>
+									<tr>
+									<td>腰臀比（WHR）</td><td>{$member['WHR']}</td>
+									<td>体重指数（BMI）</td><td>{$member['BMI']}</td>
+									</tr>
+									<tr>
+									<td colspan="4">皮褶厚度的测量（cm）</td>
+									</tr>
+									<tr>
+									<td>肱三头肌</td><td>{$member['gsthick']}</td>
+									<td>肩胛下角</td><td>{$member['jxthick']}</td>
+									</tr>
+									<tr>
+									<td>髂脊上部</td><td>{$member['qjthick']}</td>
+									<td>腹部</td><td>{$member['fbthick']}</td>
+									</tr>
+									<tr>
+									<td>是否计划生育</td>
+									<td>
+									{if:isset($member['buru'])&&$member['buru']==0}否{else:}是{/if} 
+									</td>
+									<td>工作强度</td>
+									<td>
+									{if:isset($member['work_hardness'])&&$member['work_hardness']==1}轻
+									{elseif:isset($member['work_hardness'])&&$member['work_hardness']==2}中
+									{elseif:isset($member['work_hardness'])&&$member['work_hardness']==3}重
+									{/if}
+									</td>
+									</tr>
+									<tr>
+									<td>既往病史</td><td  colspan="3">{$member['disease_history']}</td>
+									</tr>
+									<tr>
+									<td>过敏史</td><td colspan="3">{$member['allergy_history']}</td>
+									</tr>
+									<tr>
+									<td>家族史</td><td colspan="3">{$member['family_history']}</td>
+									</tr>
+									{query:name=attribute where=table_id eq 2 order=sort asc}
+									{set:$attr_id = $item['id'];}
+									<tr>
+									<td>{$item['name']}</td><td colspan="3">
+									<label>{if:isset($attribute[$attr_id])&&!empty($attribute[$attr_id])}{$attribute[$attr_id]}{/if}</label>
+									</td> 
+									</tr>
+								   {/query}
+								</table>
+							</div>
+					
+					
+							<div id="fragment-2">
+								<input type="hidden" id="div_id" name="div_id" value=""/>
+								  <div id="usual1" class="usual"> 
+									  <ul 	> 
+									  {query:name=professional_group}
+									    <li><a href="#tab{$item['id']}" onclick="getdiv('tab{$item['id']}')">{$item['name']}</a></li> 
+									  {/query} 
+									  </ul> 
+								  </div>
+								  {if:!empty($member['vip_id'])}
+								  {query:name=professional_group order=id asc}
+								  {set:$type = $item['id'];}
+								  {code:
+								      $advice = new IQuery('pro_advice');
+									  $advice->where = 'type ='.$type.' and '.'vip_id = '.$member['vip_id'];
+									  $advice->page = isset($_GET['page'])?$_GET['page']:1;
+									  $advice->pagesize = 8;
+									  $advices = $advice->find();
+								  } {/code}
+									{set:$page = $advice;}
+								  <div id="tab{$item['id']}" >
+										<table cellspacing="0" cellpadding="0" style="width:520px;">
+										<col width="25%" />
+										<col width="60%" />
+										<col width="15%" />
+										
+										<th>时间</th>
+										<th>内容</th>
+										<th>签名</th>
+										
+										{foreach:$items = $advices}
+									    <tr>
+									    <td>
+									    {$item['create_time']}
+									    </td>
+									    <td>
+									    {$item['advice']}
+									    </td>
+									    <td>
+									    {$item['pro_name']}
+									    </td>
+									    </tr>
+										{/foreach}
+										
+										</table>
+										<p>{$advice->front_getPageBar('','onclick=change_href(this)');}</p>
+								  </div>
+								  {/query}
+								  {/if}
+								  <div style="clear:both;text-align:center;">{if:isset($page)}{$page->front_getPageBar('','onclick=change_href(this)');}{/if}</div>
+							</div>  	
+             		</div>
+             		<div>
+             			<form action="{url:/pcenter/save_advice/}" method="post" >
+             			<input type="hidden" name="vip_id" value="{$member['vip_id']}" />
+             			<table width="100%" cellpadding="0" cellspacing="0" class="email_list f_purple">
+			                    <col width="30%" />
+			                    <col />
+			                    <tr>
+			                        <th>
+			                        VIP用户ID：
+			                        </th>
+			                        <td>
+									{$member['vip_id']} 
+			                        </td>
+			                    </tr>
+			                    <tr>
+			                        <th>
+			                       	 建议分类：
+			                        </th>
+			                        <td>
+			                        <select name="type">
+			                        	<option value="0">请选择分类</option> 
+			                            {query:name=professional_group}
+										    <option value="{$item['id']}">{$item['name']}</option> 
+										{/query} 
+									</select>
+			                        </td>
+			                    </tr>
+			                    <tr>
+			                        <th>
+			                                                              专家建议：
+			                        </th>
+			                        <td>
+			                            <textarea name="advice" id="advice" style="width:400px;"></textarea>
+			                        </td>   
+			                    </tr>
+		                </table>
+		                <div align="center" valign="middle">
+						<input class="smt" type="submit" name="button" onclick="return check()" value="确定" />
+						</div>
+
+		                </form>
+             		</div>
+             	</div>    
+            </div>
+            <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+    	</div>
+       	
+  </div>
+		<!-- 内容结束 -->
+</div>
+<script type='text/javascript'>
+	//检查信息正确性
+	function check()
+	{
+		var type = $("#type").val();
+		var advice = $("#advice").val();
+		if(type == 0 || advice =='')
+		{
+			alert("请将信息填写完整");
+			return false;
+		}
+	}
+	//分页跳转添加tab变量
+	function getdiv(div_id)
+	{
+		$("#div_id").val(div_id);
+	}
+	function change_href(atag)
+	{
+		var href = $(atag).attr("href");
+		var apend = $("#div_id").val();
+		apend = '&div_id='+apend;
+		href = href+apend;
+		$(atag).attr("href",href);
+	}
+	/***************************/
+</script>

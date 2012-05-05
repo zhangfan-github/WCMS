@@ -1,0 +1,19 @@
+<?php
+header("Content-type:application/vnd.ms-excel; charset=utf-8");
+header("Content-Disposition:attachment;filename=baoming_data.xls");
+echo "套餐名或沙龙活动"."\t";
+echo "姓名"."\t";
+echo "孕周"."\t";
+echo "邮箱"."\t";
+echo "联系电话"."\t";
+echo "\n";
+foreach($this->showdata1 as $value) {
+    
+    echo iconv('UTF-8','GB2312',$value['service_name']) . "\t";
+    echo iconv('UTF-8','GB2312',$value['name'] ). "\t";
+	echo iconv('UTF-8','GB2312',$value['yun_zhou']) . "\t";
+    echo iconv('UTF-8','GB2312',$value['email']) . "\t";
+	echo iconv('UTF-8','GB2312',$value['phone'] ). "\t";
+	echo "\n";
+}
+?>

@@ -1,0 +1,45 @@
+
+{js:kindeditor}
+
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>内容管理</span><span>></span><span>编辑内容</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/tools/content_edit}' method='post' name='article'>
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<input type='hidden' name='id' value="" />
+				<input type='hidden' name='relation_goods' value='' />
+				<tr>
+					<th>栏目：</th>
+					<td>{$this->contentRow1['name']}</td>
+				</tr>
+				<tr>
+					<th valign="top">内容：</th><td>
+					<textarea name='content' style='width:600px;height:300px' pattern='required' alt='内容不能为空'>
+						{$this->contentRow['content']}
+					</textarea>
+					</td>
+				</tr>
+				<tr>
+					<th></th><td><button class='submit' type='submit'><span>确 定</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<script type='text/javascript'>
+	var FromObj = new Form('article');
+	FromObj.init
+	({
+		'id':'{$this->contentRow1['id']}',
+	});
+
+	//装载编辑器
+	KE.show({
+		id : 'content',
+		imageUploadJson:'{url:/block/upload_img_from_editor}'
+	});
+</script>

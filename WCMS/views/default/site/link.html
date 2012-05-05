@@ -1,0 +1,28 @@
+<div class="mid_986">
+	<div style="position:relative">
+	  <div class="f_purple sub_cur_title"> 您当前的位置：<a href="{url:}">首页</a> &gt; <a href="{url:/site/column/id/999}">友情链接</a></div>
+  </div>
+  <div class="regist_bg1">
+    <div class="big_title">- 友情链接 -</div>
+  </div>
+  <div class="regist_bg2">
+ 	 <div class="baike_news_ul">
+				<div class="links_div">
+				  <ul class="links2_ul">
+					{foreach:items=$this->pic_Row}	
+					    <li style="border:2px purple solid; margin-top:3px; width:230px;"><a href="{$item['linkurl']}" target="_blank"><img src="{url:}{$item['photo']}" width="236" height="50" /></a></li>
+					{/foreach}
+					</ul>
+				</div>
+				<div class="links_div">
+				  <ul class="links_ul">
+				   {foreach:items=$this->txt_Row}
+                    <li style="purple solid; margin-top:3px; width:230px;font-size:18px;"><a href="{$item['linkurl']}" target="_blank">{$item['name']}</a></li>
+					{/foreach}
+			      </ul>
+	   </div>
+ 	 </div>
+  </div>
+  	<div><img src="{skin:images/regist_3.png}" width="986" height="28" /></div>
+</div>
+<div class="h_24"></div>

@@ -1,0 +1,172 @@
+
+
+
+
+<div class="mid_986">
+    <div style="position:relative">
+      <div class="f_purple sub_cur_title"> 您当前的位置：<a href="{url:/}">首页</a> &gt; <a href="{url:/ucenter}">会员中心</a> &gt; <a href="{url:/ucenter/online_qa}">站内咨询</a> </div>
+      <div class="sub_huan">
+   <img src="{skin:images/huan.png}" width="106" height="92" />
+   </div>
+  </div>
+  
+  <div class="subpage_bor">
+        <!-- 左边栏开始 -->
+        <div class="subpage_left">
+            <div><img src="{skin:images/baike_l_bg1.png}" /></div>
+            <div class="subpage_left_bg">
+                <div class="f_purple left_title f_size16B">- 会员中心 -</div>
+            <ul class="left_menu">
+                <li><a href="{url:/ucenter/info}">- 健康档案 -</a></li>
+				<li><a href="{url:/ucenter/warm_advice}">- 温馨提示 -</a></li> 
+                <li><a href="{url:/ucenter/webmail_list}">- 站内邮件 -</a></li>
+                <li><a href="{url:/ucenter/online_qa}">- 站内咨询 -</a></li>
+                <li><a href="{url:/ucenter/activity_list}">- 免费体验 -</a></li>
+                <li><a href="{url:/ucenter/service_list}">- 在线预订 -</a></li>
+				<li><a href="{url:/ucenter/password}">- 修改密码 -</a></li>
+            </ul>
+            <div class="das_line left_line"></div>
+            <div class="hezuo_div">
+                <div class="hezuo_div_top"></div>
+                <div class="hezuo_div_mid">
+            <div class="left_hezuo_ti f_purple f_size16B">- 合作机构 -</div>
+                <ul class="left_hezuo">
+                    {query:name=operator_links limit=4 Order=order }
+                    <li><a href="{$item['linkurl']}"><img src="{url:}{$item['photo']}" style="width:153px;height:44px;"/></a></li>
+                    {/query}
+                    </ul>
+                    
+             <div class="hezuo_more"><a class="purple" href="{url:/site/column/id/79}">【more】</a></div>    
+                
+                </div>
+            <div class="hezuo_div_bot"></div>
+            </div>
+            </div>
+            <div><img src="{skin:images/baike_l_bg3.png}"/></div>
+        </div>
+        <!-- 左边栏结束 -->
+        
+        
+        <div class="subpage_right">
+            <div><img src="{skin:images/baike_r_bg1.png}" /></div>
+            <div class="subpage_right_bg">
+                
+                <div class="sub_div">
+        <div class="clear_b">
+                        <div class="float_l"><div class="sub_right_ti">站内咨询</div>
+                        </div>
+                        <div class="float_r solid_line"></div>
+                
+                </div>
+                <div class="h_24"></div>
+                
+                <table class="list_table" width="100%" cellpadding="0" cellspacing="0">
+        <col width="200px"/>
+        <col width="160px" />
+        <col width="80px" />
+        <col width="80px" />
+        <col />
+        <thead><tr><th>咨询主题</th><th>添加时间</th><th>专家</th><th>状态</th><th>查看</th></tr></thead>
+        <tbody>
+        {set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+        {query:name=suggestion where= user_id eq $user[user_id] pagesize=9  id=$online_qa page=$page order=time desc}
+            <tr>
+                <td class="t_l">{$item['title']}</td><td>{$item['time']}</td><td>{$item['pro_name']}</td><td>{if:$item['re_content']!=''}<span class="green bold">已回复</span>{else:}<span>未回复</span>{/if}</td><td><a class="blue bold" href="javascript:void(0)" onclick="show_msg(this,'{$item['title']}','{$item['content']}','{$item['pro_name']}','{$item['re_time']}','{$item['re_content']}')">查看</a></td>
+            </tr>
+        {/query}
+        <tr id='show_msg' class="show" style="display:none">
+            <th colspan="4" align="left">
+            
+            <b class="gray">咨询主题:</b><p class="mt_10 m_10 gray indent" id='title'></p>
+            <b class="gray">咨询内容</b>:<p class="mt_10 m_10 gray indent" id='content'></p>
+            <span id='re_info'>
+            <hr class="dashed" />
+            <b class="orange" id='admin'></b> 在 [<span class="gray" id='re_time'>2012-01-14</span>] 回复:<p class="gray indent mt_10" id='re_content'></p></th></span>
+        </tr>
+        </tbody>
+        <tfoot><tr><td colspan="5" class="t_l">{$online_qa->front_getPageBar()}</td></tr></tfoot>
+    </table>
+    <div  class="orange_box">
+    <form action="{url:/ucenter/online_qa_edit}" method="post" >
+    <table style="text-align:left" width="100%" cellpadding="0" cellspacing="0">
+        <col width="120px" />
+        <col />
+        <tr>
+            <th colspan="3" align="center">
+            <h3>我要咨询：</h3>
+            </th>
+        </tr>
+        <tr>
+        <td align="center">选择专家：</td>
+        <td><select name = 'pid'>
+                            <option value='0'>请选择专家</option>
+                            {query:name=professional where=state eq 1}
+                            {if:$item['id']==$this->pid}
+                            <option value='{$item['id']}' selected="selected">{$item['name']}</option>
+                            {else:}
+                            <option value='{$item['id']}' >{$item['name']}</option>
+                            {/if}
+                            {/query}
+                        </select>
+                        </td>
+        </tr>
+        <tr>
+            <td align="center">咨询标题：</td><td align='left' colspan="2"><input name="title" type="text" pattern='required' alt='标题不能为空' class="normal" /><label>*标题不能为空</label></td>
+        </tr>
+        <tr>
+            <td align="center">咨询内容：</td><td align="left" colspan="2"><textarea rows="4" cols="60" name='content' pattern='required' alt=''></textarea></td>
+        </tr>
+        
+        <tr>
+            <td></td><td colspan="2"><label class="btn"><input type="submit" class="smt" value="我要咨询" /></label></td>
+        </tr>
+    </table>
+    </form>
+    </div>
+              </div>
+            </div>
+            <div><img src="{skin:images/baike_r_bg3.png}" /></div>
+    </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+function show_msg(obj,title,content,admin,re_time,re_content)
+{
+    var show = '';
+    if(re_content=='') show = 'none';
+    $('#show_msg').css('display','').insertAfter($(obj).parent().parent());
+    $('#show_msg #title').text(title);
+    $('#show_msg #content').text(content);
+    $('#show_msg #re_info').css('display',show);
+    $('#show_msg #admin').text(admin);
+    $('#show_msg #re_time').text(re_time);
+    $('#show_msg #re_content').text(re_content);
+
+}
+</script>
+<style>
+.orange_box{padding:12px 4px 4px;border:1px solid #feb27f;}
+    .orange_box caption{height:35px;line-height:35px;padding-bottom:20px;font-weight:bold;padding-left:25px;text-align:left;}
+/* list table style start */
+.list_table{ border-collapse:collapse;text-align:center;word-break:break-all;table-layout:fixed;word-wrap:break-word;}
+    .list_table td{padding:10px 5px;line-height:18px;border-bottom:1px solid #e5e5e5}
+    .list_table th{height:32px;border-bottom:1px solid #c5c5c5;font-weight:bold;color:3333;background:url(../images/front/ucenter/list_table_thbg.gif) repeat-x}
+    .list_table thead th{border-top:1px solid #ffc8a1;border-bottom:1px solid #ffc8a1;color:#545454;background:url(../images/front/ucenter/list_table_thbg.gif) 0 -33px repeat-x}
+    .list_table tbody th{color:#545454;background:none}
+    .list_table tr.even td{background-color:#fffcf3}
+    .list_table tfoot td{border:none;padding:15px 15px 15px 0}
+        .list_table td a{margin:0 5px}
+        .list_table td a{margin:0 5px}
+        .list_table td .pro_pic{border:1px solid #bbb}
+    .list_table tbody tr.sel td{background-color:#ffc}
+    .list_table tr.show{background:url(../images/front/ucenter/tr_show_bg.gif) repeat-x}.orange_box{padding:12px 4px 4px;border:1px solid #feb27f;background:#fef3d7}
+    .orange_box caption{height:35px;line-height:35px;padding-bottom:20px;color:#353535;font-weight:bold;padding-left:25px;text-align:left;background:#fff url(../images/front/ucenter/caption_bg.gif) no-repeat}
+        .list_table tr.show td{ text-align:left;padding:10px 15px 20px;border:1px solid #d6d6d6;background:url(../images/front/ucenter/tr_show_tdbg.gif) 0 bottom repeat-x}
+    .list_table .thead th{border-width:0 0 2px;border-color:#f77113;background:#f8f8f8}
+    .list_table .dashed td{border-top:1px dashed #c6c6c6;border-bottom:1px dashed #c6c6c6;color:#5a5a5a}
+/* list table style end */
+input.normal,input.middle,input.small,input.tiny,input.mini{width:230px;height:27px;line-height:27px;border:1px solid #7f9db9;padding:0 5px;margin-right:14px;vertical-align:middle}
+</style>

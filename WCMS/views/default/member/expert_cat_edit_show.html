@@ -1,0 +1,34 @@
+<div class="headbar">
+	<div class="position"><span>服务</span><span>></span><span>专家管理</span><span>></span><span>{if:isset($this->data['id'])}编辑{else:}添加{/if}专家组</span></div>
+{$this->data['name']}
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/member/expert_cat_edit}' method='post' name='cat'>
+			<input type='hidden' name='id' value='' />
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>专家组名称：</th>
+					<td>
+						<input type='text' class='middle' name='name' value='' pattern='required' alt='名称不能为空' />
+						<label>*专家组名称（必填）</label>
+					</td>
+				</tr>
+				<tr>
+					<th></th><td><button class='submit' type='submit'><span>确 定</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+	var FromObj = new Form('cat');
+	FromObj.init
+	({
+		'id':'{$this->showdata['id']}',
+		'name':'{$this->showdata['name']}'
+	});
+</script>

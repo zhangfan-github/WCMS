@@ -1,0 +1,93 @@
+<link rel='stylesheet' type='text/css' href='{theme:javascript/fullcalendar/fullcalendar.css}' />
+<link rel='stylesheet' type='text/css' href='{theme:javascript/fullcalendar/fullcalendar.print.css}' media='print' />
+<script type='text/javascript' src='{theme:javascript/jquery/jquery-1.5.2.min.js}'></script>
+<script type='text/javascript' src='{theme:javascript/jquery/jquery-ui-1.8.11.custom.min.js}'></script>
+<script type='text/javascript' src='{theme:javascript/fullcalendar/fullcalendar.js}'></script>
+<script type='text/javascript'>
+
+	var js_id = new Array();
+    var sname = new Array();
+    var start_time = new Array();
+    var end_time = new Array();
+    var len = {$this->len};
+
+    $(document).ready(function() {
+        
+        //初始化数据
+        {for:from=0 upto=$this->len -1}
+		js_id[{$i}] = "{$this->scheduleRow[$i]['id']}";
+        sname[{$i}] = "({$this->scheduleRow[$i][start_time]}~{$this->scheduleRow[$i][end_time]}){$this->scheduleRow[$i]['sname']}";
+        start_time[{$i}] = "{$this->scheduleRow[$i]['start_date']}"+" "+"{$this->scheduleRow[$i][start_time]}";
+        end_time[{$i}] = "{$this->scheduleRow[$i]['end_date']}"+" "+"{$this->scheduleRow[$i][end_time]}";
+        {/for}
+        
+        //渲染日历表格
+        $('#calendar').fullCalendar({
+        	header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month'
+            },
+            editable: false,
+            events: function(start, end, callback){
+                var events = [];
+                for(var n = 0; n < len; n++)
+                    {
+                        events.push({
+							id : js_id[n],
+                            title: sname[n],
+                            start: start_time[n],
+                            end: end_time[n],
+                            allDay: false
+                        }
+                        
+                                );
+                    }
+                callback(events);
+                
+            },
+            
+            dayClick: function(date, allDay, jsEvent, view) {
+                
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var day = date.getDate();
+                var hour = date.getHours();
+                var min = date.getMinutes();
+                if(month<10){
+                     month = "0" + month;
+                    }
+                    if(day<10){
+                     day = "0" + day;
+                    }
+                var formatedDate = year+"-"+month+"-"+day;
+
+                event_link('{url:/service/kebiao_edit/}'+'/date/'+formatedDate);
+
+            },
+			eventClick: function(calEvent, jsEvent, view){
+				var id = calEvent.id;
+				event_link('{url:/service/kebiao_edit/}'+'/id/'+id);
+			}
+        });
+        
+    });
+    
+
+</script>
+<style type='text/css'>
+    #calendar {
+        width: 900px;
+        margin: 10px auto;
+        }
+
+</style>
+<div class="headbar">
+    <div class="position"><span>服务</span><span>></span><span>服务课程表管理</span><span>></span><span>课程查询</span></div>
+    <div class="operating">
+        <div style="float:left; padding-left:15px; padding-top:5px;">请输入服务名称或关键字：<input class='small' style="width:150px;" type="text" name="title" value="{$this->title}" id="title"/>&nbsp;&nbsp;<input class='submit1' type="button" value="搜索" onclick="search('{url:/service/kebiao_search/}');"/></div>
+    </div>
+</div>
+<div class="content_box">
+<div id='calendar'></div>
+</div>
